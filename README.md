@@ -18,7 +18,7 @@
 [![Documentation](https://img.shields.io/badge/Docs-Markdown-lightgrey)](docs/)
 
 ## Team Members & Roles
--   (`530522656`) - 
+- Joshua Kim (`530478283`) - 
 - Steven Hughes (`311246486`) - 
 - Aryan Rai (`530362258`) - 
 -   (`530439147`) - 
