@@ -25,8 +25,8 @@
 /*
 #include <serial module header>
 	variables
-		send_ser1
-		rec_ser1
+		send_serial_1
+		receive_serial_1
 #include <scoreboard display module header>
 	variables
 
@@ -64,14 +64,18 @@ int main(void){
 	clear_screen();
 
 	GameState game = {
+			.correct_servos = {1,3,4,6},
 			.items_found = 0,
-			.items_to_find = 3,
+			.items_left_to_find = 4,
 			.digs_taken = 0,
 			.digs_remaining = 4,
 			.peeks_used = 0,
 			.game_time_remaining = 240,
-			.game_over = false
+			.game_over = 0,
+			.total_items_to_find = 0
 	};
+
+	game.total_items_to_find = sizeof( game.correct_servos) / sizeof(game.correct_servos[0]);
 
 	GameTriggers triggers = {
 		.touchpad_pressed = -1,
@@ -89,28 +93,65 @@ int main(void){
 	triggers.touchpad_pressed = touchpad_interrupt;
 
     /* Loop forever */
-	while(1){
+	while(game.game_over != 0){
 
 
 		// Need an interrupt to change triggers.touchpad_pressed = -1 when touchpad is pressed
-	while( triggers.touchpad_pressed != -1) {
-		send_string("touchpad pressed\r\n");
-		triggers.servo_controlled = touchpad_pressed
-		triggers.touchpad_pressed = -1; //turn touchpad flag to off
+		while( triggers.touchpad_pressed != -1) {
+			send_string("touchpad pressed\r\n");
+			triggers.servo_controlled = touchpad_pressed
+			triggers.touchpad_pressed = -1; //turn touchpad flag to off
 					}
 				}
 
-	while(triggers.servo_controlled != -1) {
-		//receive trimpot value
-		//function to turn trimpot value into value between servo motor fully open/fully closed range
-		//send_trimpot_val(specific_servo, trimpot_value) // function to send trimpot value to SPECIFIC servo motor
-		//
+			while(triggers.servo_controlled != -1) {
+			/*	receive_trimpot_value(); function to retrieve trimpot value
+				trimpot_servo_range(); function to turn trimpot variable into value between servo motor fully open/fully closed range
+
+				if(trimpot_servo_range() < peek_threshold{
+
+				//instigate peak which opens door certain amount
+
+					while(trimpot_servo_range >0 && trimpot_servo_range < peek_threshold){
+					send_trimpot_val(triggers.servo_controlled, trimpot_servo_range());  // function to send trimpot value to SPECIFIC servo motor
+					receive_trimpot_value()
+					trimpot_servo_range();
+
+					}
+				game.peaks_used = game.peaks_used+1
 
 
-		triggers.servo_controlled != -1 //turn servo control to off
-	}
+				} else if(trimpot_servo_range()> peek_threshold{
+					while(trimpot_servo_range > 0 && trimpot_servo_range < max(trimpot_servo_range()){ // Need to close door to go on
+						send_trimpot_val(triggers.servo_controlled, trimpot_servo_range());
+						receive_trimpot_value();
+						trimpot_servo_range();
+						}
+					}
 
 
+				*/
+
+
+				/*if(check_servo_choice(game.correct_servos, triggers.touchpad_pressed, game.total_items_to_find) == 1){
+					game.items_found = game.items_found+1;
+					game.items_left_to_find = game.items_left_to_find -1;
+					game.digs_taken = game.digs_taken +1;
+					game.digs_remaining = game.digs_remaining-1;
+				} else {
+					game.digs_taken = game.digs_taken +1;
+					game.digs_remaining = game.digs_remaining-1;
+				}
+				send_serial_to_scoreboard;
+
+				triggers.servo_controlled != -1 //turn servo control back to off
+			}
+
+*/
+
+				/*if(game.items_left_to_find == 0 || game.digs_remaining == 0 || game.time_remaining == 0;){
+					game.game_over = 1;
+				}*/
 
 
 
