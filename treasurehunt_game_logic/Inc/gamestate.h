@@ -12,21 +12,30 @@
 
 
 typedef struct{
+	int correct_servos[6];
 	int items_found;
-	int items_to_find;
+	int items_left_to_find;
 	int digs_taken;
 	int digs_remaining;
 	int peeks_used;
 	int game_time_remaining;
-	bool game_over;
+	int game_over;
+	int total_items_to_find;
 } GameState;
+
 
 typedef struct{
 	int touchpad_pressed;
 	int magnet1_det;
 	int magnet2_det;
 	int servo_controlled;
+	int servo_angle;
+	int trimpot_value;
+	int peek_threshold;
+	int pending_peek;
 } GameTriggers;
+
+int check_servo_choice();
 
 
 #endif /* GAMESTATE_H_ */

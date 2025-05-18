@@ -117,13 +117,20 @@ void send_string_buffer(int struct_data) {
 }
 
 void print_game_state(GameState game) {
-    send_string("items_found: ");
+	send_string("correct_servos: ");
+	for(int i = 0; i < game.total_items_to_find; i++){
+		send_string(" ");
+		send_string_buffer(game.correct_servos[i]);
+	}
+	send_string("\r\n");
+
+	send_string("items_found: ");
     send_string_buffer(game.items_found);
     send_string("\r\n");
 
 
-    send_string("items_to_find: ");
-    send_string_buffer(game.items_to_find);
+    send_string("items_left_to_find: ");
+    send_string_buffer(game.items_left_to_find);
     send_string("\r\n");
 
     send_string("digs_taken: ");
@@ -136,6 +143,10 @@ void print_game_state(GameState game) {
 
     send_string("peeks_used: ");
     send_string_buffer(game.peeks_used);
+    send_string("\r\n");
+
+    send_string("total_items_to_find: ");
+    send_string_buffer(game.total_items_to_find);
     send_string("\r\n");
 
     send_string("game_time_remaining: ");
@@ -164,9 +175,39 @@ void print_game_triggers(GameTriggers triggers) {
     send_string("servo_controlled: ");
     send_string_buffer(triggers.servo_controlled);
     send_string("\r\n");
+
+    send_string("servo_angle: ");
+	send_string_buffer(triggers.servo_angle);
+	send_string("\r\n");
+
+    send_string("trimpot_value: ");
+	send_string_buffer(triggers.trimpot_value);
+	send_string("\r\n");
+
+	send_string("peek_threshold: ");
+	send_string_buffer(triggers.peek_threshold);
+	send_string("\r\n");
 }
 
 
 void clear_screen(void) {
     send_string("\x1B[2J\x1B[H");
 }
+
+
+//For Testing
+int valid_period_check(char *input){
+    // Check for an empty string
+    if (input == NULL || strlen(input) == 0) {
+        return 0;
+    }
+
+    // Confirm every character is a digit
+    for (int i = 0; input[i] != '\0'; i++) {
+        if (!isdigit((unsigned char)input[i])) {
+            return 0;
+        }
+    }
+    return 1;
+}
+
