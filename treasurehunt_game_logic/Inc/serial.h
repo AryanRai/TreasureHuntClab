@@ -24,6 +24,7 @@ extern unsigned char string[BUFFER];
 void send_string_buffer();
 void send_string();
 void print_game_state();
+int valid_period_check();
 
 
 #endif /* SERIAL_C_ */

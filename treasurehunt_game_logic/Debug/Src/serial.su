@@ -1,5 +1,5 @@
-C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/TreasureHunt/stm32f303-definitions/Core/Inc/core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
-C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/TreasureHunt/stm32f303-definitions/Core/Inc/core_cm4.h:1816:22:__NVIC_SetPriority	16	static
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc/core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc/core_cm4.h:1816:22:__NVIC_SetPriority	16	static
 ../Src/serial.c:17:6:reset_input_buffer	8	static
 ../Src/serial.c:22:6:enableUSART1	4	static
 ../Src/serial.c:40:6:enableLEDs	16	static
@@ -7,6 +7,7 @@ C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund w
 ../Src/serial.c:66:6:USART1_EXTI25_IRQHandler	16	static
 ../Src/serial.c:102:6:send_string	16	static
 ../Src/serial.c:109:6:send_string_buffer	32	static
-../Src/serial.c:119:6:print_game_state	8	static
-../Src/serial.c:150:6:print_game_triggers	24	static
-../Src/serial.c:166:6:clear_screen	8	static
+../Src/serial.c:119:6:print_game_state	16	static
+../Src/serial.c:161:6:print_game_triggers	8	static
+../Src/serial.c:193:6:clear_screen	8	static
+../Src/serial.c:199:5:valid_period_check	24	static
