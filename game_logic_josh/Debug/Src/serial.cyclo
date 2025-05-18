@@ -1,0 +1,7 @@
+../Inc/core_cm4.h:1688:22:__NVIC_EnableIRQ	2
+../Inc/core_cm4.h:1816:22:__NVIC_SetPriority	2
+../Src/serial.c:46:6:serial_initialise	6
+../Src/serial.c:100:6:serial_output_char	2
+../Src/serial.c:110:6:serial_output_string	3
+../Src/serial.c:126:6:enable_interrupts	1
+../Src/serial.c:142:6:USART1_EXTI25_IRQHandler	7

@@ -1,19 +1,6 @@
-#include <stdint.h>
-#include <stdlib.h>
-#include <stdio.h>
-
 #include "gpio.h"
 #include "stm32f303xc.h"
 
-#if !defined(__SOFT_FP__) && defined(__ARM_FP)
-  #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
-#endif
-/*
-void display_number(uint8_t n) {
-    // Display `n` on PE8–PE11 (4-bit binary)
-    GPIOE->ODR &= ~(0xF << 8);        // Clear PE8–11
-    GPIOE->ODR |= ((n & 0xF) << 8);   // Set new value
-}
 
 void initialise_board() {
     // Enable clocks
@@ -44,7 +31,7 @@ void enable_touch_interrupts() {
 	// Trigger on rising edge and stop falling edge
 	EXTI->RTSR |= EXTI_RTSR_TR1 | EXTI_RTSR_TR2 | EXTI_RTSR_TR3 | EXTI_RTSR_TR4 | EXTI_RTSR_TR5 | EXTI_RTSR_TR6;
 	EXTI->FTSR &= ~(EXTI_FTSR_TR1 | EXTI_FTSR_TR2 | EXTI_FTSR_TR3 |
-	                EXTI_FTSR_TR4 | EXTI_FTSR_TR5 | EXTI_FTSR_TR6);      
+	                EXTI_FTSR_TR4 | EXTI_FTSR_TR5 | EXTI_FTSR_TR6);
 
 	// Unmask EXTI line 1
 	EXTI->IMR |= EXTI_IMR_MR1 | EXTI_IMR_MR2 | EXTI_IMR_MR3 | EXTI_IMR_MR4 | EXTI_IMR_MR5 | EXTI_IMR_MR6;
@@ -58,51 +45,15 @@ void enable_touch_interrupts() {
 	__enable_irq();
 }
 
+void display_number(uint8_t n) {
+    // Display `n` on PE8–PE11 (4-bit binary)
+    GPIOE->ODR &= ~(0xF << 8);        // Clear PE8–11
+    GPIOE->ODR |= ((n & 0xF) << 8);   // Set new value
+}
+
 // Each EXTI handler calls this with the corresponding pin number
 void handle_touch(uint8_t pin) {
     display_number(pin); // Display the number of the pin touched (1–6)
 }
-*/
-// Interrupt handlers
-void EXTI1_IRQHandler(void) {
-    if (EXTI->PR & EXTI_PR_PR1) {
-        EXTI->PR |= EXTI_PR_PR1;
-        handle_touch(1);
-    }
-}
-void EXTI2_TSC_IRQHandler(void) {
-    if (EXTI->PR & EXTI_PR_PR2) {
-        EXTI->PR |= EXTI_PR_PR2;
-        handle_touch(2);
-    }
-}
-void EXTI3_IRQHandler(void) {
-    if (EXTI->PR & EXTI_PR_PR3) {
-        EXTI->PR |= EXTI_PR_PR3;
-        handle_touch(3);
-    }
-}
-void EXTI4_IRQHandler(void) {
-    if (EXTI->PR & EXTI_PR_PR4) {
-        EXTI->PR |= EXTI_PR_PR4;
-        handle_touch(4);
-    }
-}
 
-void EXTI9_5_IRQHandler(void) {
-    for (int i = 5; i <= 6; i++) {
-        if (EXTI->PR & (1 << i)) {
-            EXTI->PR |= (1 << i);
-            handle_touch(i);
-        }
-    }
-}
 
-int main(void) {
-    initialise_board();
-    enable_touch_interrupts();
-
-    while (1) {
-        // Main loop does nothing; interrupt-driven
-    }
-}
