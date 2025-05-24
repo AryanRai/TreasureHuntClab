@@ -10,13 +10,13 @@
 #include "structs.h"
 #include "timer.h"
 
-volatile int last_servo_selection  = -1;
-volatile int last_servo_angle = -1;
-
 #if !defined(__SOFT_FP__) && defined(__ARM_FP)
 #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
+// =================================== Global Variables ====================================
+volatile int last_servo_selection  = -1;
+volatile int last_servo_angle = -1;
 
 
 // --- Game State Variables ---
@@ -27,7 +27,7 @@ GameState game = {
 		.digs_taken = 0,
 		.digs_remaining = 4,
 		.peeks_used = 0,
-		.game_time_remaining = 240,
+		.game_time_remaining = 2400,
 		.game_over = 1,
 		.total_items_to_find = 0
 };
@@ -43,46 +43,25 @@ GameTriggers triggers = {
 		.pending_peek = 0
 };
 
-static void fn_a(const TimerSel sel) {
-	game.game_time_remaining - 0.2;
+
+// =================================== Callback Functions ===================================
+
+// Each EXTI handler calls this with the corresponding pin number
+void handle_touch(uint8_t pad, GameTriggers *trigger) {
+	display_number(pad);
+	trigger->touchpad_pressed = pad;
 }
 
-
-void reset_all_servos() {
-    serial_output_string((char *) "reset motors\r\n", &USART1_PORT);
-}
-
-void transmit_game_state() {
+static void fn_a(const TimerSel sel, GameState *game) {
+	game->game_time_remaining = game->game_time_remaining - 2;
     char buffer[64];
-    sprintf(buffer, "DIGS REMAINING:%d TREASURES:%d\r\n", game.digs_remaining, game.items_left_to_find);
+    sprintf(buffer, "TIME REMAINING:%d\r\n", game->game_time_remaining);
     serial_output_string(buffer, &USART1_PORT);
-}
-
-// --- Start Game Signal (from USART or button) ---
-void start_game(GameState *game) {
-    game->game_over = 0;
-    game->game_time_remaining = 240;
-    game->digs_remaining = 4;
-
-    int count = 0;
-    for (int i = 0; i < 6; i++) {
-        if (game->correct_servos[i] != 0) {
-            count++;
-        }
-    }
-    game->total_items_to_find = count;
-
-    reset_all_servos();
-    serial_output_string("Game Started\r\n", &USART1_PORT);
-
-    transmit_game_state();
-
 }
 
 // Transmit callback
 void output_callback() {
-	for (volatile uint32_t i = 0; i < 0x9ffff; i++) {
-	}
+	return;
 }
 
 // Receive callback
@@ -98,6 +77,8 @@ void input_callback(char *data, uint32_t len) {
 		start_game(&game);
 	}
 }
+
+// =================================== Servo Functions ====================================
 /*
 // -------------------------------Most of these functions should be called from a header file
 uint16_t read_magnet_signal() {
@@ -150,14 +131,53 @@ void evaluate_dig(uint8_t pad_index) {
     digs_remaining--;
 }
 
+
 */
 
-// Each EXTI handler calls this with the corresponding pin number
-void handle_touch(uint8_t pad, GameTriggers *trigger) {
-	display_number(pad);
-	trigger->touchpad_pressed = pad;
+void reset_all_servos() {
+    serial_output_string((char *) "reset motors\r\n", &USART1_PORT);
 }
 
+// =================================== Game Functions ====================================
+// Prints via UART game state
+void transmit_game_state() {
+    char buffer[64];
+    sprintf(buffer, "DIGS REMAINING:%d TREASURES:%d\r\n", game.digs_remaining, game.items_left_to_find);
+    serial_output_string(buffer, &USART1_PORT);
+}
+
+// --- Start Game Signal (from USART or button) ---
+void start_game(GameState *game) {
+    game->game_over = 0;
+    game->game_time_remaining = 240;
+    game->digs_remaining = 4;
+
+    int count = 0;
+    for (int i = 0; i < 6; i++) {
+        if (game->correct_servos[i] != 0) {
+            count++;
+        }
+    }
+    game->total_items_to_find = count;
+
+    reset_all_servos();
+
+    timer_init();
+    const TimerSel tim_a = TIMER_SEL_2;
+    timer_prescaler_set(tim_a, 0xF00);
+    timer_period_set(tim_a, 420);
+    timer_silent_set(tim_a, false);
+    timer_recur_set(tim_a, true);
+    timer_callback_set(tim_a, &fn_a);
+    timer_enable_set(tim_a, true);
+
+    serial_output_string("Game Started\r\n", &USART1_PORT);
+
+    transmit_game_state();
+
+}
+
+// Game variable update function
 void update_game_state(uint8_t x, GameState *game, GameTriggers *triggers) {
 	if (x == 1) {
 		game->items_found++;
@@ -172,6 +192,7 @@ void update_game_state(uint8_t x, GameState *game, GameTriggers *triggers) {
 	}
 }
 
+// Main Game Loop
 int main(void) {
 
 	serial_initialise(BAUD_115200, &USART1_PORT, &output_callback, &input_callback);
@@ -181,18 +202,8 @@ int main(void) {
 	enable_touch_interrupts();
 	touch_register_callback(&handle_touch);
 
-	timer_init();
-
-    // constantly cycle the leds
-    const TimerSel tim_a = TIMER_SEL_2;
-    timer_prescaler_set(tim_a, 0xF00);
-    timer_period_set(tim_a, 420);
-    timer_silent_set(tim_a, false);
-    timer_recur_set(tim_a, true);
-    timer_callback_set(tim_a, &fn_a);
-    timer_enable_set(tim_a, true);
-
     while (true) {
+    	// Wait for game start
     	if (game.game_over) {
     		continue;
     	}
@@ -210,6 +221,7 @@ int main(void) {
         	display_number(0);
             game.game_over = 1;
 
+            //timer_disable();
             continue;
         }
 
@@ -253,6 +265,7 @@ int main(void) {
             char yes[64];
             sprintf(yes, "touchpad reset to %d, servo %d, previous servo %d\r\n", triggers.touchpad_pressed, triggers.servo_controlled, last_servo_selection);
             serial_output_string(yes, &USART1_PORT);
+
         }
     }
 }

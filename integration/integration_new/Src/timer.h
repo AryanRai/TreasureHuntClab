@@ -7,7 +7,7 @@
 
 #include <stm32f303xc.h>
 
-
+#include "structs.h"
 // ===== TYPES =====
 
 
@@ -85,4 +85,4 @@ void timer_counter_reset(TimerSel sel);
 /// Set the callback to be called when the timer fires
 void timer_callback_set(TimerSel sel, TimerCallbackFn *callback);
 /// Get the callback for the given timer
-TimerCallbackFn *timer_callback_get(TimerSel sel);
+TimerCallbackFn *timer_callback_get(TimerSel sel, GameState *game);

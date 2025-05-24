@@ -59,7 +59,7 @@ void display_number(uint8_t n) {
     GPIOE->ODR |= ((n & 0xF) << 8);   // Set new value
 }
 
-// Interrupt handlers - i know it looks messy but i cant fine another way to make it work :/
+// Interrupt handlers
 void EXTI1_IRQHandler(void) {
     if (EXTI->PR & EXTI_PR_PR1) {
         EXTI->PR |= EXTI_PR_PR1;

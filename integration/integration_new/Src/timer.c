@@ -1,6 +1,7 @@
 #include "timer.h"
+#include "structs.h"
 
-
+extern GameState game;
 // ===== INTERNALS =====
 
 
@@ -209,7 +210,7 @@ void timer_counter_reset(const TimerSel sel) {
 
 
 /// The callback handler called by our IRQ handlers
-static void _timer_interrupt_handler(const TimerSel sel) {
+static void _timer_interrupt_handler(const TimerSel sel, GameState *game) {
     TimerRaw *raw = RAWS[sel];
 
     // check it was definitely this timer that fired
@@ -245,7 +246,7 @@ void timer_callback_set(const TimerSel sel, TimerCallbackFn *const callback) {
     STATES[sel].callback = callback;
 }
 
-TimerCallbackFn *timer_callback_get(const TimerSel sel) {
+TimerCallbackFn *timer_callback_get(const TimerSel sel, GameState *game) {
     return STATES[sel].callback;
 }
 
@@ -259,33 +260,33 @@ TimerCallbackFn *timer_callback_get(const TimerSel sel) {
 
 // TIM2 global interrupt
 void TIM2_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_2);
+    _timer_interrupt_handler(TIMER_SEL_2, &game);
 }
 // TIM3 global interrupt
 void TIM3_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_3);
+    _timer_interrupt_handler(TIMER_SEL_3, &game);
 }
 // TIM4 global interrupt
 void TIM4_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_4);
+    _timer_interrupt_handler(TIMER_SEL_4, &game);
 }
 // TIM6 global and DAC12 underrun interrupts
 void TIM6_DACUNDER_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_6);
+    _timer_interrupt_handler(TIMER_SEL_6, &game);
 }
 // TIM7 global interrupt
 void TIM7_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_7);
+    _timer_interrupt_handler(TIMER_SEL_7, &game);
 }
 // TIM1 Break/TIM15 global interrupts
 void TIM1_BRK_TIM15_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_15);
+    _timer_interrupt_handler(TIMER_SEL_15, &game);
 }
 // TIM1 Update/TIM16 global interrupts
 void TIM1_UP_TIM16_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_16);
+    _timer_interrupt_handler(TIMER_SEL_16, &game);
 }
 // TIM1 trigger and commutation/TIM17 interrupts
 void TIM1_TRG_COM_TIM17_IRQHandler(void) {
-    _timer_interrupt_handler(TIMER_SEL_17);
+    _timer_interrupt_handler(TIMER_SEL_17, &game);
 }
