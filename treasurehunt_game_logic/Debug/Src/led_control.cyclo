@@ -1,0 +1,3 @@
+../Src/led_control.c:11:6:led_set	1
+../Src/led_control.c:19:6:convertStringToBinary	5
+../Src/led_control.c:30:5:isBinary	6

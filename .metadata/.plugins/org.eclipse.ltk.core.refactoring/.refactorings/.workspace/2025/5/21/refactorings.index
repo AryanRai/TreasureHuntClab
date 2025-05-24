@@ -1,2 +1,4 @@
 1747535344270	Rename resource 'treasurehunt_game_logic2'
 1747535397500	Delete resource 'touchpad 2'
+1748058955368	Delete resource 'treasurehunt_game_logic/Inc/timer_module.h'
+1748059913189	Delete resource 'treasurehunt_game_logic/Src/timer2_module.c'

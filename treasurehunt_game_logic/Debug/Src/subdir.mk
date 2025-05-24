@@ -6,6 +6,7 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Src/gamestate.c \
+../Src/led_control.c \
 ../Src/main.c \
 ../Src/serial.c \
 ../Src/syscalls.c \
@@ -14,6 +15,7 @@ C_SRCS += \
 
 OBJS += \
 ./Src/gamestate.o \
+./Src/led_control.o \
 ./Src/main.o \
 ./Src/serial.o \
 ./Src/syscalls.o \
@@ -22,6 +24,7 @@ OBJS += \
 
 C_DEPS += \
 ./Src/gamestate.d \
+./Src/led_control.d \
 ./Src/main.d \
 ./Src/serial.d \
 ./Src/syscalls.d \
@@ -36,7 +39,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/gamestate.cyclo ./Src/gamestate.d ./Src/gamestate.o ./Src/gamestate.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/serial.cyclo ./Src/serial.d ./Src/serial.o ./Src/serial.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/timer_module.cyclo ./Src/timer_module.d ./Src/timer_module.o ./Src/timer_module.su
+	-$(RM) ./Src/gamestate.cyclo ./Src/gamestate.d ./Src/gamestate.o ./Src/gamestate.su ./Src/led_control.cyclo ./Src/led_control.d ./Src/led_control.o ./Src/led_control.su ./Src/main.cyclo ./Src/main.d ./Src/main.o ./Src/main.su ./Src/serial.cyclo ./Src/serial.d ./Src/serial.o ./Src/serial.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/timer_module.cyclo ./Src/timer_module.d ./Src/timer_module.o ./Src/timer_module.su
 
 .PHONY: clean-Src
 

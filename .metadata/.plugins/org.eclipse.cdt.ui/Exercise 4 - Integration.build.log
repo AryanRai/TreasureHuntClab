@@ -1,98 +1,10 @@
-13:51:31 **** Incremental Build of configuration Debug for project Exercise 4 - Integration ****
+14:36:27 **** Incremental Build of configuration Debug for project Exercise 4 - Integration ****
 make -j14 all 
-arm-none-eabi-gcc "../Src/led_control.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I../Inc -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/led_control.d" -MT"Src/led_control.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/led_control.o"
-arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I../Inc -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
-arm-none-eabi-gcc "../Src/serial.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I../Inc -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/serial.d" -MT"Src/serial.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/serial.o"
-arm-none-eabi-gcc "../Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I../Inc -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/syscalls.d" -MT"Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/syscalls.o"
-arm-none-eabi-gcc "../Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I../Inc -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/sysmem.d" -MT"Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/sysmem.o"
-arm-none-eabi-gcc "../Src/timer2_module.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I../Inc -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/timer2_module.d" -MT"Src/timer2_module.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/timer2_module.o"
-arm-none-eabi-gcc "../Src/timer_module.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I../Inc -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/timer_module.d" -MT"Src/timer_module.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/timer_module.o"
-../Src/serial.c: In function 'reset_input_buffer':
-../Src/serial.c:16:5: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
-   16 |     memset(string, 0, BUFFER);
-      |     ^~~~~~
-../Src/serial.c:3:1: note: include '<string.h>' or provide a declaration of 'memset'
-    2 | #include <stddef.h>
-  +++ |+#include <string.h>
-    3 | 
-../Src/serial.c:16:5: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
-   16 |     memset(string, 0, BUFFER);
-      |     ^~~~~~
-../Src/serial.c:16:5: note: include '<string.h>' or provide a declaration of 'memset'
-../Src/main.c:31:2: warning: #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use." [-Wcpp]
-   31 | #warning \
-      |  ^~~~~~~
-../Src/main.c: In function 'main':
-../Src/main.c:45:3: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
-   45 |   clear_screen();
-      |   ^~~~~~~~~~~~
-../Src/main.c:46:3: warning: implicit declaration of function 'send_string' [-Wimplicit-function-declaration]
-   46 |   send_string("Serial initialised, input command.\r\n");
-      |   ^~~~~~~~~~~
-../Src/main.c:60:42: warning: implicit declaration of function 'isBinary' [-Wimplicit-function-declaration]
-   60 |       if (strcmp(command, "led") == 0 && isBinary(follow) == 1) {
-      |                                          ^~~~~~~~
-../Src/main.c:66:9: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
-   66 |         sprintf(feedback_string, "Led Pattern: %s \r\n", follow);
-      |         ^~~~~~~
-../Src/main.c:29:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-   28 | #include "timer2_module.h"
-  +++ |+#include <stdio.h>
-   29 | 
-../Src/main.c:66:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
-   66 |         sprintf(feedback_string, "Led Pattern: %s \r\n", follow);
-      |         ^~~~~~~
-../Src/main.c:66:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-../Src/timer2_module.c: In function 'one_shot_LED':
-../Src/timer2_module.c:77:9: warning: implicit declaration of function 'disableTimer2'; did you mean 'enableTimer2'? [-Wimplicit-function-declaration]
-   77 |         disableTimer2();
-      |         ^~~~~~~~~~~~~
-      |         enableTimer2
-../Src/main.c:73:9: warning: implicit declaration of function 'convertStringToBinary' [-Wimplicit-function-declaration]
-   73 |         convertStringToBinary(follow, &pattern);
-      |         ^~~~~~~~~~~~~~~~~~~~~
-../Src/main.c:74:9: warning: implicit declaration of function 'led_set' [-Wimplicit-function-declaration]
-   74 |         led_set(pattern);
-      |         ^~~~~~~
-../Src/main.c:86:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
-   86 |         sprintf(feedback_string, "Serial received: %s \r\n", follow);
-      |         ^~~~~~~
-../Src/main.c:86:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-../Src/main.c:101:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
-  101 |         sprintf(feedback_string, "One shot duration (ms): %s \r\n", follow);
-      |         ^~~~~~~
-../Src/main.c:101:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-../Src/main.c:127:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
-  127 |         sprintf(feedback_string, "Timer duration (ms): %s \r\n", follow);
-      |         ^~~~~~~
-../Src/main.c:127:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-../Src/main.c:141:9: warning: implicit declaration of function 'timer2_set_callback'; did you mean 'timer3_set_callback'? [-Wimplicit-function-declaration]
-  141 |         timer2_set_callback(LEDflash);
-      |         ^~~~~~~~~~~~~~~~~~~
-      |         timer3_set_callback
-../Src/timer_module.c: In function 'valid_period_check':
-../Src/timer_module.c:106:26: warning: implicit declaration of function 'strlen' [-Wimplicit-function-declaration]
-  106 |     if (input == NULL || strlen(input) == 0) {
-      |                          ^~~~~~
-../Src/timer_module.c:5:1: note: include '<string.h>' or provide a declaration of 'strlen'
-    4 | #include <ctype.h>
-  +++ |+#include <string.h>
-    5 | 
-../Src/timer_module.c:106:26: warning: incompatible implicit declaration of built-in function 'strlen' [-Wbuiltin-declaration-mismatch]
-  106 |     if (input == NULL || strlen(input) == 0) {
-      |                          ^~~~~~
-../Src/timer_module.c:106:26: note: include '<string.h>' or provide a declaration of 'strlen'
-arm-none-eabi-gcc -o "Exercise 4 - Integration.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\Send files i am mucking aorund with\Assignment 2\Exercise 4 - Integration\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Exercise 4 - Integration.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-Finished building target: Exercise 4 - Integration.elf
- 
 arm-none-eabi-size  Exercise\ 4\ -\ Integration.elf 
-arm-none-eabi-objdump -h -S Exercise\ 4\ -\ Integration.elf  > "Exercise 4 - Integration.list"
    text	   data	    bss	    dec	    hex	filename
    9768	     96	   2440	  12304	   3010	Exercise 4 - Integration.elf
 Finished building: default.size.stdout
  
-Finished building: Exercise 4 - Integration.list
- 
 
-13:51:33 Build Finished. 0 errors, 17 warnings. (took 1s.403ms)
+14:36:27 Build Finished. 0 errors, 0 warnings. (took 224ms)
 

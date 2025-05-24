@@ -20,7 +20,8 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
-
+#include "timer_module.h"
+#include "led_control.h"
 #include "gamestate.h"
 // #include <timer_module.h>
 
@@ -63,40 +64,18 @@ char feedback_string[BUFFER];
     "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use."
 #endif
 
-int main(void) {
-  // For Testing =======
-  char* command = NULL;
-  char* follow = NULL;
-  // For Testing =======
-
-  enableUSART1();
-  enableUARTInterrupts();
-  clear_screen();
-
-  send_string("hello world");
-  clear_screen();
-
-  GameState game = {
-			.correct_servos = {1, 3, 4, 6}, //do not use servo number 0
+GameState game = {
+			.correct_servos = {1}, //do not use servo number 0 3, 4, 6
 			.items_found = 0,
-			.items_left_to_find = 4,
+			.items_left_to_find = 1,
 			.digs_taken = 0,
-			.digs_remaining = 4,
+			.digs_remaining = 1,
 			.peeks_used = 0,
-			.game_time_remaining = 240,
+			.game_time_remaining = 5
+			,
 			.game_over = 0,
 			.total_items_to_find = 0
   };
-
-  //Count item numbers
-  int count = 0;
-  for (int i = 0; i < 6; i++) {
-      if (game.correct_servos[i] != 0) {
-          count++;
-      }
-  }
-  game.total_items_to_find = count;
-
   GameTriggers triggers = {
 			.touchpad_pressed = -1,
 			.magnet1_det = 0,
@@ -108,6 +87,35 @@ int main(void) {
 			.pending_peek = 0
   };
 
+
+int main(void) {
+  // For Testing =======
+  char* command = NULL;
+  char* follow = NULL;
+  // For Testing =======
+
+  enableUSART1();
+  enableUARTInterrupts();
+  clear_screen();
+
+
+
+  send_string("hello world");
+  clear_screen();
+
+
+
+  //Count item numbers
+  int count = 0;
+  for (int i = 0; i < 6; i++) {
+      if (game.correct_servos[i] != 0) {
+          count++;
+      }
+  }
+  game.total_items_to_find = count;
+
+
+
   send_string("Game Initialised\r\n");
   // print_game_state(game);
   // print_game_triggers(triggers);
@@ -115,6 +123,11 @@ int main(void) {
   // triggers.touchpad_pressed = touchpad_interrupt;
 
   // Loop forever
+  enableLEDs();
+      		set_timer2(1000*8);
+      		timer2_set_callback(LEDflash);
+      		enableTimer2();  // enable timer
+
   while (game.game_over == 0) {
     if (message_complete == 1) {
       command = strtok((char*)string, " ");  // load commmand
@@ -146,7 +159,7 @@ int main(void) {
         memset(feedback_string, 0, BUFFER);
         send_string("Servo set to ");
         send_string_buffer(triggers.servo_angle);
-        send_string("\r\n");
+        send_string("\r\n\r\n");
         // print_game_triggers(triggers);
         message_complete = 0;
 
@@ -237,12 +250,14 @@ int main(void) {
                   // Only increment dig count if last angle was not already a dig
                   if (last_servo_angle < triggers.peek_threshold && last_servo_selection == triggers.servo_controlled) {
                       game.digs_taken += 1;
+                      game.digs_remaining -= 1;
                       if (check_servo_choice(game.correct_servos, triggers.servo_controlled, game.total_items_to_find) == 1) {
                               game.items_found++;
                               game.items_left_to_find--;
                           }
-                      send_string("New Dig Used\r\n");
+                      send_string("New Dig Used\r\n\r\n");
                       print_game_state(game);
+                      send_string("\r\n");
 
                   }
                   triggers.pending_peek = 0;
@@ -319,6 +334,28 @@ game.total_items_to_find) == 1){ game.items_found = game.items_found+1;
 game.time_remaining == 0;){ game.game_over = 1;
     }
 */
+    if(game.items_left_to_find == 0 || game.digs_remaining == 0 ||
+    game.game_time_remaining == 0){
+    	game.game_over = 1;
+    	print_game_state(game);
+    	send_string("Game Over\r\n");
+
+    	if(game.digs_remaining == 0 & game.items_left_to_find != 0 ){
+    		send_string("You used all your digs without finding the treasure, you lose.\r\n");
+    		disableTimer2();
+    		led_set(00100010);
+    	} else if(game.game_time_remaining == 0){
+    		send_string("You ran out of time to find the treasure, you lose.\r\n");
+    		disableTimer2();
+    		led_set("00100010");
+    	} else {
+    		send_string("You found all the treasure, you win!\r\n");
+    		disableTimer2();
+    		led_set(10001000);
+
+
+    	}
+    }
 }
   return 0;
 }

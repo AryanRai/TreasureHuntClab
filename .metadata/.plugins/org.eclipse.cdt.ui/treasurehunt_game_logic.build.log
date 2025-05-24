@@ -1,78 +1,103 @@
-18:40:22 **** Incremental Build of configuration Debug for project treasurehunt_game_logic ****
+14:40:41 **** Incremental Build of configuration Debug for project treasurehunt_game_logic ****
 make -j14 all 
 arm-none-eabi-gcc "../Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32F303VCTx -DSTM32 -DSTM32F3 -DSTM32F3DISCOVERY -c -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc" -I"C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/treasurehunt_game_logic/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/main.d" -MT"Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Src/main.o"
-../Src/main.c:62:2: warning: #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use." [-Wcpp]
-   62 | #warning \
+../Src/main.c:63:2: warning: #warning "FPU is not initialized, but the project is compiling for an FPU. Please initialize the FPU before use." [-Wcpp]
+   63 | #warning \
       |  ^~~~~~~
 ../Src/main.c: In function 'main':
-../Src/main.c:74:3: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
-   74 |   clear_screen();
+../Src/main.c:99:3: warning: implicit declaration of function 'clear_screen' [-Wimplicit-function-declaration]
+   99 |   clear_screen();
       |   ^~~~~~~~~~~~
-../Src/main.c:120:17: warning: implicit declaration of function 'strtok'; did you mean 'strtol'? [-Wimplicit-function-declaration]
-  120 |       command = strtok((char*)string, " ");  // load commmand
+../Src/main.c:128:17: warning: implicit declaration of function 'timer2_set_callback' [-Wimplicit-function-declaration]
+  128 |                 timer2_set_callback(LEDflash);
+      |                 ^~~~~~~~~~~~~~~~~~~
+../Src/main.c:133:17: warning: implicit declaration of function 'strtok'; did you mean 'strtol'? [-Wimplicit-function-declaration]
+  133 |       command = strtok((char*)string, " ");  // load commmand
       |                 ^~~~~~
       |                 strtol
-../Src/main.c:120:15: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  120 |       command = strtok((char*)string, " ");  // load commmand
+../Src/main.c:133:15: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  133 |       command = strtok((char*)string, " ");  // load commmand
       |               ^
-../Src/main.c:121:14: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-  121 |       follow = strtok(NULL, "");             // load
+../Src/main.c:134:14: warning: assignment to 'char *' from 'int' makes pointer from integer without a cast [-Wint-conversion]
+  134 |       follow = strtok(NULL, "");             // load
       |              ^
-../Src/main.c:127:11: warning: implicit declaration of function 'strcmp' [-Wimplicit-function-declaration]
-  127 |       if (strcmp(command, "touchpad") == 0 && valid_period_check(follow) != 0) {
+../Src/main.c:140:11: warning: implicit declaration of function 'strcmp' [-Wimplicit-function-declaration]
+  140 |       if (strcmp(command, "touchpad") == 0 && valid_period_check(follow) != 0) {
       |           ^~~~~~
-../Src/main.c:25:1: note: include '<string.h>' or provide a declaration of 'strcmp'
-   24 | #include "gamestate.h"
+../Src/main.c:26:1: note: include '<string.h>' or provide a declaration of 'strcmp'
+   25 | #include "gamestate.h"
   +++ |+#include <string.h>
-   25 | // #include <timer_module.h>
-../Src/main.c:129:9: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
-  129 |         sprintf(feedback_string, "Touchpad set to: %s \r\n", follow);
+   26 | // #include <timer_module.h>
+../Src/main.c:142:9: warning: implicit declaration of function 'sprintf' [-Wimplicit-function-declaration]
+  142 |         sprintf(feedback_string, "Touchpad set to: %s \r\n", follow);
       |         ^~~~~~~
-../Src/main.c:25:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-   24 | #include "gamestate.h"
+../Src/main.c:26:1: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+   25 | #include "gamestate.h"
   +++ |+#include <stdio.h>
-   25 | // #include <timer_module.h>
-../Src/main.c:129:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
-  129 |         sprintf(feedback_string, "Touchpad set to: %s \r\n", follow);
-      |         ^~~~~~~
-../Src/main.c:129:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-../Src/main.c:132:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
-  132 |         memset(feedback_string, 0, BUFFER);
-      |         ^~~~~~
-../Src/main.c:132:9: note: include '<string.h>' or provide a declaration of 'memset'
-../Src/main.c:132:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
-../Src/main.c:132:9: note: include '<string.h>' or provide a declaration of 'memset'
+   26 | // #include <timer_module.h>
 ../Src/main.c:142:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
-  142 |         sprintf(feedback_string, "Servo angle set to: %s \r\n", follow);
+  142 |         sprintf(feedback_string, "Touchpad set to: %s \r\n", follow);
       |         ^~~~~~~
 ../Src/main.c:142:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
-../Src/main.c:146:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
-  146 |         memset(feedback_string, 0, BUFFER);
+../Src/main.c:145:9: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  145 |         memset(feedback_string, 0, BUFFER);
       |         ^~~~~~
-../Src/main.c:146:9: note: include '<string.h>' or provide a declaration of 'memset'
-../Src/main.c:156:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
-  156 |         sprintf(feedback_string, "Trimpot Value set to: %s \r\n", follow);
+../Src/main.c:145:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Src/main.c:145:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+../Src/main.c:145:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Src/main.c:155:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
+  155 |         sprintf(feedback_string, "Servo angle set to: %s \r\n", follow);
       |         ^~~~~~~
-../Src/main.c:156:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+../Src/main.c:155:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
 ../Src/main.c:159:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
   159 |         memset(feedback_string, 0, BUFFER);
       |         ^~~~~~
 ../Src/main.c:159:9: note: include '<string.h>' or provide a declaration of 'memset'
-../Src/main.c:181:7: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
-  181 |       memset(feedback_string, 0, BUFFER);
+../Src/main.c:169:9: warning: incompatible implicit declaration of built-in function 'sprintf' [-Wbuiltin-declaration-mismatch]
+  169 |         sprintf(feedback_string, "Trimpot Value set to: %s \r\n", follow);
+      |         ^~~~~~~
+../Src/main.c:169:9: note: include '<stdio.h>' or provide a declaration of 'sprintf'
+../Src/main.c:172:9: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  172 |         memset(feedback_string, 0, BUFFER);
+      |         ^~~~~~
+../Src/main.c:172:9: note: include '<string.h>' or provide a declaration of 'memset'
+../Src/main.c:194:7: warning: incompatible implicit declaration of built-in function 'memset' [-Wbuiltin-declaration-mismatch]
+  194 |       memset(feedback_string, 0, BUFFER);
       |       ^~~~~~
-../Src/main.c:181:7: note: include '<string.h>' or provide a declaration of 'memset'
+../Src/main.c:194:7: note: include '<string.h>' or provide a declaration of 'memset'
+../Src/main.c:343:32: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
+  343 |         if(game.digs_remaining == 0 & game.items_left_to_find != 0 ){
+      |            ~~~~~~~~~~~~~~~~~~~~^~~~
+../Src/main.c:345:17: warning: implicit declaration of function 'disableTimer2'; did you mean 'enableTimer2'? [-Wimplicit-function-declaration]
+  345 |                 disableTimer2();
+      |                 ^~~~~~~~~~~~~
+      |                 enableTimer2
+../Src/main.c:346:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '32776' to '8' [-Woverflow]
+  346 |                 led_set(00100010);
+      |                         ^~~~~~~~
+../Src/main.c:350:25: warning: passing argument 1 of 'led_set' makes integer from pointer without a cast [-Wint-conversion]
+  350 |                 led_set("00100010");
+      |                         ^~~~~~~~~~
+      |                         |
+      |                         char *
+In file included from ../Src/main.c:24:
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/treasurehunt_game_logic/Inc/led_control.h:13:22: note: expected 'uint8_t' {aka 'unsigned char'} but argument is of type 'char *'
+   13 | void led_set(uint8_t pattern);
+      |              ~~~~~~~~^~~~~~~
+../Src/main.c:354:25: warning: unsigned conversion from 'int' to 'uint8_t' {aka 'unsigned char'} changes value from '10001000' to '104' [-Woverflow]
+  354 |                 led_set(10001000);
+      |                         ^~~~~~~~
 arm-none-eabi-gcc -o "treasurehunt_game_logic.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\treasurehunt_game_logic\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="treasurehunt_game_logic.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: treasurehunt_game_logic.elf
  
 arm-none-eabi-size  treasurehunt_game_logic.elf 
 arm-none-eabi-objdump -h -S treasurehunt_game_logic.elf  > "treasurehunt_game_logic.list"
    text	   data	    bss	    dec	    hex	filename
-  10420	    100	   2428	  12948	   3294	treasurehunt_game_logic.elf
+  11556	    192	   2432	  14180	   3764	treasurehunt_game_logic.elf
 Finished building: default.size.stdout
  
 Finished building: treasurehunt_game_logic.list
  
 
-18:40:24 Build Finished. 0 errors, 15 warnings. (took 1s.958ms)
+14:40:42 Build Finished. 0 errors, 21 warnings. (took 836ms)
 

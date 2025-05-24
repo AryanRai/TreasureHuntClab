@@ -23,7 +23,6 @@ typedef struct{
 	int total_items_to_find;
 } GameState;
 
-
 typedef struct{
 	int touchpad_pressed;
 	int magnet1_det;

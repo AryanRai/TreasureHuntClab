@@ -155,7 +155,7 @@ void print_game_state(GameState game) {
 
     send_string("game_over: ");
     send_string(game.game_over ? "true\n" : "false\n");
-    send_string("\r\n");
+    send_string("\r\n\r\n");
 }
 
 void print_game_triggers(GameTriggers triggers) {
@@ -186,7 +186,7 @@ void print_game_triggers(GameTriggers triggers) {
 
 	send_string("peek_threshold: ");
 	send_string_buffer(triggers.peek_threshold);
-	send_string("\r\n");
+	send_string("\r\n\r\n");
 }
 
 

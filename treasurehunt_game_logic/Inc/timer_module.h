@@ -4,6 +4,8 @@
 
 #include <stdint.h> // allow fixed width integer types uint8_t, uint16_t and uint32
 #include "stm32f303xc.h"
+#include "gamestate.h"
+
 
 void enableTimer2();
 void TIM2_IRQHandler(void);

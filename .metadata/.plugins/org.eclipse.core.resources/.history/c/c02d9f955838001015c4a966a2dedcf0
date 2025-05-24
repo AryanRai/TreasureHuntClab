@@ -1,0 +1,42 @@
+#include "stm32f303xc.h"
+#include "led_control.h"
+#include "string.h"
+#include <stddef.h>
+#include "gamestate.h"
+extern GameState game;
+
+#define LED_OUTPUT 0x5555
+//#define pattern 0b10001010
+extern volatile uint8_t* lights; //external as in two scripts.
+
+void led_set(uint8_t pattern)
+{
+    // Point to upper byte of ODR (PE8–PE15)
+    //uint8_t* lights = ((uint8_t*)&(GPIOE->ODR)) + 1;
+
+    *lights = pattern;
+}
+
+void convertStringToBinary(char *input, uint8_t *output){
+if (input != NULL && strlen(input) == 8) {
+    *output = 0;
+    for (int j = 0; j < 8; j++) {
+        if (input[j] == '1') {
+            *output |= (1 << (7 - j));  // MSB first
+        	}
+    	}
+	}
+}
+
+int isBinary(char *input) {
+    if (input != NULL && strlen(input) == 8) {
+        for (int j = 0; j < 8; j++) {
+            if (input[j] != '1' && input[j] != '0') {
+                return 0;  // Return 0 if a non-binary character is found
+            }
+        }
+        return 1;  // All characters are valid binary digits
+    } else {
+        return 0;  // Input is NULL or not exactly 8 characters
+    }
+}
