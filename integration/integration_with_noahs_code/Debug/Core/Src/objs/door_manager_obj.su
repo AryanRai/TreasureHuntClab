@@ -1,0 +1,5 @@
+../Core/Src/objs/door_manager_obj.c:17:17:init_door_manager	40	static
+../Core/Src/objs/door_manager_obj.c:43:6:door_manager_set_enslaved	16	static
+../Core/Src/objs/door_manager_obj.c:64:6:door_manager_set_angle	24	static
+../Core/Src/objs/door_manager_obj.c:74:6:door_manager_reset	24	static
+../Core/Src/objs/door_manager_obj.c:86:6:door_manager_update	24	static

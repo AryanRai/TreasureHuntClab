@@ -1,0 +1,16 @@
+../Core/Src/main.c:123:6:transmit_game_state	1
+../Core/Src/main.c:130:13:fn_a	1
+../Core/Src/main.c:138:6:start_game	3
+../Core/Src/main.c:172:6:update_game_state	2
+../Core/Src/main.c:188:9:check_game_over	5
+../Core/Src/main.c:220:6:handle_touch	1
+../Core/Src/main.c:226:6:output_callback	1
+../Core/Src/main.c:231:6:input_callback	2
+../Core/Src/main.c:251:5:main	12
+../Core/Src/main.c:404:6:SystemClock_Config	4
+../Core/Src/main.c:453:13:MX_I2C1_Init	4
+../Core/Src/main.c:501:13:MX_SPI1_Init	2
+../Core/Src/main.c:541:13:MX_TIM2_Init	4
+../Core/Src/main.c:590:13:MX_USB_PCD_Init	2
+../Core/Src/main.c:621:13:MX_GPIO_Init	1
+../Core/Src/main.c:676:6:Error_Handler	1

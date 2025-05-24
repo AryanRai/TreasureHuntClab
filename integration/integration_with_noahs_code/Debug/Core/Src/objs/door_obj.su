@@ -1,0 +1,4 @@
+../Core/Src/objs/door_obj.c:13:10:init_door	32	static
+../Core/Src/objs/door_obj.c:32:6:door_set_angle_stable	16	static
+../Core/Src/objs/door_obj.c:40:6:door_calib_servo	16	static
+../Core/Src/objs/door_obj.c:46:6:door_update	24	static
