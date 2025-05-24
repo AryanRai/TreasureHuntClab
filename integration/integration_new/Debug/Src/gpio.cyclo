@@ -1,0 +1,10 @@
+../Inc/core_cm4.h:1688:22:__NVIC_EnableIRQ	2
+../Src/gpio.c:8:6:initialise_touch	1
+../Src/gpio.c:22:6:enable_touch_interrupts	1
+../Src/gpio.c:52:6:touch_register_callback	1
+../Src/gpio.c:56:6:display_number	1
+../Src/gpio.c:63:6:EXTI1_IRQHandler	3
+../Src/gpio.c:69:6:EXTI2_TSC_IRQHandler	3
+../Src/gpio.c:75:6:EXTI3_IRQHandler	3
+../Src/gpio.c:81:6:EXTI4_IRQHandler	3
+../Src/gpio.c:88:6:EXTI9_5_IRQHandler	4

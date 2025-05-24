@@ -1,0 +1,8 @@
+../Src/main.c:61:6:display_number	16	static
+../Src/main.c:67:6:handle_touch	16	static
+../Src/main.c:74:5:main	128	static
+../Src/main.c:265:6:EXTI1_IRQHandler	8	static
+../Src/main.c:271:6:EXTI2_TSC_IRQHandler	8	static
+../Src/main.c:277:6:EXTI3_IRQHandler	8	static
+../Src/main.c:283:6:EXTI4_IRQHandler	8	static
+../Src/main.c:290:6:EXTI9_5_IRQHandler	16	static
