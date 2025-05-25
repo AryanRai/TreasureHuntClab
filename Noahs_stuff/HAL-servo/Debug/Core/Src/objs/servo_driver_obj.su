@@ -1,0 +1,5 @@
+../Core/Src/objs/servo_driver_obj.c:24:17:init_servo_driver	32	static
+../Core/Src/objs/servo_driver_obj.c:56:6:servo_driver_write_reg	32	static
+../Core/Src/objs/servo_driver_obj.c:67:6:servo_driver_en_chans	24	static
+../Core/Src/objs/servo_driver_obj.c:83:6:servo_driver_set_angle	40	static
+../Core/Src/objs/servo_driver_obj.c:118:7:servo_driver_query_angle	16	static
