@@ -1,4 +1,6 @@
+"./Core/Src/gamestate.o"
 "./Core/Src/main.o"
+"./Core/Src/serial.o"
 "./Core/Src/stm32f3xx_hal_msp.o"
 "./Core/Src/stm32f3xx_it.o"
 "./Core/Src/syscalls.o"
