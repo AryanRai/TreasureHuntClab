@@ -1,10 +1,7 @@
-#include <GPIO.h>
+/*#include <GPIO.h>
 
 
 #include "stm32f303xc.h"
-
-
-
 
  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
  const uint32_t clock_mask_link[] = {RCC_AHBENR_GPIOAEN, RCC_AHBENR_GPIOBEN,
@@ -308,3 +305,4 @@ void read_pins_analog(GPIO *port_pt, uint16_t *dest_pt){
  	__enable_irq();
 
  }
+*/

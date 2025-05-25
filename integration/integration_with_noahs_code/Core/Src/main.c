@@ -40,7 +40,7 @@
 #include "GPIO.h"
 
 // Josh's files
-#include "gpio_josh.h"
+#include "gpio_new.h"
 #include "serial_josh.h"
 #include "structs.h"
 #include "timer_josh.h"
@@ -289,10 +289,19 @@ int main(void)
   // Touch Init
   initialise_touch();
   enable_touch_interrupts();
+  touch_register_callback((touch_callback_t)handle_touch, &triggers);
+
+  GPIO *pot = init_port(PORT_A, ANALOG, 4, 6);
+  uint16_t analog_out[2];
+
+/*
+  initialise_touch();
+  enable_touch_interrupts();
   touch_register_callback(&handle_touch);
 
   GPIO *pot = init_port(A, ANALOG, 4, 6);
   uint16_t analog_out[2];
+*/
 
   //Init servo-driver
   servoDriverObj *driver = init_servo_driver(0x40);
@@ -314,7 +323,7 @@ int main(void)
 
   const float SPEED = 1.2;
   const int PAUSE = 20;
-
+  transmit_game_state();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -325,6 +334,7 @@ int main(void)
  {
   	// Wait for game start
   	if (game.game_over) {
+
   		continue;
   	}
 
@@ -348,6 +358,7 @@ int main(void)
         	bool committed_dig = false;
 
         	while (HAL_GetTick() - peek_start < 2000) {
+        		/*
         		read_pins_analog(pot, analog_out);
 
         	    master_angle = map_range((float)analog_out[1], 0.0f, 4095.0f, 0.0f, 80.0f);
@@ -355,7 +366,8 @@ int main(void)
         	    door_manager_update(manager);
 
         	    float trimpot = map_range((float)analog_out[0], 0.0f, 4095.0f, 0.0f, 100.0f);
-
+				*/
+        		float trimpot = 11;
         	    if (trimpot >= triggers.peek_threshold) {
         	    	 committed_dig = true;
         	         break;

@@ -36,9 +36,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Core/Inc/midi_note_data.h ../Core/Inc/servo_driver_obj.h \
  ../Core/Inc/main.h ../Core/Inc/door_obj.h ../Core/Inc/servo_driver_obj.h \
  ../Core/Inc/door_manager_obj.h ../Core/Inc/door_obj.h \
- ../Core/Inc/utils.h ../Core/Inc/GPIO.h ../Core/Inc/gpio_josh.h \
- ../Core/Inc/structs.h ../Core/Inc/serial_josh.h ../Core/Inc/structs.h \
- ../Core/Inc/timer_josh.h
+ ../Core/Inc/utils.h ../Core/Inc/GPIO.h ../Core/Inc/gpio_new.h \
+ ../Core/Inc/serial_josh.h ../Core/Inc/structs.h ../Core/Inc/timer_josh.h \
+ ../Core/Inc/structs.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
 ../Core/Inc/stm32f3xx_hal_conf.h:
@@ -83,8 +83,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Core/Inc/door_obj.h:
 ../Core/Inc/utils.h:
 ../Core/Inc/GPIO.h:
-../Core/Inc/gpio_josh.h:
-../Core/Inc/structs.h:
+../Core/Inc/gpio_new.h:
 ../Core/Inc/serial_josh.h:
 ../Core/Inc/structs.h:
 ../Core/Inc/timer_josh.h:
+../Core/Inc/structs.h:

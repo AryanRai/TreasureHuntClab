@@ -184,30 +184,7 @@ void USART1_EXTI25_IRQHandler() {
 		}
 		return;
 	}
-	/*
-    // Handle Transmit (TXE)
-    if ((USART1_PORT.UART->ISR & USART_ISR_TXE_Msk) && (USART1_PORT.UART->CR1 & USART_CR1_TXEIE_Msk)) {
-        // Send next byte in buffer if data left
-        if (USART1_PORT.tx_buffer_pos < USART1_PORT.tx_buffer_len) {
-            USART1_PORT.UART->TDR = USART1_PORT.tx_buffer[USART1_PORT.tx_buffer_pos++];
 
-        } else {
-            // Done transmitting
-            USART1_PORT.UART->CR1 &= ~USART_CR1_TXEIE_Msk;  // Disable TXE interrupt
-
-            // Call optional transmit callback
-            if (USART1_PORT.output_callback != NULL) {
-                USART1_PORT.output_callback();
-            }
-
-            // Reset position for next transmission
-            USART1_PORT.tx_buffer_pos = 0;
-            USART1_PORT.tx_buffer_len = 0;
-        }
-
-        return;
-    }
-    */
 }
 
 

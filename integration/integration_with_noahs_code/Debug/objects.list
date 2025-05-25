@@ -8,6 +8,7 @@
 "./Core/Src/objs/door_manager_obj.o"
 "./Core/Src/objs/door_obj.o"
 "./Core/Src/objs/gpio_josh.o"
+"./Core/Src/objs/gpio_new.o"
 "./Core/Src/objs/serial_josh.o"
 "./Core/Src/objs/servo_driver_obj.o"
 "./Core/Src/objs/timer_josh.o"
