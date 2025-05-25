@@ -1,0 +1,10 @@
+../Core/Src/main.c:78:19:QMC5883L_Init	32	static
+../Core/Src/main.c:101:19:QMC5883L_ReadXYZ	56	static
+../Core/Src/main.c:130:5:main	136	static
+../Core/Src/main.c:237:6:SystemClock_Config	128	static
+../Core/Src/main.c:284:13:MX_I2C1_Init	8	static
+../Core/Src/main.c:327:13:MX_TIM1_Init	96	static
+../Core/Src/main.c:392:13:MX_TIM2_Init	48	static
+../Core/Src/main.c:436:13:MX_USART1_UART_Init	8	static
+../Core/Src/main.c:466:13:MX_GPIO_Init	40	static
+../Core/Src/main.c:519:6:Error_Handler	4	static,ignoring_inline_asm
