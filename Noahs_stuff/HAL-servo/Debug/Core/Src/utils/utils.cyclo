@@ -1,0 +1,3 @@
+../Core/Src/utils/utils.c:3:7:map_range	1
+../Core/Src/utils/utils.c:8:7:clamp	3
+../Core/Src/utils/utils.c:10:7:bezier1D	1

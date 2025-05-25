@@ -1,0 +1,6 @@
+../Drivers/CMSIS/Include/core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
+../Drivers/CMSIS/Include/core_cm4.h:1816:22:__NVIC_SetPriority	16	static
+../Core/Src/objs/serial.c:46:6:USART1_EXTI25_IRQHandler	8	static
+../Core/Src/objs/serial.c:67:6:SerialInitialise	32	static,ignoring_inline_asm
+../Core/Src/objs/serial.c:146:6:SerialOutputChar	16	static
+../Core/Src/objs/serial.c:156:6:SerialOutputString	32	static
