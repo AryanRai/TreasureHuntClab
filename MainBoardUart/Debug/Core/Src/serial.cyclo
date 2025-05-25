@@ -1,0 +1,13 @@
+../Drivers/CMSIS/Include/core_cm4.h:1688:22:__NVIC_EnableIRQ	2
+../Drivers/CMSIS/Include/core_cm4.h:1816:22:__NVIC_SetPriority	2
+../Core/Src/serial.c:18:6:reset_input_buffer	1
+../Core/Src/serial.c:23:6:enableUSART1	1
+../Core/Src/serial.c:41:6:enableLEDs	1
+../Core/Src/serial.c:53:6:enableUARTInterrupts	1
+../Core/Src/serial.c:67:6:USART1_EXTI25_IRQHandler	6
+../Core/Src/serial.c:102:6:send_string	3
+../Core/Src/serial.c:109:6:send_string_buffer	3
+../Core/Src/serial.c:119:6:print_game_state	3
+../Core/Src/serial.c:160:6:print_game_triggers	1
+../Core/Src/serial.c:190:6:clear_screen	1
+../Core/Src/serial.c:195:5:valid_period_check	5

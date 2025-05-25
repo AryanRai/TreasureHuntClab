@@ -40,6 +40,10 @@
 #define UART_TX_PERIOD_MS   1000       // Print every 1 second
 #define MAG_MIN_THRESHOLD   3000       // Minimum magnetic field magnitude
 #define MAG_MAX_THRESHOLD   10000      // Maximum magnetic field magnitude
+/* Protocol Defines */
+#define PROTOCOL_START_MARKER 0x7E
+#define PROTOCOL_SENSOR_TYPE_MAG 0x01
+#define PROTOCOL_SENSOR_ID_QMC 0x01
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -52,7 +56,7 @@ TIM_HandleTypeDef htim1;
 TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
-uint32_t uartTimer = 0; // Timer for periodic UART transmission
+uint32_t uartTimer = 0; // Timer for periodic UART1 transmission
 uint32_t magTimer = 0;  // Timer for magnetometer reading
 /* USER CODE END PV */
 
@@ -62,9 +66,11 @@ static void MX_GPIO_Init(void);
 static void MX_I2C1_Init(void);
 static void MX_TIM1_Init(void);
 static void MX_TIM2_Init(void);
+static void MX_USART2_Init(void);
 /* USER CODE BEGIN PFP */
 HAL_StatusTypeDef QMC5883L_Init(void);
 HAL_StatusTypeDef QMC5883L_ReadXYZ(int16_t *x, int16_t *y, int16_t *z);
+void USART2_Transmit_Packet(int16_t x, int16_t y, int16_t z);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -120,6 +126,51 @@ HAL_StatusTypeDef QMC5883L_ReadXYZ(int16_t *x, int16_t *y, int16_t *z) {
     return HAL_OK;
 }
 
+/**
+  * @brief Transmit magnetometer data over USART2 using custom protocol
+  * @param x, y, z: Magnetometer readings
+  * @retval None
+  */
+void USART2_Transmit_Packet(int16_t x, int16_t y, int16_t z) {
+    uint8_t packet[11];
+    uint8_t checksum = 0;
+
+    // Start Marker
+    packet[0] = PROTOCOL_START_MARKER;
+
+    // Length (length + sensor type + sensor ID + payload + checksum)
+    packet[1] = 0x0A; // 10 bytes
+    checksum += packet[1];
+
+    // Sensor Type
+    packet[2] = PROTOCOL_SENSOR_TYPE_MAG;
+    checksum += packet[2];
+
+    // Sensor ID
+    packet[3] = PROTOCOL_SENSOR_ID_QMC;
+    checksum += packet[3];
+
+    // Payload: X, Y, Z (little-endian)
+    packet[4] = (uint8_t)(x & 0xFF); // X LSB
+    packet[5] = (uint8_t)(x >> 8);   // X MSB
+    packet[6] = (uint8_t)(y & 0xFF); // Y LSB
+    packet[7] = (uint8_t)(y >> 8);   // Y MSB
+    packet[8] = (uint8_t)(z & 0xFF); // Z LSB
+    packet[9] = (uint8_t)(z >> 8);   // Z MSB
+    for (int i = 4; i <= 9; i++) {
+        checksum += packet[i];
+    }
+
+    // Checksum
+    packet[10] = checksum;
+
+    // Transmit packet
+    for (int i = 0; i < 11; i++) {
+        while (!(USART2->ISR & USART_ISR_TXE_Msk));
+        USART2->TDR = packet[i];
+    }
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -156,6 +207,7 @@ int main(void)
   MX_I2C1_Init();
   MX_TIM1_Init();
   MX_TIM2_Init();
+  MX_USART2_Init();
   /* USER CODE BEGIN 2 */
 
   // Initialize USART1 using custom serial code
@@ -173,7 +225,7 @@ int main(void)
   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
   HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_3);
 
-  // Send startup message
+  // Send startup message over USART1
   sprintf(buffer, "QMC5883L Initialized, LED and Buzzer PWM Started\r\n");
   send_string(buffer);
 
@@ -210,15 +262,18 @@ int main(void)
             // Set PWM duty cycle for both LED and buzzer
             __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, dutyCycle); // LED
             __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, dutyCycle); // Buzzer
+
+            // Transmit magnetometer data over USART2
+            USART2_Transmit_Packet(x, y, z);
         } else {
-            // Report error but continue
+            // Report error over USART1
             sprintf(buffer, "Magnetometer Read Error: %d\r\n", ret);
             send_string(buffer);
         }
         magTimer = 0; // Reset timer
     }
 
-    // Send UART message every 1 second
+    // Send debug message over USART1 every 1 second
     if (uartTimer >= UART_TX_PERIOD_MS) {
         sprintf(buffer, "DEBUG: Mag: %.2f, Duty: %lu%%\r\n", magnitude, (dutyCycle * 100) / maxDuty);
         send_string(buffer);
@@ -428,6 +483,29 @@ static void MX_TIM2_Init(void)
 }
 
 /**
+  * @brief USART2 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_USART2_Init(void)
+{
+  /* USER CODE BEGIN USART2_Init 0 */
+  /* USER CODE END USART2_Init 0 */
+
+  /* USER CODE BEGIN USART2_Init 1 */
+  /* USER CODE END USART2_Init 1 */
+  // Enable USART2 clock
+  RCC->APB1ENR |= RCC_APB1ENR_USART2EN;
+
+  // Configure USART2: 115200 baud, 8N1, TX/RX
+  USART2->BRR = 0x46; // 8 MHz / 115200 = 69.4, round to 70 (0x46)
+  USART2->CR1 = USART_CR1_RE | USART_CR1_TE | USART_CR1_UE;
+
+  /* USER CODE BEGIN USART2_Init 2 */
+  /* USER CODE END USART2_Init 2 */
+}
+
+/**
   * @brief GPIO Initialization Function
   * @param None
   * @retval None
@@ -473,6 +551,14 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   GPIO_InitStruct.Alternate = GPIO_AF7_USART1; // USART1 TX/RX for PC4/PC5
   HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+  /* Configure PA2 (TX) and PA3 (RX) for USART2 */
+  GPIO_InitStruct.Pin = GPIO_PIN_2 | GPIO_PIN_3;
+  GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+  GPIO_InitStruct.Alternate = GPIO_AF7_USART2; // USART2 TX/RX for PA2/PA3
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
   /* USER CODE END MX_GPIO_Init_2 */
