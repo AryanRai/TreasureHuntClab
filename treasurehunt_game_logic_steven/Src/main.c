@@ -71,7 +71,7 @@ GameState game = {
 			.digs_taken = 0,
 			.digs_remaining = 1,
 			.peeks_used = 0,
-			.game_time_remaining = 5
+			.game_time_remaining = 240
 			,
 			.game_over = 0,
 			.total_items_to_find = 0

@@ -1,9 +1,7 @@
-
+#include "stm32f303xc.h"
 #include <stddef.h>
 #include "gamestate.h"
 #include "serial.h"
-#include <string.h>
-#include <ctype.h>
 
 #define ALTFUNCTION 0xA00
 #define RXTX 0x770000
