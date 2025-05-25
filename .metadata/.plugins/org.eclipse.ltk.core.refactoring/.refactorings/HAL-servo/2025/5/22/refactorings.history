@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;HAL-servo/Core/Inc/gpio.c&apos; to &apos;gpio.c.disabled&apos;" description="Rename resource &apos;gpio.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Inc/gpio.c" name="gpio.c.disabled" stamp="1748142165649" updateReferences="true"/>
+</session>

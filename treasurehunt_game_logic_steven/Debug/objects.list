@@ -1,0 +1,8 @@
+"./Src/gamestate.o"
+"./Src/led_control.o"
+"./Src/main.o"
+"./Src/serial.o"
+"./Src/syscalls.o"
+"./Src/sysmem.o"
+"./Src/timer_module.o"
+"./Startup/startup_stm32f303vctx.o"

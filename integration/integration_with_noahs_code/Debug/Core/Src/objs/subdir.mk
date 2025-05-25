@@ -6,7 +6,6 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/objs/GPIO.c \
-../Core/Src/objs/buzzer_obj.c \
 ../Core/Src/objs/door_manager_obj.c \
 ../Core/Src/objs/door_obj.c \
 ../Core/Src/objs/gpio_josh.c \
@@ -16,7 +15,6 @@ C_SRCS += \
 
 OBJS += \
 ./Core/Src/objs/GPIO.o \
-./Core/Src/objs/buzzer_obj.o \
 ./Core/Src/objs/door_manager_obj.o \
 ./Core/Src/objs/door_obj.o \
 ./Core/Src/objs/gpio_josh.o \
@@ -26,7 +24,6 @@ OBJS += \
 
 C_DEPS += \
 ./Core/Src/objs/GPIO.d \
-./Core/Src/objs/buzzer_obj.d \
 ./Core/Src/objs/door_manager_obj.d \
 ./Core/Src/objs/door_obj.d \
 ./Core/Src/objs/gpio_josh.d \
@@ -42,7 +39,7 @@ Core/Src/objs/%.o Core/Src/objs/%.su Core/Src/objs/%.cyclo: ../Core/Src/objs/%.c
 clean: clean-Core-2f-Src-2f-objs
 
 clean-Core-2f-Src-2f-objs:
-	-$(RM) ./Core/Src/objs/GPIO.cyclo ./Core/Src/objs/GPIO.d ./Core/Src/objs/GPIO.o ./Core/Src/objs/GPIO.su ./Core/Src/objs/buzzer_obj.cyclo ./Core/Src/objs/buzzer_obj.d ./Core/Src/objs/buzzer_obj.o ./Core/Src/objs/buzzer_obj.su ./Core/Src/objs/door_manager_obj.cyclo ./Core/Src/objs/door_manager_obj.d ./Core/Src/objs/door_manager_obj.o ./Core/Src/objs/door_manager_obj.su ./Core/Src/objs/door_obj.cyclo ./Core/Src/objs/door_obj.d ./Core/Src/objs/door_obj.o ./Core/Src/objs/door_obj.su ./Core/Src/objs/gpio_josh.cyclo ./Core/Src/objs/gpio_josh.d ./Core/Src/objs/gpio_josh.o ./Core/Src/objs/gpio_josh.su ./Core/Src/objs/serial_josh.cyclo ./Core/Src/objs/serial_josh.d ./Core/Src/objs/serial_josh.o ./Core/Src/objs/serial_josh.su ./Core/Src/objs/servo_driver_obj.cyclo ./Core/Src/objs/servo_driver_obj.d ./Core/Src/objs/servo_driver_obj.o ./Core/Src/objs/servo_driver_obj.su ./Core/Src/objs/timer_josh.cyclo ./Core/Src/objs/timer_josh.d ./Core/Src/objs/timer_josh.o ./Core/Src/objs/timer_josh.su
+	-$(RM) ./Core/Src/objs/GPIO.cyclo ./Core/Src/objs/GPIO.d ./Core/Src/objs/GPIO.o ./Core/Src/objs/GPIO.su ./Core/Src/objs/door_manager_obj.cyclo ./Core/Src/objs/door_manager_obj.d ./Core/Src/objs/door_manager_obj.o ./Core/Src/objs/door_manager_obj.su ./Core/Src/objs/door_obj.cyclo ./Core/Src/objs/door_obj.d ./Core/Src/objs/door_obj.o ./Core/Src/objs/door_obj.su ./Core/Src/objs/gpio_josh.cyclo ./Core/Src/objs/gpio_josh.d ./Core/Src/objs/gpio_josh.o ./Core/Src/objs/gpio_josh.su ./Core/Src/objs/serial_josh.cyclo ./Core/Src/objs/serial_josh.d ./Core/Src/objs/serial_josh.o ./Core/Src/objs/serial_josh.su ./Core/Src/objs/servo_driver_obj.cyclo ./Core/Src/objs/servo_driver_obj.d ./Core/Src/objs/servo_driver_obj.o ./Core/Src/objs/servo_driver_obj.su ./Core/Src/objs/timer_josh.cyclo ./Core/Src/objs/timer_josh.d ./Core/Src/objs/timer_josh.o ./Core/Src/objs/timer_josh.su
 
 .PHONY: clean-Core-2f-Src-2f-objs
 

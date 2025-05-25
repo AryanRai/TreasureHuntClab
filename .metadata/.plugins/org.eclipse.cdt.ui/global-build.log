@@ -12850,3 +12850,854 @@ Finished building: default.size.stdout
  
 Finished building: treasurehunt_game_logic.list
  
+09:16:17 **** Clean-only build of configuration Debug for project HAL-servo ****
+make -j14 clean 
+rm -rf ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.su ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.cyclo ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.d ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.o ./Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.su
+rm -rf ./Core/Startup/startup_stm32f303vctx.d ./Core/Startup/startup_stm32f303vctx.o
+rm -rf ./Core/Src/utils/utils.cyclo ./Core/Src/utils/utils.d ./Core/Src/utils/utils.o ./Core/Src/utils/utils.su
+rm -rf ./Core/Src/objs/GPIO.cyclo ./Core/Src/objs/GPIO.d ./Core/Src/objs/GPIO.o ./Core/Src/objs/GPIO.su ./Core/Src/objs/buzzer_obj.cyclo ./Core/Src/objs/buzzer_obj.d ./Core/Src/objs/buzzer_obj.o ./Core/Src/objs/buzzer_obj.su ./Core/Src/objs/door_manager_obj.cyclo ./Core/Src/objs/door_manager_obj.d ./Core/Src/objs/door_manager_obj.o ./Core/Src/objs/door_manager_obj.su ./Core/Src/objs/door_obj.cyclo ./Core/Src/objs/door_obj.d ./Core/Src/objs/door_obj.o ./Core/Src/objs/door_obj.su ./Core/Src/objs/gpio_josh.cyclo ./Core/Src/objs/gpio_josh.d ./Core/Src/objs/gpio_josh.o ./Core/Src/objs/gpio_josh.su ./Core/Src/objs/serial_josh.cyclo ./Core/Src/objs/serial_josh.d ./Core/Src/objs/serial_josh.o ./Core/Src/objs/serial_josh.su ./Core/Src/objs/servo_driver_obj.cyclo ./Core/Src/objs/servo_driver_obj.d ./Core/Src/objs/servo_driver_obj.o ./Core/Src/objs/servo_driver_obj.su ./Core/Src/objs/timer_josh.cyclo ./Core/Src/objs/timer_josh.d ./Core/Src/objs/timer_josh.o ./Core/Src/objs/timer_josh.su
+rm -rf ./Core/Src/main.cyclo ./Core/Src/main.d ./Core/Src/main.o ./Core/Src/main.su ./Core/Src/stm32f3xx_hal_msp.cyclo ./Core/Src/stm32f3xx_hal_msp.d ./Core/Src/stm32f3xx_hal_msp.o ./Core/Src/stm32f3xx_hal_msp.su ./Core/Src/stm32f3xx_it.cyclo ./Core/Src/stm32f3xx_it.d ./Core/Src/stm32f3xx_it.o ./Core/Src/stm32f3xx_it.su ./Core/Src/syscalls.cyclo ./Core/Src/syscalls.d ./Core/Src/syscalls.o ./Core/Src/syscalls.su ./Core/Src/sysmem.cyclo ./Core/Src/sysmem.d ./Core/Src/sysmem.o ./Core/Src/sysmem.su ./Core/Src/system_stm32f3xx.cyclo ./Core/Src/system_stm32f3xx.d ./Core/Src/system_stm32f3xx.o ./Core/Src/system_stm32f3xx.su
+rm -rf ./Core/Inc/gpio.cyclo ./Core/Inc/gpio.d ./Core/Inc/gpio.o ./Core/Inc/gpio.su
+rm -rf HAL-servo.elf HAL-servo.list HAL-servo.map default.size.stdout
+ 
+09:16:17 **** Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_cortex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_dma.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_exti.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_flash_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_gpio.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_i2c_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pcd_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_pwr_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_rcc_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_spi_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_hal_tim_ex.o"
+arm-none-eabi-gcc "../Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.d" -MT"Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Drivers/STM32F3xx_HAL_Driver/Src/stm32f3xx_ll_usb.o"
+arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -x assembler-with-cpp -MMD -MP -MF"Core/Startup/startup_stm32f303vctx.d" -MT"Core/Startup/startup_stm32f303vctx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Startup/startup_stm32f303vctx.o" "../Core/Startup/startup_stm32f303vctx.s"
+arm-none-eabi-gcc "../Core/Src/utils/utils.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/utils/utils.d" -MT"Core/Src/utils/utils.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/utils/utils.o"
+arm-none-eabi-gcc "../Core/Src/objs/GPIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/GPIO.d" -MT"Core/Src/objs/GPIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/GPIO.o"
+arm-none-eabi-gcc "../Core/Src/objs/buzzer_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/buzzer_obj.d" -MT"Core/Src/objs/buzzer_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/buzzer_obj.o"
+arm-none-eabi-gcc "../Core/Src/objs/door_manager_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/door_manager_obj.d" -MT"Core/Src/objs/door_manager_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/door_manager_obj.o"
+arm-none-eabi-gcc "../Core/Src/objs/door_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/door_obj.d" -MT"Core/Src/objs/door_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/door_obj.o"
+arm-none-eabi-gcc "../Core/Src/objs/gpio_josh.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/gpio_josh.d" -MT"Core/Src/objs/gpio_josh.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/gpio_josh.o"
+arm-none-eabi-gcc "../Core/Src/objs/serial_josh.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/serial_josh.d" -MT"Core/Src/objs/serial_josh.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/serial_josh.o"
+In file included from ../Core/Src/objs/GPIO.c:4:
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:877:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  877 | #define GPIOA               ((GPIO_TypeDef *) GPIOA_BASE)
+arm-none-eabi-gcc "../Core/Src/objs/servo_driver_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/servo_driver_obj.d" -MT"Core/Src/objs/servo_driver_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/servo_driver_obj.o"
+      |                             ^
+../Core/Src/objs/GPIO.c:9:31: note: in expansion of macro 'GPIOA'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                               ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:877:29: note: (near initialization for 'adr_link[0]')
+  877 | #define GPIOA               ((GPIO_TypeDef *) GPIOA_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:31: note: in expansion of macro 'GPIOA'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                               ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:878:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  878 | #define GPIOB               ((GPIO_TypeDef *) GPIOB_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:38: note: in expansion of macro 'GPIOB'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                      ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:878:29: note: (near initialization for 'adr_link[1]')
+  878 | #define GPIOB               ((GPIO_TypeDef *) GPIOB_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:38: note: in expansion of macro 'GPIOB'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                      ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:879:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  879 | #define GPIOC               ((GPIO_TypeDef *) GPIOC_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:45: note: in expansion of macro 'GPIOC'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                             ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:879:29: note: (near initialization for 'adr_link[2]')
+  879 | #define GPIOC               ((GPIO_TypeDef *) GPIOC_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:45: note: in expansion of macro 'GPIOC'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                             ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:880:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  880 | #define GPIOD               ((GPIO_TypeDef *) GPIOD_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:52: note: in expansion of macro 'GPIOD'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                    ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:880:29: note: (near initialization for 'adr_link[3]')
+  880 | #define GPIOD               ((GPIO_TypeDef *) GPIOD_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:52: note: in expansion of macro 'GPIOD'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                    ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:881:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  881 | #define GPIOE               ((GPIO_TypeDef *) GPIOE_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:59: note: in expansion of macro 'GPIOE'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                           ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:881:29: note: (near initialization for 'adr_link[4]')
+  881 | #define GPIOE               ((GPIO_TypeDef *) GPIOE_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:59: note: in expansion of macro 'GPIOE'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                           ^~~~~
+../Core/Src/objs/GPIO.c: In function 'init_port':
+../Core/Src/objs/GPIO.c:38:25: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+   38 |         GPIO *port_pt = malloc(sizeof(GPIO)); //Pointer to Port
+      |                         ^~~~~~
+../Core/Src/objs/GPIO.c:5:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+    4 | #include "stm32f303xc.h"
+  +++ |+#include <stdlib.h>
+    5 | 
+../Core/Src/objs/GPIO.c:38:25: warning: incompatible implicit declaration of built-in function 'malloc' [-Wbuiltin-declaration-mismatch]
+   38 |         GPIO *port_pt = malloc(sizeof(GPIO)); //Pointer to Port
+      |                         ^~~~~~
+../Core/Src/objs/GPIO.c:38:25: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+../Core/Src/objs/GPIO.c:41:27: warning: assignment to 'GPIO_TypeDef *' from 'uint32_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+   41 |         port_pt->PORT_ADR = adr_link[name];
+      |                           ^
+../Core/Src/objs/GPIO.c: In function 'read_single_pin':
+../Core/Src/objs/GPIO.c:182:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  182 |                 return;
+      |                 ^~~~~~
+../Core/Src/objs/GPIO.c:179:10: note: declared here
+  179 |  uint8_t read_single_pin(GPIO *port_pt, uint8_t pin_index){
+      |          ^~~~~~~~~~~~~~~
+../Core/Src/objs/GPIO.c: In function 'write_pins':
+../Core/Src/objs/GPIO.c:199:28: warning: initialization of 'uint16_t *' {aka 'short unsigned int *'} from incompatible pointer type 'volatile uint32_t *' {aka 'volatile long unsigned int *'} [-Wincompatible-pointer-types]
+  199 |         uint16_t *odr_pt = &port_pt->PORT_ADR->ODR;
+      |                            ^
+../Core/Src/objs/GPIO.c: In function 'write_single_pin':
+../Core/Src/objs/GPIO.c:219:28: warning: initialization of 'uint16_t *' {aka 'short unsigned int *'} from incompatible pointer type 'volatile uint32_t *' {aka 'volatile long unsigned int *'} [-Wincompatible-pointer-types]
+  219 |         uint16_t *odr_pt = &port_pt->PORT_ADR->ODR;
+      |                            ^
+../Core/Src/objs/buzzer_obj.c:9:9: error: unknown type name 'uint16_t'
+    9 |         uint16_t TEMPO; //Tempo of note-seq
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:10:9: error: unknown type name 'uint32_t'
+   10 |         uint32_t CLOCK_SPEED; //Speed of Tim2 clock after prescaler
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:11:9: error: unknown type name 'uint8_t'
+   11 |         uint8_t BASE_FREQ; //Base-freq that note-feqs are calculated from
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:12:9: error: unknown type name 'uint8_t'
+   12 |         uint8_t BASE_NOTE; //Associated midi-note for the base-freq
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:14:9: error: unknown type name 'MidiNoteEvent'
+   14 |         MidiNoteEvent *MIDI_SEQ; //Pointer to midi-sequence
+      |         ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:15:9: error: unknown type name 'uint16_t'
+   15 |         uint16_t EVENT_INDEX;
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:24: error: unknown type name 'uint16_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                        ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:2:1: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+    1 | #include "buzzer_obj.h"
+  +++ |+#include <stdint.h>
+    2 | 
+../Core/Src/objs/buzzer_obj.c:22:57: error: unknown type name 'uint8_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                                                         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:57: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:38:44: error: unknown type name 'int8_t'
+   38 | void buzzer_set_note(buzzerObj *buzzer_pt, int8_t note){
+      |                                            ^~~~~~
+../Core/Src/objs/buzzer_obj.c:38:44: note: 'int8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:49:44: error: unknown type name 'uint16_t'
+   49 | void buzzer_set_freq(buzzerObj *buzzer_pt, uint16_t freq){
+      |                                            ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:49:44: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'buzzer_mute':
+../Core/Src/objs/buzzer_obj.c:64:9: warning: implicit declaration of function 'HAL_TIM_PWM_Stop' [-Wimplicit-function-declaration]
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: error: 'htim2' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                           ^~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/objs/buzzer_obj.c:64:34: error: 'TIM_CHANNEL_1' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                                  ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c: At top level:
+../Core/Src/objs/buzzer_obj.c:73:49: error: unknown type name 'MidiNoteEvent'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                 ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: error: unknown type name 'uint16_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                          ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:73:92: error: unknown type name 'uint8_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                                            ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:92: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'TIM3_IRQHandler':
+../Core/Src/objs/buzzer_obj.c:91:9: error: 'TIM3' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |         ^~~~
+../Core/Src/objs/buzzer_obj.c:91:20: error: 'TIM_SR_UIF' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |                    ^~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:94:13: error: 'EVENT_INDEX' undeclared (first use in this function)
+   94 |         if (EVENT_INDEX%2){
+      |             ^~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:17: warning: implicit declaration of function 'pause_buzzer' [-Wimplicit-function-declaration]
+   96 |                 pause_buzzer()
+      |                 ^~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:31: error: expected ';' before '}' token
+   96 |                 pause_buzzer()
+      |                               ^
+      |                               ;
+   97 |         } else{
+      |         ~                      
+../Core/Src/objs/buzzer_obj.c:99:17: warning: implicit declaration of function 'play_note' [-Wimplicit-function-declaration]
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                 ^~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:99:27: error: 'note' undeclared (first use in this function)
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                           ^~~~
+../Core/Src/objs/buzzer_obj.c:102:21: error: 'how_long_till_next_event' undeclared (first use in this function)
+  102 |         TIM3->ARR = how_long_till_next_event;      //
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+../Core/Src/objs/door_obj.c:8:20: warning: 'STEP_SIZE' initialized and declared 'extern'
+    8 | extern const float STEP_SIZE = 1.0/STEP_COUNT;
+      |                    ^~~~~~~~~
+make: *** [Core/Src/objs/subdir.mk:40: Core/Src/objs/buzzer_obj.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+09:18:04 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc "../Core/Src/objs/buzzer_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/buzzer_obj.d" -MT"Core/Src/objs/buzzer_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/buzzer_obj.o"
+arm-none-eabi-gcc "../Core/Src/objs/timer_josh.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/timer_josh.d" -MT"Core/Src/objs/timer_josh.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/timer_josh.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+arm-none-eabi-gcc "../Core/Src/stm32f3xx_hal_msp.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f3xx_hal_msp.d" -MT"Core/Src/stm32f3xx_hal_msp.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f3xx_hal_msp.o"
+arm-none-eabi-gcc "../Core/Src/stm32f3xx_it.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/stm32f3xx_it.d" -MT"Core/Src/stm32f3xx_it.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/stm32f3xx_it.o"
+arm-none-eabi-gcc "../Core/Src/syscalls.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/syscalls.d" -MT"Core/Src/syscalls.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/syscalls.o"
+arm-none-eabi-gcc "../Core/Src/sysmem.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/sysmem.d" -MT"Core/Src/sysmem.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/sysmem.o"
+arm-none-eabi-gcc "../Core/Src/system_stm32f3xx.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/system_stm32f3xx.d" -MT"Core/Src/system_stm32f3xx.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/system_stm32f3xx.o"
+arm-none-eabi-gcc "../Core/Inc/gpio.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Inc/gpio.d" -MT"Core/Inc/gpio.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Inc/gpio.o"
+../Core/Src/objs/buzzer_obj.c:9:9: error: unknown type name 'uint16_t'
+    9 |         uint16_t TEMPO; //Tempo of note-seq
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:10:9: error: unknown type name 'uint32_t'
+   10 |         uint32_t CLOCK_SPEED; //Speed of Tim2 clock after prescaler
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:11:9: error: unknown type name 'uint8_t'
+   11 |         uint8_t BASE_FREQ; //Base-freq that note-feqs are calculated from
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:12:9: error: unknown type name 'uint8_t'
+   12 |         uint8_t BASE_NOTE; //Associated midi-note for the base-freq
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:14:9: error: unknown type name 'MidiNoteEvent'
+   14 |         MidiNoteEvent *MIDI_SEQ; //Pointer to midi-sequence
+      |         ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:15:9: error: unknown type name 'uint16_t'
+   15 |         uint16_t EVENT_INDEX;
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:24: error: unknown type name 'uint16_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                        ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:2:1: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+    1 | #include "buzzer_obj.h"
+  +++ |+#include <stdint.h>
+    2 | 
+../Core/Src/objs/buzzer_obj.c:22:57: error: unknown type name 'uint8_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                                                         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:57: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:38:44: error: unknown type name 'int8_t'
+   38 | void buzzer_set_note(buzzerObj *buzzer_pt, int8_t note){
+      |                                            ^~~~~~
+../Core/Src/objs/buzzer_obj.c:38:44: note: 'int8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:49:44: error: unknown type name 'uint16_t'
+   49 | void buzzer_set_freq(buzzerObj *buzzer_pt, uint16_t freq){
+      |                                            ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:49:44: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'buzzer_mute':
+../Core/Src/objs/buzzer_obj.c:64:9: warning: implicit declaration of function 'HAL_TIM_PWM_Stop' [-Wimplicit-function-declaration]
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: error: 'htim2' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                           ^~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/objs/buzzer_obj.c:64:34: error: 'TIM_CHANNEL_1' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                                  ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c: At top level:
+../Core/Src/objs/buzzer_obj.c:73:49: error: unknown type name 'MidiNoteEvent'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                 ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: error: unknown type name 'uint16_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                          ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:73:92: error: unknown type name 'uint8_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                                            ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:92: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'TIM3_IRQHandler':
+../Core/Src/objs/buzzer_obj.c:91:9: error: 'TIM3' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |         ^~~~
+../Core/Src/objs/buzzer_obj.c:91:20: error: 'TIM_SR_UIF' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |                    ^~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:94:13: error: 'EVENT_INDEX' undeclared (first use in this function)
+   94 |         if (EVENT_INDEX%2){
+      |             ^~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:17: warning: implicit declaration of function 'pause_buzzer' [-Wimplicit-function-declaration]
+   96 |                 pause_buzzer()
+      |                 ^~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:31: error: expected ';' before '}' token
+   96 |                 pause_buzzer()
+      |                               ^
+      |                               ;
+   97 |         } else{
+      |         ~                      
+../Core/Src/objs/buzzer_obj.c:99:17: warning: implicit declaration of function 'play_note' [-Wimplicit-function-declaration]
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                 ^~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:99:27: error: 'note' undeclared (first use in this function)
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                           ^~~~
+../Core/Src/objs/buzzer_obj.c:102:21: error: 'how_long_till_next_event' undeclared (first use in this function)
+  102 |         TIM3->ARR = how_long_till_next_event;      //
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Core/Src/objs/subdir.mk:40: Core/Src/objs/buzzer_obj.o] Error 1
+make: *** Waiting for unfinished jobs....
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+09:33:06 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc "../Core/Src/objs/buzzer_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/buzzer_obj.d" -MT"Core/Src/objs/buzzer_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/buzzer_obj.o"
+../Core/Src/objs/buzzer_obj.c:9:9: error: unknown type name 'uint16_t'
+    9 |         uint16_t TEMPO; //Tempo of note-seq
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:10:9: error: unknown type name 'uint32_t'
+   10 |         uint32_t CLOCK_SPEED; //Speed of Tim2 clock after prescaler
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:11:9: error: unknown type name 'uint8_t'
+   11 |         uint8_t BASE_FREQ; //Base-freq that note-feqs are calculated from
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:12:9: error: unknown type name 'uint8_t'
+   12 |         uint8_t BASE_NOTE; //Associated midi-note for the base-freq
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:14:9: error: unknown type name 'MidiNoteEvent'
+   14 |         MidiNoteEvent *MIDI_SEQ; //Pointer to midi-sequence
+      |         ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:15:9: error: unknown type name 'uint16_t'
+   15 |         uint16_t EVENT_INDEX;
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:24: error: unknown type name 'uint16_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                        ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:2:1: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+    1 | #include "buzzer_obj.h"
+  +++ |+#include <stdint.h>
+    2 | 
+../Core/Src/objs/buzzer_obj.c:22:57: error: unknown type name 'uint8_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                                                         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:57: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:38:44: error: unknown type name 'int8_t'
+   38 | void buzzer_set_note(buzzerObj *buzzer_pt, int8_t note){
+      |                                            ^~~~~~
+../Core/Src/objs/buzzer_obj.c:38:44: note: 'int8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:49:44: error: unknown type name 'uint16_t'
+   49 | void buzzer_set_freq(buzzerObj *buzzer_pt, uint16_t freq){
+      |                                            ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:49:44: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'buzzer_mute':
+../Core/Src/objs/buzzer_obj.c:64:9: warning: implicit declaration of function 'HAL_TIM_PWM_Stop' [-Wimplicit-function-declaration]
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: error: 'htim2' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                           ^~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/objs/buzzer_obj.c:64:34: error: 'TIM_CHANNEL_1' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                                  ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c: At top level:
+../Core/Src/objs/buzzer_obj.c:73:49: error: unknown type name 'MidiNoteEvent'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                 ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: error: unknown type name 'uint16_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                          ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:73:92: error: unknown type name 'uint8_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                                            ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:92: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'TIM3_IRQHandler':
+../Core/Src/objs/buzzer_obj.c:91:9: error: 'TIM3' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |         ^~~~
+../Core/Src/objs/buzzer_obj.c:91:20: error: 'TIM_SR_UIF' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |                    ^~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:94:13: error: 'EVENT_INDEX' undeclared (first use in this function)
+   94 |         if (EVENT_INDEX%2){
+      |             ^~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:17: warning: implicit declaration of function 'pause_buzzer' [-Wimplicit-function-declaration]
+   96 |                 pause_buzzer()
+      |                 ^~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:31: error: expected ';' before '}' token
+   96 |                 pause_buzzer()
+      |                               ^
+      |                               ;
+   97 |         } else{
+      |         ~                      
+../Core/Src/objs/buzzer_obj.c:99:17: warning: implicit declaration of function 'play_note' [-Wimplicit-function-declaration]
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                 ^~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:99:27: error: 'note' undeclared (first use in this function)
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                           ^~~~
+../Core/Src/objs/buzzer_obj.c:102:21: error: 'how_long_till_next_event' undeclared (first use in this function)
+  102 |         TIM3->ARR = how_long_till_next_event;      //
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Core/Src/objs/subdir.mk:40: Core/Src/objs/buzzer_obj.o] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+09:38:27 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc "../Core/Src/objs/buzzer_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/buzzer_obj.d" -MT"Core/Src/objs/buzzer_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/buzzer_obj.o"
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/objs/buzzer_obj.c:9:9: error: unknown type name 'uint16_t'
+    9 |         uint16_t TEMPO; //Tempo of note-seq
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:10:9: error: unknown type name 'uint32_t'
+   10 |         uint32_t CLOCK_SPEED; //Speed of Tim2 clock after prescaler
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:11:9: error: unknown type name 'uint8_t'
+   11 |         uint8_t BASE_FREQ; //Base-freq that note-feqs are calculated from
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:12:9: error: unknown type name 'uint8_t'
+   12 |         uint8_t BASE_NOTE; //Associated midi-note for the base-freq
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:14:9: error: unknown type name 'MidiNoteEvent'
+   14 |         MidiNoteEvent *MIDI_SEQ; //Pointer to midi-sequence
+      |         ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:15:9: error: unknown type name 'uint16_t'
+   15 |         uint16_t EVENT_INDEX;
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:24: error: unknown type name 'uint16_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                        ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:2:1: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+    1 | #include "buzzer_obj.h"
+  +++ |+#include <stdint.h>
+    2 | 
+../Core/Src/objs/buzzer_obj.c:22:57: error: unknown type name 'uint8_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                                                         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:57: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:38:44: error: unknown type name 'int8_t'
+   38 | void buzzer_set_note(buzzerObj *buzzer_pt, int8_t note){
+      |                                            ^~~~~~
+../Core/Src/objs/buzzer_obj.c:38:44: note: 'int8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:49:44: error: unknown type name 'uint16_t'
+   49 | void buzzer_set_freq(buzzerObj *buzzer_pt, uint16_t freq){
+      |                                            ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:49:44: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'buzzer_mute':
+../Core/Src/objs/buzzer_obj.c:64:9: warning: implicit declaration of function 'HAL_TIM_PWM_Stop' [-Wimplicit-function-declaration]
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: error: 'htim2' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                           ^~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/objs/buzzer_obj.c:64:34: error: 'TIM_CHANNEL_1' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                                  ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c: At top level:
+../Core/Src/objs/buzzer_obj.c:73:49: error: unknown type name 'MidiNoteEvent'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                 ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: error: unknown type name 'uint16_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                          ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:73:92: error: unknown type name 'uint8_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                                            ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:92: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'TIM3_IRQHandler':
+../Core/Src/objs/buzzer_obj.c:91:9: error: 'TIM3' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |         ^~~~
+../Core/Src/objs/buzzer_obj.c:91:20: error: 'TIM_SR_UIF' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |                    ^~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:94:13: error: 'EVENT_INDEX' undeclared (first use in this function)
+   94 |         if (EVENT_INDEX%2){
+      |             ^~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:17: warning: implicit declaration of function 'pause_buzzer' [-Wimplicit-function-declaration]
+   96 |                 pause_buzzer()
+      |                 ^~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:31: error: expected ';' before '}' token
+   96 |                 pause_buzzer()
+      |                               ^
+      |                               ;
+   97 |         } else{
+      |         ~                      
+../Core/Src/objs/buzzer_obj.c:99:17: warning: implicit declaration of function 'play_note' [-Wimplicit-function-declaration]
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                 ^~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:99:27: error: 'note' undeclared (first use in this function)
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                           ^~~~
+../Core/Src/objs/buzzer_obj.c:102:21: error: 'how_long_till_next_event' undeclared (first use in this function)
+  102 |         TIM3->ARR = how_long_till_next_event;      //
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Core/Src/objs/subdir.mk:40: Core/Src/objs/buzzer_obj.o] Error 1
+make: *** Waiting for unfinished jobs....
+../Core/Src/main.c: In function 'start_game':
+../Core/Src/main.c:162:31: warning: passing argument 2 of 'timer_callback_set' from incompatible pointer type [-Wincompatible-pointer-types]
+  162 |     timer_callback_set(tim_a, &fn_a);
+      |                               ^~~~~
+      |                               |
+      |                               void (*)(const TimerSel,  GameState *)
+In file included from ../Core/Src/main.c:46:
+../Core/Inc/timer_josh.h:86:56: note: expected 'void (*)(TimerSel)' but argument is of type 'void (*)(const TimerSel,  GameState *)'
+   86 | void timer_callback_set(TimerSel sel, TimerCallbackFn *callback);
+      |                                       ~~~~~~~~~~~~~~~~~^~~~~~~~
+../Core/Src/main.c: In function 'main':
+../Core/Src/main.c:316:13: warning: unused variable 'PAUSE' [-Wunused-variable]
+  316 |   const int PAUSE = 20;
+      |             ^~~~~
+../Core/Src/main.c:315:15: warning: unused variable 'SPEED' [-Wunused-variable]
+  315 |   const float SPEED = 1.2;
+      |               ^~~~~
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+09:38:33 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc "../Core/Src/objs/buzzer_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/buzzer_obj.d" -MT"Core/Src/objs/buzzer_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/buzzer_obj.o"
+../Core/Src/objs/buzzer_obj.c:9:9: error: unknown type name 'uint16_t'
+    9 |         uint16_t TEMPO; //Tempo of note-seq
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:10:9: error: unknown type name 'uint32_t'
+   10 |         uint32_t CLOCK_SPEED; //Speed of Tim2 clock after prescaler
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:11:9: error: unknown type name 'uint8_t'
+   11 |         uint8_t BASE_FREQ; //Base-freq that note-feqs are calculated from
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:12:9: error: unknown type name 'uint8_t'
+   12 |         uint8_t BASE_NOTE; //Associated midi-note for the base-freq
+      |         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:14:9: error: unknown type name 'MidiNoteEvent'
+   14 |         MidiNoteEvent *MIDI_SEQ; //Pointer to midi-sequence
+      |         ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:15:9: error: unknown type name 'uint16_t'
+   15 |         uint16_t EVENT_INDEX;
+      |         ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:24: error: unknown type name 'uint16_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                        ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:2:1: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+    1 | #include "buzzer_obj.h"
+  +++ |+#include <stdint.h>
+    2 | 
+../Core/Src/objs/buzzer_obj.c:22:57: error: unknown type name 'uint8_t'
+   22 | buzzerObj *init_buzzer(uint16_t tempo, float base_freq, uint8_t base_note){
+      |                                                         ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:22:57: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:38:44: error: unknown type name 'int8_t'
+   38 | void buzzer_set_note(buzzerObj *buzzer_pt, int8_t note){
+      |                                            ^~~~~~
+../Core/Src/objs/buzzer_obj.c:38:44: note: 'int8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:49:44: error: unknown type name 'uint16_t'
+   49 | void buzzer_set_freq(buzzerObj *buzzer_pt, uint16_t freq){
+      |                                            ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:49:44: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'buzzer_mute':
+../Core/Src/objs/buzzer_obj.c:64:9: warning: implicit declaration of function 'HAL_TIM_PWM_Stop' [-Wimplicit-function-declaration]
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |         ^~~~~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: error: 'htim2' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                           ^~~~~
+../Core/Src/objs/buzzer_obj.c:64:27: note: each undeclared identifier is reported only once for each function it appears in
+../Core/Src/objs/buzzer_obj.c:64:34: error: 'TIM_CHANNEL_1' undeclared (first use in this function)
+   64 |         HAL_TIM_PWM_Stop(&htim2, TIM_CHANNEL_1);
+      |                                  ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c: At top level:
+../Core/Src/objs/buzzer_obj.c:73:49: error: unknown type name 'MidiNoteEvent'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                 ^~~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: error: unknown type name 'uint16_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                          ^~~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:74: note: 'uint16_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c:73:92: error: unknown type name 'uint8_t'
+   73 | void buzzer_init_midi_seq(buzzerObj *buzzer_pt, MidiNoteEvent *midi_seq, uint16_t seq_len, uint8_t loop_flag){
+      |                                                                                            ^~~~~~~
+../Core/Src/objs/buzzer_obj.c:73:92: note: 'uint8_t' is defined in header '<stdint.h>'; did you forget to '#include <stdint.h>'?
+../Core/Src/objs/buzzer_obj.c: In function 'TIM3_IRQHandler':
+../Core/Src/objs/buzzer_obj.c:91:9: error: 'TIM3' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |         ^~~~
+../Core/Src/objs/buzzer_obj.c:91:20: error: 'TIM_SR_UIF' undeclared (first use in this function)
+   91 |     if (TIM3->SR & TIM_SR_UIF) {
+      |                    ^~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:94:13: error: 'EVENT_INDEX' undeclared (first use in this function)
+   94 |         if (EVENT_INDEX%2){
+      |             ^~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:17: warning: implicit declaration of function 'pause_buzzer' [-Wimplicit-function-declaration]
+   96 |                 pause_buzzer()
+      |                 ^~~~~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:96:31: error: expected ';' before '}' token
+   96 |                 pause_buzzer()
+      |                               ^
+      |                               ;
+   97 |         } else{
+      |         ~                      
+../Core/Src/objs/buzzer_obj.c:99:17: warning: implicit declaration of function 'play_note' [-Wimplicit-function-declaration]
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                 ^~~~~~~~~
+../Core/Src/objs/buzzer_obj.c:99:27: error: 'note' undeclared (first use in this function)
+   99 |                 play_note(note[EVENT_INDEX/2]);
+      |                           ^~~~
+../Core/Src/objs/buzzer_obj.c:102:21: error: 'how_long_till_next_event' undeclared (first use in this function)
+  102 |         TIM3->ARR = how_long_till_next_event;      //
+      |                     ^~~~~~~~~~~~~~~~~~~~~~~~
+make: *** [Core/Src/objs/subdir.mk:40: Core/Src/objs/buzzer_obj.o] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+09:40:30 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc "../Core/Src/objs/GPIO.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/GPIO.d" -MT"Core/Src/objs/GPIO.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/GPIO.o"
+arm-none-eabi-gcc "../Core/Src/objs/door_manager_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/door_manager_obj.d" -MT"Core/Src/objs/door_manager_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/door_manager_obj.o"
+arm-none-eabi-gcc "../Core/Src/objs/door_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/door_obj.d" -MT"Core/Src/objs/door_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/door_obj.o"
+arm-none-eabi-gcc "../Core/Src/objs/gpio_josh.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/gpio_josh.d" -MT"Core/Src/objs/gpio_josh.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/gpio_josh.o"
+arm-none-eabi-gcc "../Core/Src/objs/serial_josh.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/serial_josh.d" -MT"Core/Src/objs/serial_josh.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/serial_josh.o"
+arm-none-eabi-gcc "../Core/Src/objs/servo_driver_obj.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/servo_driver_obj.d" -MT"Core/Src/objs/servo_driver_obj.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/servo_driver_obj.o"
+arm-none-eabi-gcc "../Core/Src/objs/timer_josh.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32F303xC -c -I../Core/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc -I../Drivers/STM32F3xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32F3xx/Include -I../Drivers/CMSIS/Include -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/objs/timer_josh.d" -MT"Core/Src/objs/timer_josh.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/objs/timer_josh.o"
+In file included from ../Core/Src/objs/GPIO.c:4:
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:877:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  877 | #define GPIOA               ((GPIO_TypeDef *) GPIOA_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:31: note: in expansion of macro 'GPIOA'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                               ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:877:29: note: (near initialization for 'adr_link[0]')
+  877 | #define GPIOA               ((GPIO_TypeDef *) GPIOA_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:31: note: in expansion of macro 'GPIOA'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                               ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:878:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  878 | #define GPIOB               ((GPIO_TypeDef *) GPIOB_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:38: note: in expansion of macro 'GPIOB'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                      ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:878:29: note: (near initialization for 'adr_link[1]')
+  878 | #define GPIOB               ((GPIO_TypeDef *) GPIOB_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:38: note: in expansion of macro 'GPIOB'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                      ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:879:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  879 | #define GPIOC               ((GPIO_TypeDef *) GPIOC_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:45: note: in expansion of macro 'GPIOC'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                             ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:879:29: note: (near initialization for 'adr_link[2]')
+  879 | #define GPIOC               ((GPIO_TypeDef *) GPIOC_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:45: note: in expansion of macro 'GPIOC'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                             ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:880:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  880 | #define GPIOD               ((GPIO_TypeDef *) GPIOD_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:52: note: in expansion of macro 'GPIOD'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                    ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:880:29: note: (near initialization for 'adr_link[3]')
+  880 | #define GPIOD               ((GPIO_TypeDef *) GPIOD_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:52: note: in expansion of macro 'GPIOD'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                    ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:881:29: warning: initialization of 'long unsigned int' from 'GPIO_TypeDef *' makes integer from pointer without a cast [-Wint-conversion]
+  881 | #define GPIOE               ((GPIO_TypeDef *) GPIOE_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:59: note: in expansion of macro 'GPIOE'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                           ^~~~~
+../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:881:29: note: (near initialization for 'adr_link[4]')
+  881 | #define GPIOE               ((GPIO_TypeDef *) GPIOE_BASE)
+      |                             ^
+../Core/Src/objs/GPIO.c:9:59: note: in expansion of macro 'GPIOE'
+    9 |  const uint32_t adr_link[] = {GPIOA, GPIOB, GPIOC, GPIOD, GPIOE};
+      |                                                           ^~~~~
+../Core/Src/objs/GPIO.c: In function 'init_port':
+../Core/Src/objs/GPIO.c:38:25: warning: implicit declaration of function 'malloc' [-Wimplicit-function-declaration]
+   38 |         GPIO *port_pt = malloc(sizeof(GPIO)); //Pointer to Port
+      |                         ^~~~~~
+../Core/Src/objs/GPIO.c:5:1: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+    4 | #include "stm32f303xc.h"
+  +++ |+#include <stdlib.h>
+    5 | 
+../Core/Src/objs/GPIO.c:38:25: warning: incompatible implicit declaration of built-in function 'malloc' [-Wbuiltin-declaration-mismatch]
+   38 |         GPIO *port_pt = malloc(sizeof(GPIO)); //Pointer to Port
+      |                         ^~~~~~
+../Core/Src/objs/GPIO.c:38:25: note: include '<stdlib.h>' or provide a declaration of 'malloc'
+../Core/Src/objs/GPIO.c:41:27: warning: assignment to 'GPIO_TypeDef *' from 'uint32_t' {aka 'long unsigned int'} makes pointer from integer without a cast [-Wint-conversion]
+   41 |         port_pt->PORT_ADR = adr_link[name];
+      |                           ^
+../Core/Src/objs/GPIO.c: In function 'read_single_pin':
+../Core/Src/objs/GPIO.c:182:17: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+  182 |                 return;
+      |                 ^~~~~~
+../Core/Src/objs/GPIO.c:179:10: note: declared here
+  179 |  uint8_t read_single_pin(GPIO *port_pt, uint8_t pin_index){
+      |          ^~~~~~~~~~~~~~~
+../Core/Src/objs/GPIO.c: In function 'write_pins':
+../Core/Src/objs/GPIO.c:199:28: warning: initialization of 'uint16_t *' {aka 'short unsigned int *'} from incompatible pointer type 'volatile uint32_t *' {aka 'volatile long unsigned int *'} [-Wincompatible-pointer-types]
+  199 |         uint16_t *odr_pt = &port_pt->PORT_ADR->ODR;
+      |                            ^
+../Core/Src/objs/GPIO.c: In function 'write_single_pin':
+../Core/Src/objs/GPIO.c:219:28: warning: initialization of 'uint16_t *' {aka 'short unsigned int *'} from incompatible pointer type 'volatile uint32_t *' {aka 'volatile long unsigned int *'} [-Wincompatible-pointer-types]
+  219 |         uint16_t *odr_pt = &port_pt->PORT_ADR->ODR;
+      |                            ^
+../Core/Src/objs/door_obj.c:8:20: warning: 'STEP_SIZE' initialized and declared 'extern'
+    8 | extern const float STEP_SIZE = 1.0/STEP_COUNT;
+      |                    ^~~~~~~~~
+arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:235: multiple definition of `EXTI1_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:63: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:237: multiple definition of `EXTI3_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:75: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:238: multiple definition of `EXTI4_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:81: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:240: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:88: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `initialise_touch':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:8: multiple definition of `initialise_touch'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:8: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `enable_touch_interrupts':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:22: multiple definition of `enable_touch_interrupts'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:22: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `touch_register_callback':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:52: multiple definition of `touch_register_callback'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:52: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `display_number':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:56: multiple definition of `display_number'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:56: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:63: multiple definition of `EXTI1_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:63: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI2_TSC_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:69: multiple definition of `EXTI2_TSC_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:69: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:75: multiple definition of `EXTI3_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:75: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:81: multiple definition of `EXTI4_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:81: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:88: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:88: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:67: HAL-servo.elf] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+09:40:55 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:235: multiple definition of `EXTI1_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:63: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:237: multiple definition of `EXTI3_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:75: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:238: multiple definition of `EXTI4_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:81: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:240: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:88: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `initialise_touch':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:8: multiple definition of `initialise_touch'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:8: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `enable_touch_interrupts':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:22: multiple definition of `enable_touch_interrupts'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:22: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `touch_register_callback':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:52: multiple definition of `touch_register_callback'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:52: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `display_number':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:56: multiple definition of `display_number'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:56: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:63: multiple definition of `EXTI1_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:63: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI2_TSC_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:69: multiple definition of `EXTI2_TSC_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:69: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:75: multiple definition of `EXTI3_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:75: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:81: multiple definition of `EXTI4_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:81: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:88: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:88: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:67: HAL-servo.elf] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+12:59:19 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:235: multiple definition of `EXTI1_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:63: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:237: multiple definition of `EXTI3_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:75: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:238: multiple definition of `EXTI4_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:81: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/GPIO.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:240: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:88: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `initialise_touch':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:8: multiple definition of `initialise_touch'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:8: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `enable_touch_interrupts':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:22: multiple definition of `enable_touch_interrupts'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:22: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `touch_register_callback':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:52: multiple definition of `touch_register_callback'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:52: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `display_number':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:56: multiple definition of `display_number'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:56: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:63: multiple definition of `EXTI1_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:63: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI2_TSC_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:69: multiple definition of `EXTI2_TSC_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:69: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:75: multiple definition of `EXTI3_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:75: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:81: multiple definition of `EXTI4_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:81: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:88: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Inc/gpio.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Inc/gpio.c:88: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:67: HAL-servo.elf] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+13:02:50 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:63: multiple definition of `EXTI1_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:235: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:75: multiple definition of `EXTI3_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:237: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:81: multiple definition of `EXTI4_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:238: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:88: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:240: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:67: HAL-servo.elf] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+13:26:38 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:63: multiple definition of `EXTI1_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:235: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:75: multiple definition of `EXTI3_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:237: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:81: multiple definition of `EXTI4_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:238: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:88: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:240: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:66: HAL-servo.elf] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.

@@ -1,0 +1,10 @@
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc/core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc/core_cm4.h:1724:22:__NVIC_DisableIRQ	16	static,ignoring_inline_asm
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/Send files i am mucking aorund with/Assignment 2/stm32f303-definitions/Core/Inc/core_cm4.h:1816:22:__NVIC_SetPriority	16	static
+../Src/timer_module.c:20:6:timer2_set_callback	16	static
+../Src/timer_module.c:26:6:set_timer2	16	static
+../Src/timer_module.c:29:10:get_timer2	4	static
+../Src/timer_module.c:33:6:enableTimer2	8	static,ignoring_inline_asm
+../Src/timer_module.c:70:6:TIM2_IRQHandler	8	static
+../Src/timer_module.c:89:6:LEDflash	4	static
+../Src/timer_module.c:101:6:disableTimer2	8	static

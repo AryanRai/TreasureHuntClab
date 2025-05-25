@@ -1,0 +1,17 @@
+13:26:38 **** Incremental Build of configuration Debug for project HAL-servo ****
+make -j14 all 
+arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI1_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:63: multiple definition of `EXTI1_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:235: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI3_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:75: multiple definition of `EXTI3_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:237: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI4_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:81: multiple definition of `EXTI4_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:238: first defined here
+C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/bin/ld.exe: ./Core/Src/objs/gpio_josh.o: in function `EXTI9_5_IRQHandler':
+C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/gpio_josh.c:88: multiple definition of `EXTI9_5_IRQHandler'; ./Core/Src/objs/GPIO.o:C:/Users/163910/OneDrive - UTS/Documents/GitHub/TreasureHuntClab/integration/integration_with_noahs_code/Debug/../Core/Src/objs/GPIO.c:240: first defined here
+collect2.exe: error: ld returned 1 exit status
+make: *** [makefile:66: HAL-servo.elf] Error 1
+"make -j14 all" terminated with exit code 2. Build might be incomplete.
+
+13:26:40 Build Failed. 5 errors, 0 warnings. (took 1s.976ms)
+

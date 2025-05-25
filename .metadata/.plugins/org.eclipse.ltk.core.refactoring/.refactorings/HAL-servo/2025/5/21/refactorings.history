@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;HAL-servo/Core/Src/objs/buzzer_obj.c&apos; to &apos;buzzer_obj.c.disabled&apos;" description="Rename resource &apos;buzzer_obj.c&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="Core/Src/objs/buzzer_obj.c" name="buzzer_obj.c.disabled" stamp="1748130026258" updateReferences="true"/>
+</session>
