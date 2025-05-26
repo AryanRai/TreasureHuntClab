@@ -11,10 +11,10 @@
 ../Core/Src/main.c:289:6:SetServoAngle	8
 ../Core/Src/main.c:318:6:get_servo	8
 ../Core/Src/main.c:434:5:main	15
-../Core/Src/main.c:593:6:SystemClock_Config	3
-../Core/Src/main.c:632:13:MX_TIM2_Init	5
-../Core/Src/main.c:680:13:MX_TIM3_Init	5
-../Core/Src/main.c:728:13:MX_TIM4_Init	5
-../Core/Src/main.c:776:13:MX_USART1_UART_Init	2
-../Core/Src/main.c:806:13:MX_GPIO_Init	1
-../Core/Src/main.c:868:6:Error_Handler	1
+../Core/Src/main.c:602:6:SystemClock_Config	3
+../Core/Src/main.c:641:13:MX_TIM2_Init	5
+../Core/Src/main.c:689:13:MX_TIM3_Init	5
+../Core/Src/main.c:737:13:MX_TIM4_Init	5
+../Core/Src/main.c:785:13:MX_USART1_UART_Init	2
+../Core/Src/main.c:815:13:MX_GPIO_Init	1
+../Core/Src/main.c:877:6:Error_Handler	1

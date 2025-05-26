@@ -472,6 +472,14 @@ int main(void)
   enable_interupt(touch_pads_pb, 7, RISING_EDGE, 0, &handle_touch); // PB7
   enable_interupt(touch_pads_pb, 13, RISING_EDGE, 0, &handle_touch); // PB13
 
+  // Initialize servos: Start PWM
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_1); // Servo 1: PE2
+  HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_2); // Servo 2: PE3
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_1); // Servo 3: PA0
+  HAL_TIM_PWM_Start(&htim2, TIM_CHANNEL_2); // Servo 4: PA1
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_1); // Servo 5: PD12
+  HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_2); // Servo 6: PD13
+
   // Serial Init
   serial_initialise(115200, &USART1_PORT, &output_callback, &input_callback);
 
