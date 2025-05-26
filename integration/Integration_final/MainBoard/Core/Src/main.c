@@ -67,6 +67,7 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 void SetServoAngle(uint8_t servoId, uint16_t angle);
 void touch_pad_handler(uint8_t pin_index);
+void dig_used(uint8_t servoId); // Declaration for new function
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -177,6 +178,7 @@ void start_game(GameState *game) {
         }
     }
     game->total_items_to_find = count;
+    game->items_left_to_find = game->total_items_to_find; // Initialize based on actual treasures
 
     // Calibrate: Set all servos to 0°
     for (uint8_t servoId = 1; servoId <= 6; servoId++)
@@ -200,22 +202,6 @@ void start_game(GameState *game) {
 
     transmit_game_state();
 
-}
-
-// Game variable update function
-void update_game_state(uint8_t result, GameState *game, GameTriggers *triggers) {
-	// Update game state depending if successful dig
-	if (result == 1) {
-		game->items_found++;
-		game->digs_remaining--;
-		game->digs_taken--;
-		game->items_left_to_find--;
-		transmit_game_state();
-	} else {
-		game->digs_remaining--;
-		game->digs_taken--;
-		transmit_game_state();
-	}
 }
 
 //Check for game over conditions
@@ -351,79 +337,54 @@ void get_servo(uint8_t pin_index)
     }
   }
 }
-/*
-uint8_t rx_buffer[RX_BUFFER_SIZE];
-uint8_t rx_data;
 
-volatile uint8_t rx_index = 0;
-volatile uint8_t message_ready = 0;
+void dig_used(uint8_t servoId) {
+    // This is a scaffolding function.
+    // It's called when the active servo is fully opened via potentiometer control.
+    char buffer[128];
 
-
-
-
-
- void str_recieved_handler(uint8_t str[], uint8_t len){
-	 char *ptr = (char *)(str+1);
-	 int16_t Hval = atoi(ptr);
-
-	 // Find the space
-	 while (*ptr != ' ' && *ptr != '\0') ptr++;
-
-	 // If it's a space, skip it
-	 if (*ptr == ' ') ptr++;
-
-	 // Now Vval is safe to parse
-	 int16_t Vval = atoi(ptr);
-
-	 if (!(Vval && Hval)){
-		 asm("nop");
-	 }
-
-	 Hval-=512;
-	 Vval-=512;
-	 int16_t angle_deg = round(atan2((float)Hval, (float)Vval) * 180.0f/PI);
-
-	 return;
-
- }
-
-
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
-
-{
-
-    if (huart->Instance == USART1)
-    {
-        if (rx_index < RX_BUFFER_SIZE - 1)
-        {
-            rx_buffer[rx_index++] = rx_data;
-
-            if (rx_data == '\n')  // end of message
-            {
-
-                rx_buffer[rx_index] = '\0'; // null-terminate
-                str_recieved_handler(rx_buffer, rx_index);
-
-                rx_index = 0;
-                message_ready = 1;
-
-            }
-
-        }
-
-        else
-
-        {
-            rx_index = 0;  // prevent overflow
-        }
-        HAL_UART_Receive_IT(&huart1, &rx_data, 1);  // restart interrupt
-
+    if (game.game_over || game.digs_remaining == 0) {
+        sprintf(buffer, "Dig attempt on servo %d, but game is over or no digs left.\r\n", servoId);
+        serial_output_string(buffer, &USART1_PORT);
+        return;
     }
 
+    // A dig is always consumed when this function is called
+    game.digs_taken++;
+    game.digs_remaining--;
+
+    bool success = false;
+    uint8_t treasure_value = 0; // To store the value/type of treasure if found
+
+    // Check for treasure - servoId is 1-6, array is 0-5
+    if (servoId >= 1 && servoId <= 6) {
+        if (game.correct_servos[servoId - 1] != 0) {
+            success = true;
+            treasure_value = game.correct_servos[servoId - 1];
+            game.items_found++;
+            game.items_left_to_find--;
+
+            // Mark this treasure as found by setting its spot to 0 (or another indicator if needed)
+            // For now, let's assume a treasure once found cannot be "found" again for points.
+            // game.correct_servos[servoId - 1] = 0; // Optional: Prevent re-finding the same treasure
+        }
+    }
+
+    if (success) {
+        sprintf(buffer, "DIG SUCCESS at Servo %d! Found Treasure (Value: %d). Digs left: %d. Treasures left: %d\r\n",
+                servoId, treasure_value, game.digs_remaining, game.items_left_to_find);
+    } else {
+        sprintf(buffer, "DIG FAIL at Servo %d. No treasure. Digs left: %d. Treasures left: %d\r\n",
+                servoId, game.digs_remaining, game.items_left_to_find);
+    }
+    serial_output_string(buffer, &USART1_PORT);
+
+    transmit_game_state(); // Send updated Digs Remaining / Treasures Left
+    check_game_over(&game); // Check if this dig ended the game
+
+    // The old update_game_state function might become redundant or be refactored.
+    // For now, its core logic (decrementing digs, updating items) is handled here.
 }
-
-/*
-
 
 /* USER CODE END 0 */
 
@@ -464,7 +425,7 @@ int main(void)
 
   // Initialize touch sensors
   GPIO *touch_pads_pb = init_port(B, INPUT, 3, 13); // PB3-PB7, PB13
-  GPIO *trim_pot = init_port(A, ANALOG, 4, 4);
+  GPIO *trim_pot = init_port(A, ANALOG, 4, 4); // PA4 for trimpot
 
   // Enable interrupts for touch sensors
   enable_interupt(touch_pads_pb, 3, RISING_EDGE, 0, &handle_touch); // PB3
@@ -487,114 +448,170 @@ int main(void)
 
   enable_interrupts(&USART1_PORT);
 
+  // New state variables for trimpot-touch interaction logic
+  static bool isActiveMode = false;
+  static uint8_t activeServoId = 0; // Will be 1-6
+  static bool servoFullyOpened = false;
+  static bool servoFullyClosed = false;
+  static uint8_t activeTouchpadPin = 0; // Stores the pin number of the triggering touch (e.g. 7, 6, ..)
+  static uint8_t armed_touchpad_pin = 0; // Pin number of the touch sensor that is "armed" for activation. 0 if none.
+
+  #define POT_ACTIVE_THRESHOLD_RAW 50     // Raw ADC value from trimpot (e.g., ~1.2% of 4095)
+  #define SERVO_TARGET_OPEN_ANGLE 90      // Target angle for "fully open"
+  #define SERVO_TARGET_CLOSED_ANGLE 0     // Target angle for "fully closed"
+  #define SERVO_ANGLE_TOLERANCE 3         // Degrees tolerance for open/close detection
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  uint16_t dest_val; //potentiometer
-	  read_pins_analog(trim_pot, &dest_val); //potentiometer
-
-	  float angle = (float)(dest_val * 100) /0xfff; //potentiometer
-	  SetServoAngle(1, angle); //potentiometer
+    // Potentiometer reading - moved up for general access if needed, specifically for new logic
+    uint16_t pot_raw_value;
+    read_pins_analog(trim_pot, &pot_raw_value);
 
 	  // Wait for game start
 	  if (game.game_over) {
+        // Reset active mode state if game ends/restarts
+        isActiveMode = false;
+        activeServoId = 0;
+        servoFullyOpened = false;
+        servoFullyClosed = false;
+        activeTouchpadPin = 0;
+        armed_touchpad_pin = 0; // Reset armed pin
+        touch_enabled = true; // Ensure touches are re-enabled
 		  continue;
 	  }
 
 	  int check = check_game_over(&game);
 	  if (check == 1) {
+        // Reset active mode state if game ends due to conditions
+        isActiveMode = false;
+        activeServoId = 0;
+        servoFullyOpened = false;
+        servoFullyClosed = false;
+        activeTouchpadPin = 0;
+        armed_touchpad_pin = 0; // Reset armed pin
+        touch_enabled = true;
 		  continue;
 	  }
 
-	  if (triggers.touchpad_pressed != -1) {
-		  triggers.servo_controlled = triggers.touchpad_pressed;
+    // --- New Trimpot and Touch Interaction Logic ---
+    if (!isActiveMode) {
+        touch_enabled = true; // Ensure touches can be registered by ISR
 
-	      transmit_game_state();
+        if (triggers.touchpad_pressed != -1) { // A new touch event from ISR
+            // A touch sensor was pressed. Arm it.
+            // This will override any previously armed touchpad if not yet activated.
+            armed_touchpad_pin = triggers.touchpad_pressed;
+            char log_buf[80]; // Increased buffer size
+            sprintf(log_buf, "Touchpad PB%d armed. Waiting for pot threshold (>%d).", armed_touchpad_pin, POT_ACTIVE_THRESHOLD_RAW);
+            serial_output_string(log_buf, &USART1_PORT);
+            triggers.touchpad_pressed = -1; // Consume the ISR flag
+        }
 
-	      char buffer[64];
-	      sprintf(buffer, "touchpad %d chosen, door %d being controlled!\r\n", triggers.touchpad_pressed,  triggers.servo_controlled);
-	      serial_output_string(buffer, &USART1_PORT);
+        if (armed_touchpad_pin != 0 && pot_raw_value > POT_ACTIVE_THRESHOLD_RAW) {
+            // An armed touchpad exists AND pot is above threshold. Activate!
+            isActiveMode = true;
+            servoFullyOpened = false;
+            servoFullyClosed = false; // Reset these for the new cycle
+            activeTouchpadPin = armed_touchpad_pin; // This is the pin that triggered the mode
+            armed_touchpad_pin = 0; // Disarm, as it's now active and being processed.
 
-	      if (triggers.servo_controlled != -1 && triggers.servo_controlled != last_servo_selection) {
+            // Map the pressed pin number to a servo ID (1-6)
+            uint8_t touch_index_for_servo_map = 255; // 0-5 index for touch_to_servo_map
+            static const uint8_t touch_pins_lookup_table[6] = {7, 6, 5, 4, 3, 13}; // PB7, PB6, PB5, PB4, PB3, PB13
+            for (uint8_t i = 0; i < 6; i++) {
+                if (activeTouchpadPin == touch_pins_lookup_table[i]) {
+                    touch_index_for_servo_map = i;
+                    break;
+                }
+            }
 
-	          // Get touchpad index for disabling
-	          static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13};
-	          uint8_t touchpad_index = 255;
-	          for (uint8_t i = 0; i < 6; i++) {
-	              if (triggers.touchpad_pressed == touch_pins[i]) {
-	                  touchpad_index = i;
-	                  break;
-	              }
-	          }
+            if (touch_index_for_servo_map < 6) {
+                activeServoId = touch_to_servo_map[touch_index_for_servo_map]; // Get Servo ID 1-6
+                if (activeServoId >= 1 && activeServoId <= 6) {
+                    char log_buffer[128];
+                    sprintf(log_buffer, "Activated: Armed PB%d (Servo %d), Pot (%d) > Thresh (%d). Controlling Servo %d.\r\n",
+                            activeTouchpadPin, activeServoId, pot_raw_value, POT_ACTIVE_THRESHOLD_RAW, activeServoId);
+                    serial_output_string(log_buffer, &USART1_PORT);
+                    touch_enabled = false; // Disable further touch processing by ISR while in active mode
+                } else {
+                    serial_output_string("Error: Mapped to invalid Servo ID. Deactivating armed touch.\r\n", &USART1_PORT);
+                    isActiveMode = false; // Abort activation
+                    activeTouchpadPin = 0; // Clear, was from armed_touchpad_pin which is now 0
+                    // touch_enabled = true; // Will be set true at the start of the next !isActiveMode block
+                }
+            } else {
+                char log_buffer[128]; // Increased buffer size
+                sprintf(log_buffer, "Error: Armed touch pin PB%d not found in map. Deactivating armed touch.\r\n", activeTouchpadPin);
+                serial_output_string(log_buffer, &USART1_PORT);
+                isActiveMode = false; // Abort activation
+                activeTouchpadPin = 0;
+                // touch_enabled = true;
+            }
+        }
+    } else { // isActiveMode == true
+        touch_enabled = false; // Keep touch input disabled for ISR
 
-	    	  get_servo(triggers.touchpad_pressed);
+        if (activeServoId >= 1 && activeServoId <= 6) {
+            // Map potentiometer value to servo angle (0 to SERVO_TARGET_OPEN_ANGLE)
+            uint16_t current_target_angle = (uint16_t)(((float)pot_raw_value * (float)SERVO_TARGET_OPEN_ANGLE) / 0xFFF);
+            if (current_target_angle > SERVO_TARGET_OPEN_ANGLE) current_target_angle = SERVO_TARGET_OPEN_ANGLE;
+            // if (current_target_angle < SERVO_TARGET_CLOSED_ANGLE) current_target_angle = SERVO_TARGET_CLOSED_ANGLE; // Pot raw is uint
 
-	          // Disable this touchpad after use
-	          if (touchpad_index < 6) {
-	              disable_touchpad(touchpad_index);
-	          }
+            SetServoAngle(activeServoId, current_target_angle); // Continuously update servo position
 
+            if (!servoFullyOpened) {
+                // Check if servo is considered fully open
+                if (current_target_angle >= (SERVO_TARGET_OPEN_ANGLE - SERVO_ANGLE_TOLERANCE)) {
+                    servoFullyOpened = true;
+                    dig_used(activeServoId); // Call the scaffolding function for "dig"
 
-	    	  // Run peek loop for short time
-	    	  uint32_t peek_start = HAL_GetTick();
-	    	  bool committed_dig = false;
+                    char log_buffer[128];
+                    sprintf(log_buffer, "Servo %d fully opened (Angle: %d). Pot-control active. Close fully to finish.\r\n",
+                            activeServoId, current_target_angle);
+                    serial_output_string(log_buffer, &USART1_PORT);
+                }
+            } else if (!servoFullyClosed) { // servoFullyOpened is true, now waiting for full closure
+                // Check if servo is considered fully closed
+                if (current_target_angle <= (SERVO_TARGET_CLOSED_ANGLE + SERVO_ANGLE_TOLERANCE)) {
+                    servoFullyClosed = true;
+                    // Cycle for this servo is complete
+                    char log_buffer[128];
+                    sprintf(log_buffer, "Servo %d fully closed (Angle: %d). Cycle complete for touch PB%d.\r\n",
+                            activeServoId, current_target_angle, activeTouchpadPin);
+                    serial_output_string(log_buffer, &USART1_PORT);
 
+                    // Disable the touchpad that was used for this cycle
+                    uint8_t touchpad_index_to_disable = 255; // 0-5 index for disable_touchpad
+                    static const uint8_t touch_pins_disable_lookup_table[6] = {7, 6, 5, 4, 3, 13};
+                    for (uint8_t i = 0; i < 6; i++) {
+                        if (activeTouchpadPin == touch_pins_disable_lookup_table[i]) {
+                            touchpad_index_to_disable = i;
+                            break;
+                        }
+                    }
+                    if (touchpad_index_to_disable < 6) {
+                        disable_touchpad(touchpad_index_to_disable); // disable_touchpad expects 0-5 index
+                    }
 
-	    	  while (HAL_GetTick() - peek_start < 6000) {
-	    		  touch_enabled = false;
-
-	        	  //read_pins_analog(pot, analog_out);
-
-	        	  //master_angle = map_range((float)analog_out[1], 0.0f, 4095.0f, 0.0f, 80.0f);
-
-	        	  //door_manager_update(manager);
-
-	        	  //float trimpot = map_range((float)analog_out[0], 0.0f, 4095.0f, 0.0f, 100.0f);
-
-	        	  float trimpot = 0;
-	        	  if (trimpot >= triggers.peek_threshold) {
-	        		  committed_dig = true;
-	        		  break;
-	        	  }
-	           }
-	    	   // Now process peek or dig
-	    	   if (committed_dig) {
-	    		   // Dig
-	        	   bool success = false;
-	        	   for (int i = 0; i < 6; i++) {
-	        		   if (game.correct_servos[i] == triggers.servo_controlled) {
-	        		   success = true;
-	        	       break;
-	        	        }
-	        	    }
-
-	        	    update_game_state(success ? 1 : 0, &game, &triggers);
-	        	    char idk[64];
-	        	    sprintf(idk, "DIG %s at pad %d\r\n\n", success ? "SUCCESS" : "FAIL", triggers.servo_controlled);
-	        	    serial_output_string(idk, &USART1_PORT);
-
-	             } else {
-	            	 game.peeks_used++;
-	           		 serial_output_string((char *) "PEEK ONLY\r\n\n", &USART1_PORT);
-
-	             }
-
-	        	 triggers.touchpad_pressed = -1;
-	        	 last_servo_selection = triggers.servo_controlled;
-	        	 triggers.servo_controlled = -1;
-
-	        	 char yes[64];
-	        	 sprintf(yes, "touchpad reset to %d, servo %d, previous servo %d\r\n\n", triggers.touchpad_pressed, triggers.servo_controlled, last_servo_selection);
-	        	 serial_output_string(yes, &USART1_PORT);
-	         } else {
-	        	 serial_output_string((char *) "invalid choice", &USART1_PORT);
-	         }
-
-	     }
-	  touch_enabled = true;
+                    // Reset state for the next interaction
+                    isActiveMode = false;
+                    activeServoId = 0; // Clear active servo
+                    activeTouchpadPin = 0; // Clear active pin
+                    // servoFullyOpened and servoFullyClosed will be reset at the start of the next activation
+                    touch_enabled = true; // Re-enable touch processing by ISR
+                }
+            }
+        } else {
+            // This case should ideally not be reached if logic is sound
+            serial_output_string("Error: In active mode with invalid activeServoId. Deactivating.\r\n", &USART1_PORT);
+            isActiveMode = false;
+            touch_enabled = true; // Ensure touches are re-enabled
+        }
+    }
 
     /* USER CODE END WHILE */
 
