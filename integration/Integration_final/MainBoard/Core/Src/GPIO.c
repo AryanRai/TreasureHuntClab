@@ -1,6 +1,4 @@
-/*#include <GPIO.h>
-
-
+#include <GPIO.h>
 #include "stm32f303xc.h"
 
 
@@ -306,4 +304,4 @@ void read_pins_analog(GPIO *port_pt, uint16_t *dest_pt){
  	__enable_irq();
 
  }
-*/
+

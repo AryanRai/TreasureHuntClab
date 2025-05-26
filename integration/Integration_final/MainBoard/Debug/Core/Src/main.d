@@ -29,9 +29,10 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h \
  ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h \
- ../Core/Inc/gpio_josh.h ../Core/Inc/structs.h ../Core/Inc/serial_josh.h \
- ../Core/Inc/structs.h ../Core/Inc/timer_josh.h \
- ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h
+ ../Core/Inc/GPIO.h ../Core/Inc/serial_josh.h ../Core/Inc/structs.h \
+ ../Core/Inc/timer_josh.h \
+ ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h \
+ ../Core/Inc/structs.h
 ../Core/Inc/main.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal.h:
 ../Core/Inc/stm32f3xx_hal_conf.h:
@@ -63,9 +64,9 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_tim_ex.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart.h:
 ../Drivers/STM32F3xx_HAL_Driver/Inc/stm32f3xx_hal_uart_ex.h:
-../Core/Inc/gpio_josh.h:
-../Core/Inc/structs.h:
+../Core/Inc/GPIO.h:
 ../Core/Inc/serial_josh.h:
 ../Core/Inc/structs.h:
 ../Core/Inc/timer_josh.h:
 ../Drivers/CMSIS/Device/ST/STM32F3xx/Include/stm32f303xc.h:
+../Core/Inc/structs.h:
