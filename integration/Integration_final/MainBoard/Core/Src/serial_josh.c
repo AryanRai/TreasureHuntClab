@@ -1,0 +1,200 @@
+#include "serial_josh.h"
+#include "stm32f303xc.h"
+#include <string.h>
+
+// Global variable defines
+#define TERMINATE '\r'
+#define BUFFER_SIZE 64
+
+static char DOUBLE_INPUT_BUFFER[2][BUFFER_SIZE];
+static uint32_t COUNTER = 0;
+static uint8_t ACTIVE_RX_BUFFER = 0;
+
+
+// Struct for GPIO and UART to be used
+struct _SerialPort {
+	USART_TypeDef *UART;
+	GPIO_TypeDef *GPIO;
+	volatile uint32_t MaskAPB2ENR;	// mask to enable RCC APB2 bus registers
+	volatile uint32_t MaskAPB1ENR;	// mask to enable RCC APB1 bus registers
+	volatile uint32_t MaskAHBENR;	// mask to enable RCC AHB bus registers
+	volatile uint32_t SerialPinModeValue;
+	volatile uint32_t SerialPinSpeedValue;
+	volatile uint32_t SerialPinAlternatePinValueLow;
+	volatile uint32_t SerialPinAlternatePinValueHigh;
+	void (*output_callback)(void);
+	void (*receive_callback)(char *, uint32_t);
+};
+
+
+
+// Calculate baud rate register value based on system clock
+static uint32_t calculate_brr(uint32_t baud_rate, uint32_t pclk_freq) {
+    return (pclk_freq + (baud_rate / 2)) / baud_rate;
+}
+
+// Get the appropriate peripheral clock frequency
+static uint32_t get_pclk_freq(uint8_t bus) {
+    // For STM32F303, we need to check the actual clock configuration
+    uint32_t sysclk = 8000000; // Default HSI frequency
+
+    // Check if HSE or PLL is being used (simplified)
+    if (RCC->CFGR & RCC_CFGR_SWS_PLL) {
+        // PLL is active - typical configuration might be 72MHz
+        sysclk = 48000000;
+    } else if (RCC->CFGR & RCC_CFGR_SWS_HSE) {
+        // HSE is active - typically 8MHz external crystal
+        sysclk = 8000000;
+    }
+
+    return sysclk;
+}
+
+
+
+// Instantiate the serial port parameters
+SerialPort USART1_PORT = {
+		USART1,						// USART1 for USB function
+		GPIOC,						// Using GPIOC
+		RCC_APB2ENR_USART1EN, 		// bit to enable for APB2 bus
+		0x00,						// bit to enable for APB1 bus
+		RCC_AHBENR_GPIOCEN, 		// bit to enable for AHB bus
+		0xA00,						// GPIO mode
+		0xF00,						// GPIO speed
+		0x770000,  					// for USART1 PC10 and 11, this is in the AFR low register
+		0x00, 						// no change to the high alternate function register
+		0x00 						// default function pointer is NULL
+};
+
+
+// InitialiseSerial - Initialise the serial port // Input: baud_rate is from an enumerated set
+void serial_initialise(uint32_t baud_rate, SerialPort *serial_port, void (*output_callback_function)(void), void (*input_callback_function)(char *, uint32_t)) {
+
+	serial_port->output_callback = output_callback_function;
+	serial_port->receive_callback = input_callback_function;
+
+	// Enable clock power, system configuration clock and GPIOC
+	RCC->APB1ENR |= RCC_APB1ENR_PWREN;
+	RCC->APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+
+	// Enable the GPIO which is on the AHB bus
+	RCC->AHBENR |= serial_port->MaskAHBENR;
+
+	// Set pin mode to alternate function for the specific GPIO pins
+	serial_port->GPIO->MODER = serial_port->SerialPinModeValue;
+
+	// Enable high speed clock for specific GPIO pins
+	serial_port->GPIO->OSPEEDR = serial_port->SerialPinSpeedValue;
+
+	// Set alternate function to enable USART to external pins
+	serial_port->GPIO->AFR[0] |= serial_port->SerialPinAlternatePinValueLow;
+	serial_port->GPIO->AFR[1] |= serial_port->SerialPinAlternatePinValueHigh;
+
+	// Enable the device based on the bits defined in the serial port definition
+	RCC->APB1ENR |= serial_port->MaskAPB1ENR;
+	RCC->APB2ENR |= serial_port->MaskAPB2ENR;
+
+
+	// Get a pointer to the 16 bits of the BRR register that we want to change
+    uint32_t pclk = get_pclk_freq(2);
+    serial_port->UART->BRR = calculate_brr(baud_rate, pclk);
+
+	//uint16_t *baud_rate_config = (uint16_t*)&serial_port->UART->BRR; // only 16 bits used!
+
+	// Enable serial port for tx and rx
+	serial_port->UART->CR1 |= USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
+}
+
+
+// Output char using polling
+void serial_output_char(char data, SerialPort *serial_port) {
+
+	while((serial_port->UART->ISR & USART_ISR_TXE) == 0){
+	}
+
+	serial_port->UART->TDR = data;
+}
+
+
+// Output string using polling
+void serial_output_string(char *string, SerialPort *serial_port) {
+
+	uint32_t count = 0;
+	while(*string) {
+		serial_output_char(*string, serial_port);
+		count++;
+		string++;
+	}
+
+	// Callback function pointer call
+	if (serial_port->output_callback != NULL)
+		serial_port->output_callback();
+}
+
+
+// Enable interrupts needed for UART
+void enable_interrupts(SerialPort *serial_port) {
+	__disable_irq();
+
+	// Interrupt upon receiving data
+	serial_port->UART->CR1 |= USART_CR1_RXNEIE_Msk;
+	//serial_port->UART->CR1 |= USART_CR1_TXEIE_MSK;
+
+	// Set priority and enable interrupts
+	NVIC_SetPriority(USART1_IRQn, 1);
+	NVIC_EnableIRQ(USART1_IRQn);
+
+	__enable_irq();
+}
+
+
+// Function executed when interrupt called
+// Double buffer implementation
+void USART1_IRQHandler() {
+	// Check and handle overrun or frame errors
+	if ((USART1_PORT.UART->ISR & USART_ISR_FE_Msk) || (USART1_PORT.UART->ISR & USART_ISR_ORE_Msk)) {
+
+		USART1_PORT.UART->ICR = USART_ICR_ORECF | USART_ICR_FECF;
+
+		return;
+	}
+
+	// Check and handle for full buffer
+	if (COUNTER == BUFFER_SIZE) {
+		COUNTER = 0;
+
+		memset(DOUBLE_INPUT_BUFFER[ACTIVE_RX_BUFFER], '\0', BUFFER_SIZE);
+
+		return;
+	}
+
+	if (USART1_PORT.UART->ISR & USART_ISR_RXNE_Msk) {
+		char received = USART1_PORT.UART->RDR;
+
+		// Store char
+		DOUBLE_INPUT_BUFFER[ACTIVE_RX_BUFFER][COUNTER] = received;
+		COUNTER++;
+
+		// If termination character, NULL append and exit
+		if (received == TERMINATE) {
+			DOUBLE_INPUT_BUFFER[ACTIVE_RX_BUFFER][COUNTER - 1] = '\0';
+
+			// Swap buffer
+			uint8_t current = ACTIVE_RX_BUFFER;
+			ACTIVE_RX_BUFFER ^= 1;
+
+			if (USART1_PORT.receive_callback != NULL) {
+				// Callback function pointer call
+				USART1_PORT.receive_callback(DOUBLE_INPUT_BUFFER[current], COUNTER);
+			}
+
+			// Reset counter and buffer after input finish
+			COUNTER = 0;
+			memset(DOUBLE_INPUT_BUFFER[current], '\0', BUFFER_SIZE);
+		}
+		return;
+	}
+
+}
+
+

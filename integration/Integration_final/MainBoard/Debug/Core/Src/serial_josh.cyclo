@@ -1,0 +1,9 @@
+../Drivers/CMSIS/Include/core_cm4.h:1688:22:__NVIC_EnableIRQ	2
+../Drivers/CMSIS/Include/core_cm4.h:1816:22:__NVIC_SetPriority	2
+../Core/Src/serial_josh.c:32:17:calculate_brr	1
+../Core/Src/serial_josh.c:37:17:get_pclk_freq	3
+../Core/Src/serial_josh.c:71:6:serial_initialise	1
+../Core/Src/serial_josh.c:110:6:serial_output_char	2
+../Core/Src/serial_josh.c:120:6:serial_output_string	3
+../Core/Src/serial_josh.c:136:6:enable_interrupts	1
+../Core/Src/serial_josh.c:153:6:USART1_IRQHandler	7

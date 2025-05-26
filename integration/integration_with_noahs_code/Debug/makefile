@@ -62,8 +62,8 @@ all: main-build
 main-build: HAL-servo.elf secondary-outputs
 
 # Tool invocations
-HAL-servo.elf HAL-servo.map: $(OBJS) $(USER_OBJS) C:\Users\163910\OneDrive\ -\ UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab\integration\integration_with_noahs_code\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+HAL-servo.elf HAL-servo.map: $(OBJS) $(USER_OBJS) C:\Users\joshu\Downloads\HAL-servo\STM32F303VCTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "HAL-servo.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\joshu\Downloads\HAL-servo\STM32F303VCTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="HAL-servo.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
