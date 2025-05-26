@@ -109,6 +109,7 @@ GameTriggers triggers = {
 
 // Track which touchpads have been used (true = used, false = available)
 bool touchpad_used[6] = {false, false, false, false, false, false};
+bool touch_enabled = true;
 // =================================== Game Functions ====================================
 // Prints via UART game state
 void transmit_game_state() {
@@ -123,6 +124,43 @@ static void fn_a(const TimerSel sel, GameState *game) {
     char buffer[64];
     sprintf(buffer, "TIME REMAINING:%d\r\n", game->game_time_remaining);
     serial_output_string(buffer, &USART1_PORT);
+}
+
+// Add this function to reset all touchpads (for game start)
+void reset_touchpads(void) {
+    // Reset tracking array
+    for (int i = 0; i < 6; i++) {
+        touchpad_used[i] = false;
+    }
+
+    // Re-enable all touchpad interrupts
+    static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13};
+    for (int i = 0; i < 6; i++) {
+        uint8_t pin_num = touch_pins[i];
+        EXTI->IMR |= (1 << pin_num);   // Unmask (enable) the interrupt
+        EXTI->PR |= (1 << pin_num);    // Clear any pending interrupt
+    }
+
+    serial_output_string("All touchpads re-enabled\r\n", &USART1_PORT);
+}
+
+// Add this function to disable a specific touchpad
+void disable_touchpad(uint8_t touchpad_index) {
+    if (touchpad_index < 6) {
+        touchpad_used[touchpad_index] = true;
+
+        // Map touchpad index to actual pin numbers
+        static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13}; // PB7, PB6, PB5, PB4, PB3, PB13
+        uint8_t pin_num = touch_pins[touchpad_index];
+
+        // Disable the interrupt for this specific pin
+        EXTI->IMR &= ~(1 << pin_num);  // Mask (disable) the interrupt
+        EXTI->PR |= (1 << pin_num);    // Clear any pending interrupt
+
+        char buffer[64];
+        sprintf(buffer, "Touchpad %d (PB%d) disabled - already used\r\n", touch_pins[touchpad_index], pin_num);
+        serial_output_string(buffer, &USART1_PORT);
+    }
 }
 
 // --- Start Game Signal (from USART or button) ---
@@ -202,69 +240,35 @@ uint8_t check_game_over(GameState *game) {
     }
     return 0;
 }
-// Add this function to disable a specific touchpad
-void disable_touchpad(uint8_t touchpad_index) {
-    if (touchpad_index < 6) {
-        touchpad_used[touchpad_index] = true;
 
-        // Map touchpad index to actual pin numbers
-        static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13}; // PB7, PB6, PB5, PB4, PB3, PB13
-        uint8_t pin_num = touch_pins[touchpad_index];
-
-        // Disable the interrupt for this specific pin
-        EXTI->IMR &= ~(1 << pin_num);  // Mask (disable) the interrupt
-        EXTI->PR |= (1 << pin_num);    // Clear any pending interrupt
-
-        char buffer[64];
-        sprintf(buffer, "Touchpad %d (PB%d) disabled - already used\r\n", touchpad_index, pin_num);
-        serial_output_string(buffer, &USART1_PORT);
-    }
-}
-
-// Add this function to reset all touchpads (for game start)
-void reset_touchpads(void) {
-    // Reset tracking array
-    for (int i = 0; i < 6; i++) {
-        touchpad_used[i] = false;
-    }
-
-    // Re-enable all touchpad interrupts
-    static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13};
-    for (int i = 0; i < 6; i++) {
-        uint8_t pin_num = touch_pins[i];
-        EXTI->IMR |= (1 << pin_num);   // Unmask (enable) the interrupt
-        EXTI->PR |= (1 << pin_num);    // Clear any pending interrupt
-    }
-
-    serial_output_string("All touchpads re-enabled\r\n", &USART1_PORT);
-}
 
 // =================================== Callback Functions ===================================
 
 // Each EXTI handler calls this with the corresponding pin number
 void handle_touch(uint8_t pad) {
-    // Map pin number to touchpad index
-    static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13}; // PB7, PB6, PB5, PB4, PB3, PB13
-    uint8_t touchpad_index = 255; // Invalid index
+	if (touch_enabled){
+		// Map pin number to touchpad index
+		static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13}; // PB7, PB6, PB5, PB4, PB3, PB13
+		uint8_t touchpad_index = 255; // Invalid index
 
-    for (uint8_t i = 0; i < 6; i++) {
-        if (pad == touch_pins[i]) {
-            touchpad_index = i;
-            break;
-        }
-    }
+		for (uint8_t i = 0; i < 6; i++) {
+			if (pad == touch_pins[i]) {
+				touchpad_index = i;
+				break;
+			}
+		}
 
-    // Check if this touchpad has already been used
-    if (touchpad_index < 6 && touchpad_used[touchpad_index]) {
-        char buffer[64];
-        sprintf(buffer, "Touchpad %d already used - ignoring\r\n", touchpad_index);
-        serial_output_string(buffer, &USART1_PORT);
-        return; // Ignore this touch
-    }
+		// Check if this touchpad has already been used
+		if (touchpad_index < 6 && touchpad_used[touchpad_index]) {
+			char buffer[64];
+			sprintf(buffer, "Touchpad %d already used - ignoring\r\n", touchpad_index);
+			serial_output_string(buffer, &USART1_PORT);
+			return; // Ignore this touch
+		}
 
-    // If we get here, the touchpad is valid and hasn't been used
-    triggers.touchpad_pressed = pad;
-
+		// If we get here, the touchpad is valid and hasn't been used
+		triggers.touchpad_pressed = pad;
+	}
 }
 
 // Transmit callback
@@ -347,6 +351,79 @@ void get_servo(uint8_t pin_index)
     }
   }
 }
+/*
+uint8_t rx_buffer[RX_BUFFER_SIZE];
+uint8_t rx_data;
+
+volatile uint8_t rx_index = 0;
+volatile uint8_t message_ready = 0;
+
+
+
+
+
+ void str_recieved_handler(uint8_t str[], uint8_t len){
+	 char *ptr = (char *)(str+1);
+	 int16_t Hval = atoi(ptr);
+
+	 // Find the space
+	 while (*ptr != ' ' && *ptr != '\0') ptr++;
+
+	 // If it's a space, skip it
+	 if (*ptr == ' ') ptr++;
+
+	 // Now Vval is safe to parse
+	 int16_t Vval = atoi(ptr);
+
+	 if (!(Vval && Hval)){
+		 asm("nop");
+	 }
+
+	 Hval-=512;
+	 Vval-=512;
+	 int16_t angle_deg = round(atan2((float)Hval, (float)Vval) * 180.0f/PI);
+
+	 return;
+
+ }
+
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+
+{
+
+    if (huart->Instance == USART1)
+    {
+        if (rx_index < RX_BUFFER_SIZE - 1)
+        {
+            rx_buffer[rx_index++] = rx_data;
+
+            if (rx_data == '\n')  // end of message
+            {
+
+                rx_buffer[rx_index] = '\0'; // null-terminate
+                str_recieved_handler(rx_buffer, rx_index);
+
+                rx_index = 0;
+                message_ready = 1;
+
+            }
+
+        }
+
+        else
+
+        {
+            rx_index = 0;  // prevent overflow
+        }
+        HAL_UART_Receive_IT(&huart1, &rx_data, 1);  // restart interrupt
+
+    }
+
+}
+
+/*
+
 
 /* USER CODE END 0 */
 
@@ -379,7 +456,11 @@ int main(void)
   MX_TIM3_Init();
   MX_TIM4_Init();
   //MX_USART1_UART_Init();
+
+
   /* USER CODE BEGIN 2 */
+
+  //HAL_UART_Receive_IT(&huart1, &rx_data, 1);
 
   // Initialize touch sensors
   GPIO *touch_pads_pb = init_port(B, INPUT, 3, 13); // PB3-PB7, PB13
@@ -423,28 +504,46 @@ int main(void)
 
 	      if (triggers.servo_controlled != -1 && triggers.servo_controlled != last_servo_selection) {
 
+	          // Get touchpad index for disabling
+	          static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13};
+	          uint8_t touchpad_index = 255;
+	          for (uint8_t i = 0; i < 6; i++) {
+	              if (triggers.touchpad_pressed == touch_pins[i]) {
+	                  touchpad_index = i;
+	                  break;
+	              }
+	          }
+
 	    	  get_servo(triggers.touchpad_pressed);
-	    	  /*
+
+	          // Disable this touchpad after use
+	          if (touchpad_index < 6) {
+	              disable_touchpad(touchpad_index);
+	          }
+
+
 	    	  // Run peek loop for short time
 	    	  uint32_t peek_start = HAL_GetTick();
 	    	  bool committed_dig = false;
 
-	    	  while (HAL_GetTick() - peek_start < 3000) {
 
-	        	  read_pins_analog(pot, analog_out);
+	    	  while (HAL_GetTick() - peek_start < 6000) {
+	    		  touch_enabled = false;
 
-	        	  master_angle = map_range((float)analog_out[1], 0.0f, 4095.0f, 0.0f, 80.0f);
+	        	  //read_pins_analog(pot, analog_out);
 
-	        	  door_manager_update(manager);
+	        	  //master_angle = map_range((float)analog_out[1], 0.0f, 4095.0f, 0.0f, 80.0f);
 
-	        	  float trimpot = map_range((float)analog_out[0], 0.0f, 4095.0f, 0.0f, 100.0f);
+	        	  //door_manager_update(manager);
+
+	        	  //float trimpot = map_range((float)analog_out[0], 0.0f, 4095.0f, 0.0f, 100.0f);
 
 	        	  float trimpot = 0;
 	        	  if (trimpot >= triggers.peek_threshold) {
 	        		  committed_dig = true;
 	        		  break;
 	        	  }
-	           }*/
+	           }
 	    	   // Now process peek or dig
 	    	   if (committed_dig) {
 	    		   // Dig
@@ -479,6 +578,8 @@ int main(void)
 	         }
 
 	     }
+	  touch_enabled = true;
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

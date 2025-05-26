@@ -100,26 +100,7 @@ void serial_initialise(uint32_t baud_rate, SerialPort *serial_port, void (*outpu
     serial_port->UART->BRR = calculate_brr(baud_rate, pclk);
 
 	//uint16_t *baud_rate_config = (uint16_t*)&serial_port->UART->BRR; // only 16 bits used!
-/*
-	// Baud rate calculation
-	switch(baud_rate){
-	case BAUD_9600:
-		*baud_rate_config = 0x342;
-		break;
-	case BAUD_19200:
-		*baud_rate_config = 0x1A1;
-		break;
-	case BAUD_38400:
-		*baud_rate_config = 0xD1;
-		break;
-	case BAUD_57600:
-		*baud_rate_config = 0x8B;
-		break;
-	case BAUD_115200:
-		*baud_rate_config = 0x46;
-		break;
-	}
-*/
+
 	// Enable serial port for tx and rx
 	serial_port->UART->CR1 |= USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
 }
