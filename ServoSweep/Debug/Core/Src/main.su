@@ -1,0 +1,8 @@
+../Core/Src/main.c:70:6:SweepTest	24	static
+../Core/Src/main.c:123:5:main	8	static
+../Core/Src/main.c:179:6:SystemClock_Config	128	static
+../Core/Src/main.c:223:13:MX_TIM3_Init	48	static
+../Core/Src/main.c:279:13:MX_TIM4_Init	48	static
+../Core/Src/main.c:327:13:MX_USART1_UART_Init	8	static
+../Core/Src/main.c:357:13:MX_GPIO_Init	40	static
+../Core/Src/main.c:403:6:Error_Handler	4	static,ignoring_inline_asm

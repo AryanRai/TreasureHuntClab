@@ -1561,33 +1561,33 @@ LOAD C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x00016d1a      0x14b ./Src/timer_module.o
  .debug_macro   0x00016e65      0x119 ./Src/timer_module.o
 
-.debug_line     0x00000000     0x3278
- .debug_line    0x00000000      0x19f ./Src/gamestate.o
- .debug_line    0x0000019f      0x785 ./Src/led_control.o
- .debug_line    0x00000924      0x9a0 ./Src/main.o
- .debug_line    0x000012c4      0x8ae ./Src/serial.o
- .debug_line    0x00001b72      0x8a3 ./Src/syscalls.o
- .debug_line    0x00002415      0x574 ./Src/sysmem.o
- .debug_line    0x00002989      0x874 ./Src/timer_module.o
- .debug_line    0x000031fd       0x7b ./Startup/startup_stm32f303vctx.o
+.debug_line     0x00000000     0x306e
+ .debug_line    0x00000000      0x19d ./Src/gamestate.o
+ .debug_line    0x0000019d      0x703 ./Src/led_control.o
+ .debug_line    0x000008a0      0x91e ./Src/main.o
+ .debug_line    0x000011be      0x82c ./Src/serial.o
+ .debug_line    0x000019ea      0x8a3 ./Src/syscalls.o
+ .debug_line    0x0000228d      0x574 ./Src/sysmem.o
+ .debug_line    0x00002801      0x7f2 ./Src/timer_module.o
+ .debug_line    0x00002ff3       0x7b ./Startup/startup_stm32f303vctx.o
 
-.debug_str      0x00000000    0x78ec6
- .debug_str     0x00000000     0x2eb2 ./Src/gamestate.o
-                               0x2ecc (size before relaxing)
- .debug_str     0x00002eb2    0x7278a ./Src/led_control.o
-                              0x757a2 (size before relaxing)
- .debug_str     0x0007563c      0x394 ./Src/main.o
-                              0x75ae8 (size before relaxing)
- .debug_str     0x000759d0      0x54e ./Src/serial.o
-                              0x72ebc (size before relaxing)
- .debug_str     0x00075f1e     0x25f2 ./Src/syscalls.o
-                               0x98e9 (size before relaxing)
- .debug_str     0x00078510       0x66 ./Src/sysmem.o
-                               0x6101 (size before relaxing)
- .debug_str     0x00078576      0x911 ./Src/timer_module.o
-                              0x74ebb (size before relaxing)
- .debug_str     0x00078e87       0x3f ./Startup/startup_stm32f303vctx.o
-                                 0x9e (size before relaxing)
+.debug_str      0x00000000    0x78ec4
+ .debug_str     0x00000000     0x2eb0 ./Src/gamestate.o
+                               0x2eca (size before relaxing)
+ .debug_str     0x00002eb0    0x7278a ./Src/led_control.o
+                              0x757a0 (size before relaxing)
+ .debug_str     0x0007563a      0x394 ./Src/main.o
+                              0x75ae6 (size before relaxing)
+ .debug_str     0x000759ce      0x54e ./Src/serial.o
+                              0x72eba (size before relaxing)
+ .debug_str     0x00075f1c     0x25f2 ./Src/syscalls.o
+                               0x98e7 (size before relaxing)
+ .debug_str     0x0007850e       0x66 ./Src/sysmem.o
+                               0x60ff (size before relaxing)
+ .debug_str     0x00078574      0x911 ./Src/timer_module.o
+                              0x74eb9 (size before relaxing)
+ .debug_str     0x00078e85       0x3f ./Startup/startup_stm32f303vctx.o
+                                 0x9c (size before relaxing)
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 ./Src/gamestate.o
@@ -1652,6 +1652,6 @@ LOAD C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_frame   0x000013c8       0x2c C:/ST/STM32CubeIDE_1.17.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.1.0.202410251130/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-isattyr.o)
 
 .debug_line_str
-                0x00000000       0x82
+                0x00000000       0x80
  .debug_line_str
-                0x00000000       0x82 ./Startup/startup_stm32f303vctx.o
+                0x00000000       0x80 ./Startup/startup_stm32f303vctx.o
