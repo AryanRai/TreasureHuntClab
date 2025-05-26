@@ -464,6 +464,8 @@ int main(void)
 
   // Initialize touch sensors
   GPIO *touch_pads_pb = init_port(B, INPUT, 3, 13); // PB3-PB7, PB13
+  GPIO *trim_pot = init_port(A, ANALOG, 4, 4);
+
   // Enable interrupts for touch sensors
   enable_interupt(touch_pads_pb, 3, RISING_EDGE, 0, &handle_touch); // PB3
   enable_interupt(touch_pads_pb, 4, RISING_EDGE, 0, &handle_touch); // PB4
@@ -491,6 +493,12 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  uint16_t dest_val;
+	  read_pins_analog(trim_pot, &dest_val);
+
+	  float angle = (float)(dest_val * 100) /0xfff;
+	  SetServoAngle(1, angle);
+
 	  // Wait for game start
 	  if (game.game_over) {
 		  continue;
