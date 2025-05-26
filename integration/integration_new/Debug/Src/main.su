@@ -1,9 +1,0 @@
-../Src/main.c:46:13:fn_a	80	static
-../Src/main.c:54:6:reset_all_servos	8	static
-../Src/main.c:58:6:transmit_game_state	72	static
-../Src/main.c:65:6:start_game	32	static
-../Src/main.c:96:6:output_callback	4	static
-../Src/main.c:101:6:input_callback	32	static
-../Src/main.c:168:6:handle_touch	16	static
-../Src/main.c:173:6:update_game_state	24	static
-../Src/main.c:187:5:main	152	static
