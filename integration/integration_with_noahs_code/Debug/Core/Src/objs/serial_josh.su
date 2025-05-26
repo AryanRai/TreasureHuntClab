@@ -1,7 +1,9 @@
 ../Drivers/CMSIS/Include/core_cm4.h:1688:22:__NVIC_EnableIRQ	16	static
 ../Drivers/CMSIS/Include/core_cm4.h:1816:22:__NVIC_SetPriority	16	static
-../Core/Src/objs/serial_josh.c:46:6:serial_initialise	32	static
-../Core/Src/objs/serial_josh.c:100:6:serial_output_char	16	static
-../Core/Src/objs/serial_josh.c:110:6:serial_output_string	24	static
-../Core/Src/objs/serial_josh.c:126:6:enable_interrupts	16	static,ignoring_inline_asm
-../Core/Src/objs/serial_josh.c:143:6:USART1_EXTI25_IRQHandler	16	static
+../Core/Src/objs/serial_josh.c:32:17:calculate_brr	16	static
+../Core/Src/objs/serial_josh.c:37:17:get_pclk_freq	24	static
+../Core/Src/objs/serial_josh.c:71:6:serial_initialise	40	static
+../Core/Src/objs/serial_josh.c:129:6:serial_output_char	16	static
+../Core/Src/objs/serial_josh.c:139:6:serial_output_string	24	static
+../Core/Src/objs/serial_josh.c:155:6:enable_interrupts	16	static,ignoring_inline_asm
+../Core/Src/objs/serial_josh.c:172:6:USART1_IRQHandler	16	static

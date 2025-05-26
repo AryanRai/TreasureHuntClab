@@ -100,7 +100,7 @@ GameState game = {
     .digs_taken = 0,
     .digs_remaining = 4,
     .peeks_used = 0,
-    .game_time_remaining = 2400,
+    .game_time_remaining = 240,
     .game_over = 1,
     .total_items_to_find = 0
 };
@@ -122,13 +122,13 @@ doorManagerObj *manager;
 // Prints via UART game state
 void transmit_game_state() {
     char buffer[64];
-    sprintf(buffer, "DIGS REMAINING:%d TREASURES:%d\r\n", game.digs_remaining, game.items_left_to_find);
+    sprintf(buffer, "DIGS REMAINING:%d TREASURES:%d\r\n\n", game.digs_remaining, game.items_left_to_find);
     serial_output_string(buffer, &USART1_PORT);
 }
 
 // Timer callback
 static void fn_a(const TimerSel sel, GameState *game) {
-	game->game_time_remaining = game->game_time_remaining - 2;
+	game->game_time_remaining = game->game_time_remaining - 1;
     char buffer[64];
     sprintf(buffer, "TIME REMAINING:%d\r\n", game->game_time_remaining);
     serial_output_string(buffer, &USART1_PORT);
@@ -138,7 +138,7 @@ static void fn_a(const TimerSel sel, GameState *game) {
 void start_game(GameState *game) {
 	// Restart game state
     game->game_over = 0;
-    game->game_time_remaining = 2400;
+    game->game_time_remaining = 240;
     game->digs_remaining = 4;
 
     int count = 0;
@@ -155,14 +155,14 @@ void start_game(GameState *game) {
     // Init game timer
     timer_init();
     const TimerSel tim_a = TIMER_SEL_3;
-    timer_prescaler_set(tim_a, 0xF00);
-    timer_period_set(tim_a, 420);
+    timer_prescaler_set(tim_a, 11999);
+    timer_period_set(tim_a, 3999);
     timer_silent_set(tim_a, false);
     timer_recur_set(tim_a, true);
     timer_callback_set(tim_a, &fn_a);
     timer_enable_set(tim_a, true);
 
-    serial_output_string("Game Started\r\n", &USART1_PORT);
+    serial_output_string("Game Started\r\n\n", &USART1_PORT);
 
     transmit_game_state();
 
@@ -187,11 +187,17 @@ void update_game_state(uint8_t result, GameState *game, GameTriggers *triggers) 
 //Check for game over conditions
 uint8_t check_game_over(GameState *game) {
     if (game->digs_remaining == 0 || game->game_time_remaining == 0 || game->items_left_to_find == 0) {
+  	    const TimerSel tim_a = TIMER_SEL_3;
 
-      	if (game->items_left_to_find == 0) {
+  	    if (game->items_left_to_find == 0) {
+      	  	timer_enable_set(tim_a, false);
+
       		serial_output_string((char *) "You Win!\n", &USART1_PORT);
+
       	}
       	else {
+      	  	timer_enable_set(tim_a, false);
+
       		serial_output_string((char *) "Game Over\n", &USART1_PORT);
       	}
 
@@ -229,11 +235,6 @@ void output_callback() {
 
 // Receive callback
 void input_callback(char *data, uint32_t len) {
-
-	serial_output_string((char *)"You typed: ", &USART1_PORT);
-	serial_output_string(data, &USART1_PORT);					// Transmit back what was received
-	serial_output_string((char *)"\r\n", &USART1_PORT);
-
 	// Check for game start input
 	char compare[] = "game start";
 	uint16_t test = strcmp(data, compare);
@@ -283,7 +284,7 @@ int main(void)
 
   // =================================== Init ====================================
   // Serial Init
-  serial_initialise(BAUD_115200, &USART1_PORT, &output_callback, &input_callback);
+  serial_initialise(115200, &USART1_PORT, &output_callback, &input_callback);
   enable_interrupts(&USART1_PORT);
 
   // Touch Init
@@ -323,7 +324,7 @@ int main(void)
 
   const float SPEED = 1.2;
   const int PAUSE = 20;
-  transmit_game_state();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -334,7 +335,6 @@ int main(void)
  {
   	// Wait for game start
   	if (game.game_over) {
-
   		continue;
   	}
 
@@ -386,12 +386,12 @@ int main(void)
 
         	    update_game_state(success ? 1 : 0, &game, &triggers);
         	    char idk[64];
-        	    sprintf(idk, "DIG %s at pad %d\r\n", success ? "SUCCESS" : "FAIL", triggers.servo_controlled);
+        	    sprintf(idk, "DIG %s at pad %d\r\n\n", success ? "SUCCESS" : "FAIL", triggers.servo_controlled);
         	    serial_output_string(idk, &USART1_PORT);
 
              } else {
             	 game.peeks_used++;
-           		 serial_output_string((char *) "PEEK ONLY\r\n", &USART1_PORT);
+           		 serial_output_string((char *) "PEEK ONLY\r\n\n", &USART1_PORT);
 
              }
 
@@ -400,7 +400,7 @@ int main(void)
         	 triggers.servo_controlled = -1;
 
         	 char yes[64];
-        	 sprintf(yes, "touchpad reset to %d, servo %d, previous servo %d\r\n", triggers.touchpad_pressed, triggers.servo_controlled, last_servo_selection);
+        	 sprintf(yes, "touchpad reset to %d, servo %d, previous servo %d\r\n\n", triggers.touchpad_pressed, triggers.servo_controlled, last_servo_selection);
         	 serial_output_string(yes, &USART1_PORT);
          }
      }

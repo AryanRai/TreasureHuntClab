@@ -27,6 +27,31 @@ struct _SerialPort {
 };
 
 
+
+// Calculate baud rate register value based on system clock
+static uint32_t calculate_brr(uint32_t baud_rate, uint32_t pclk_freq) {
+    return (pclk_freq + (baud_rate / 2)) / baud_rate;
+}
+
+// Get the appropriate peripheral clock frequency
+static uint32_t get_pclk_freq(uint8_t bus) {
+    // For STM32F303, we need to check the actual clock configuration
+    uint32_t sysclk = 8000000; // Default HSI frequency
+
+    // Check if HSE or PLL is being used (simplified)
+    if (RCC->CFGR & RCC_CFGR_SWS_PLL) {
+        // PLL is active - typical configuration might be 72MHz
+        sysclk = 48000000;
+    } else if (RCC->CFGR & RCC_CFGR_SWS_HSE) {
+        // HSE is active - typically 8MHz external crystal
+        sysclk = 8000000;
+    }
+
+    return sysclk;
+}
+
+
+
 // Instantiate the serial port parameters
 SerialPort USART1_PORT = {
 		USART1,						// USART1 for USB function
@@ -69,9 +94,13 @@ void serial_initialise(uint32_t baud_rate, SerialPort *serial_port, void (*outpu
 	RCC->APB1ENR |= serial_port->MaskAPB1ENR;
 	RCC->APB2ENR |= serial_port->MaskAPB2ENR;
 
-	// Get a pointer to the 16 bits of the BRR register that we want to change
-	uint16_t *baud_rate_config = (uint16_t*)&serial_port->UART->BRR; // only 16 bits used!
 
+	// Get a pointer to the 16 bits of the BRR register that we want to change
+    uint32_t pclk = get_pclk_freq(2);
+    serial_port->UART->BRR = calculate_brr(baud_rate, pclk);
+
+	//uint16_t *baud_rate_config = (uint16_t*)&serial_port->UART->BRR; // only 16 bits used!
+/*
 	// Baud rate calculation
 	switch(baud_rate){
 	case BAUD_9600:
@@ -90,7 +119,7 @@ void serial_initialise(uint32_t baud_rate, SerialPort *serial_port, void (*outpu
 		*baud_rate_config = 0x46;
 		break;
 	}
-
+*/
 	// Enable serial port for tx and rx
 	serial_port->UART->CR1 |= USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
 }
@@ -140,7 +169,7 @@ void enable_interrupts(SerialPort *serial_port) {
 
 // Function executed when interrupt called
 // Double buffer implementation
-void USART1_EXTI25_IRQHandler() {
+void USART1_IRQHandler() {
 	// Check and handle overrun or frame errors
 	if ((USART1_PORT.UART->ISR & USART_ISR_FE_Msk) || (USART1_PORT.UART->ISR & USART_ISR_ORE_Msk)) {
 
