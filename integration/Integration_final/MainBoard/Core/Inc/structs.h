@@ -14,6 +14,7 @@ typedef struct{
 	volatile int game_time_remaining;
 	volatile int game_over;
 	volatile int total_items_to_find;
+	volatile int current_score;
 } GameState;
 
 

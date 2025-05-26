@@ -67,7 +67,11 @@ static void MX_USART1_UART_Init(void);
 /* USER CODE BEGIN PFP */
 void SetServoAngle(uint8_t servoId, uint16_t angle);
 void touch_pad_handler(uint8_t pin_index);
-void dig_used(uint8_t servoId); // Declaration for new function
+void dig_used(uint8_t servoId);
+void display_start_menu(void);
+void start_game(GameState *game_param, const uint8_t map[6], int chances, int time_limit);
+void input_callback(char *data, uint32_t len);
+void parse_game_config(char* params_str, uint8_t* out_map, int* out_chances, int* out_time);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -86,15 +90,16 @@ volatile int last_servo_angle = -1;
 
 // --- Game State Variables ---
 GameState game = {
-    .correct_servos = {7, 6, 5, 4, 3, 13}, // do not use servo number 0
+    .correct_servos = {4, 8, 0, 0, 0, 0}, // Updated treasure map: Servo 1 has treasure 4, Servo 2 has 8.
     .items_found = 0,
-    .items_left_to_find = 4,
+    .items_left_to_find = 0, // This will be correctly recalculated in start_game
     .digs_taken = 0,
     .digs_remaining = 4,
     .peeks_used = 0,
     .game_time_remaining = 240,
-    .game_over = 1,
-    .total_items_to_find = 0
+    .game_over = 1, // Start with game over, waiting for "game start"
+    .total_items_to_find = 0,
+    .current_score = 0 // New field for player's score
 };
 
 GameTriggers triggers = {
@@ -114,17 +119,23 @@ bool touch_enabled = true;
 // =================================== Game Functions ====================================
 // Prints via UART game state
 void transmit_game_state() {
-    char buffer[64];
-    sprintf(buffer, "DIGS REMAINING:%d TREASURES:%d\r\n\n", game.digs_remaining, game.items_left_to_find);
+    char buffer[192]; // Increased buffer size for more info including score
+    sprintf(buffer, "GAME STATE: Score: %lu | Digs Left: %d, Digs Taken: %d | Treasures Left: %d, Treasures Found: %d | Time: %d\r\n",
+            game.current_score, game.digs_remaining, game.digs_taken, game.items_left_to_find, game.items_found, game.game_time_remaining);
     serial_output_string(buffer, &USART1_PORT);
 }
 
 // Timer callback
-static void fn_a(const TimerSel sel, GameState *game) {
-	game->game_time_remaining = game->game_time_remaining - 1;
+static void fn_a(TimerSel sel) {
+	// If using global 'game' directly, game_ptr parameter can be removed if TimerSel is also not needed inside.
+    // Assuming game is the global GameState variable
+    if (game.game_time_remaining > 0) { // Check to prevent underflow if already 0
+        game.game_time_remaining = game.game_time_remaining - 1;
+    }
     char buffer[64];
-    sprintf(buffer, "TIME REMAINING:%d\r\n", game->game_time_remaining);
+    sprintf(buffer, "TIME REMAINING:%d\r\n", game.game_time_remaining);
     serial_output_string(buffer, &USART1_PORT);
+    transmit_game_state(); // Transmit full game state periodically along with time
 }
 
 // Add this function to reset all touchpads (for game start)
@@ -165,20 +176,25 @@ void disable_touchpad(uint8_t touchpad_index) {
 }
 
 // --- Start Game Signal (from USART or button) ---
-void start_game(GameState *game) {
+void start_game(GameState *game_param, const uint8_t map[6], int chances, int time_limit) {
 	// Restart game state
-    game->game_over = 0;
-    game->game_time_remaining = 240;
-    game->digs_remaining = 4;
+    game_param->game_over = 0;
+    game_param->game_time_remaining = time_limit;
+    game_param->digs_remaining = chances;
+    game_param->current_score = 0;
+    game_param->items_found = 0;
+    game_param->digs_taken = 0;
 
     int count = 0;
     for (int i = 0; i < 6; i++) {
-        if (game->correct_servos[i] != 0) {
+        game_param->correct_servos[i] = map[i];
+
+        if (game_param->correct_servos[i] != 0) {
             count++;
         }
     }
-    game->total_items_to_find = count;
-    game->items_left_to_find = game->total_items_to_find; // Initialize based on actual treasures
+    game_param->total_items_to_find = count;
+    game_param->items_left_to_find = game_param->total_items_to_find;
 
     // Calibrate: Set all servos to 0°
     for (uint8_t servoId = 1; servoId <= 6; servoId++)
@@ -195,36 +211,55 @@ void start_game(GameState *game) {
     timer_period_set(tim_a, 3999);
     timer_silent_set(tim_a, false);
     timer_recur_set(tim_a, true);
-    timer_callback_set(tim_a, &fn_a);
+    timer_callback_set(tim_a, (TimerCallbackFn*)fn_a);
     timer_enable_set(tim_a, true);
 
     serial_output_string("Game Started\r\n\n", &USART1_PORT);
 
     transmit_game_state();
-
 }
 
 //Check for game over conditions
-uint8_t check_game_over(GameState *game) {
-    if (game->digs_remaining == 0 || game->game_time_remaining == 1 || game->items_left_to_find == 0) {
+uint8_t check_game_over(GameState *game_param) { // Using game_param for clarity
+    char final_msg_buffer[256];
+    bool game_ended = false;
+    const char* end_reason_msg = "";
+
+    if (game_param->items_left_to_find == 0) {
+        game_ended = true;
+        end_reason_msg = "You Win! All treasures found!";
   	    const TimerSel tim_a = TIMER_SEL_7;
-
-  	    if (game->items_left_to_find == 0) {
-      	  	timer_enable_set(tim_a, false);
-
-      		serial_output_string((char *) "You Win!\n", &USART1_PORT);
-
-      	}
-      	else {
-      	  	timer_enable_set(tim_a, false);
-
-      		serial_output_string((char *) "Game Over\n", &USART1_PORT);
-      	}
-
-        game->game_over = 1;
-        return 1;
+  	  	timer_enable_set(tim_a, false); // Stop game timer on win
+    } else if (game_param->digs_remaining == 0) {
+        game_ended = true;
+        end_reason_msg = "Game Over! No digs remaining.";
+  	    const TimerSel tim_a = TIMER_SEL_7;
+  	  	timer_enable_set(tim_a, false); // Stop game timer
+    } else if (game_param->game_time_remaining <= 1) { // or == 0, <=1 is safer
+        // Ensure time is 0 if it was 1, for display consistency
+        if (game_param->game_time_remaining == 1) game_param->game_time_remaining = 0;
+        game_ended = true;
+        end_reason_msg = "Game Over! Time is up.";
+  	    const TimerSel tim_a = TIMER_SEL_7;
+  	  	timer_enable_set(tim_a, false); // Stop game timer
     }
-    return 0;
+
+    if (game_ended) {
+        game_param->game_over = 1;
+        sprintf(final_msg_buffer, "\r\n*************************************\r\n%s\r\nFinal Score: %lu\r\nTreasures Found: %d / %d\r\nDigs Used: %d\r\n*************************************\r\n\n",
+                end_reason_msg,
+                game_param->current_score,
+                game_param->items_found,
+                game_param->total_items_to_find,
+                game_param->digs_taken);
+        serial_output_string(final_msg_buffer, &USART1_PORT);
+
+        // Re-display start menu for a new game
+        display_start_menu();
+        return 1; // Game is indeed over
+    }
+
+    return 0; // Game continues
 }
 
 
@@ -264,12 +299,69 @@ void output_callback() {
 
 // Receive callback
 void input_callback(char *data, uint32_t len) {
+    serial_output_string("DEBUG: input_callback fired!\r\n", &USART1_PORT); // DEBUG PRINT
+    char temp_dbg[140]; // Temp buffer for received data
+    sprintf(temp_dbg, "DEBUG: Received (len %lu): %.*s\r\n", len, (int)len, data);
+    serial_output_string(temp_dbg, &USART1_PORT); // DEBUG PRINT RAW DATA
+
 	// Check for game start input
-	char compare[] = "game start";
-	uint16_t test = strcmp(data, compare);
-	if (!test) {
-		start_game(&game);
-	}
+    // Make a mutable copy for strtok
+    char data_copy[128]; // Ensure this is large enough for expected commands
+    strncpy(data_copy, data, len);
+    data_copy[len] = '\0'; // Null-terminate
+
+    if (strncmp(data_copy, "game start", 10) == 0) {
+        // Defaults
+        uint8_t map_values[6] = {4, 8, 0, 0, 0, 0};
+        int chances_val = 4;
+        int time_val = 240;
+
+        // Check if there are parameters after "game start"
+        if (strlen(data_copy) > 10) { // e.g. "game start " (note space)
+            char *params_str = data_copy + 11; // Point to parameters after "game start "
+            parse_game_config(params_str, map_values, &chances_val, &time_val);
+        }
+        
+        // Call start_game with potentially parsed values
+        start_game(&game, map_values, chances_val, time_val);
+    }
+    // It's good practice to clear the input buffer after processing, if your serial_josh lib expects this
+    // For example: serial_clear_rx_buffer(&USART1_PORT);
+}
+
+// Helper function definitions for parsing serial commands
+void parse_game_config(char* params_str, uint8_t* out_map, int* out_chances, int* out_time) {
+    char *token;
+    char *rest = params_str;
+
+    // Default values (already set before calling, but good to be explicit if needed)
+    // uint8_t default_map[6] = {4, 8, 0, 0, 0, 0};
+    // int default_chances = 4;
+    // int default_time = 240;
+
+    while ((token = strtok_r(rest, " ", &rest))) { // Split by space for "map=..." "chances=..."
+        if (strncmp(token, "map=", 4) == 0) {
+            char* map_data = token + 4;
+            char* map_val_str;
+            char* map_rest = map_data;
+            int i = 0;
+            while ((map_val_str = strtok_r(map_rest, ",", &map_rest)) && i < 6) {
+                out_map[i++] = (uint8_t)atoi(map_val_str);
+            }
+        } else if (strncmp(token, "chances=", 8) == 0) {
+            *out_chances = atoi(token + 8);
+        } else if (strncmp(token, "time=", 5) == 0) {
+            *out_time = atoi(token + 5);
+        }
+    }
+    // Debug print parsed values (optional)
+    /*
+    char dbg_buf[128];
+    sprintf(dbg_buf, "Parsed/Default: Map=%d,%d,%d,%d,%d,%d Chances=%d Time=%d\r\n",
+            out_map[0], out_map[1], out_map[2], out_map[3], out_map[4], out_map[5],
+            *out_chances, *out_time);
+    serial_output_string(dbg_buf, &USART1_PORT);
+    */
 }
 
 void SetServoAngle(uint8_t servoId, uint16_t angle)
@@ -363,10 +455,11 @@ void dig_used(uint8_t servoId) {
             treasure_value = game.correct_servos[servoId - 1];
             game.items_found++;
             game.items_left_to_find--;
+            game.current_score += treasure_value; // Add treasure value to score
 
             // Mark this treasure as found by setting its spot to 0 (or another indicator if needed)
             // For now, let's assume a treasure once found cannot be "found" again for points.
-            // game.correct_servos[servoId - 1] = 0; // Optional: Prevent re-finding the same treasure
+            game.correct_servos[servoId - 1] = 0; // Optional: Prevent re-finding the same treasure
         }
     }
 
@@ -384,6 +477,14 @@ void dig_used(uint8_t servoId) {
 
     // The old update_game_state function might become redundant or be refactored.
     // For now, its core logic (decrementing digs, updating items) is handled here.
+}
+
+void display_start_menu(void) {
+    serial_output_string("\r\n=====================================\r\n", &USART1_PORT);
+    serial_output_string(" T R E A S U R E   H U N T ! ! ! \r\n", &USART1_PORT);
+    serial_output_string("=====================================\r\n", &USART1_PORT);
+    serial_output_string("Send 'game start' via serial to begin.\r\n", &USART1_PORT);
+    serial_output_string("-------------------------------------\r\n\n", &USART1_PORT);
 }
 
 /* USER CODE END 0 */
@@ -448,6 +549,8 @@ int main(void)
 
   enable_interrupts(&USART1_PORT);
 
+  display_start_menu(); // Display start menu when MCU boots up
+
   // New state variables for trimpot-touch interaction logic
   static bool isActiveMode = false;
   static uint8_t activeServoId = 0; // Will be 1-6
@@ -480,11 +583,13 @@ int main(void)
         servoFullyClosed = false;
         activeTouchpadPin = 0;
         armed_touchpad_pin = 0; // Reset armed pin
-        touch_enabled = true; // Ensure touches are re-enabled
+        touch_enabled = true; // Ensure touches are re-enabled for the ISR
+        triggers.touchpad_pressed = -1; // Clear any latched touch from the ended game
 		  continue;
 	  }
 
-	  int check = check_game_over(&game);
+    // Restore the check for game over conditions properly
+    int check = check_game_over(&game);
 	  if (check == 1) {
         // Reset active mode state if game ends due to conditions
         isActiveMode = false;
