@@ -7,6 +7,7 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="C:\Users\163910\OneDrive - UTS\Documents\GitHub\Send files i am mucking aorund with\MainBoardUart"/>
 			<item value="C:\Users\163910\OneDrive - UTS\Documents\GitHub\Send files i am mucking aorund with\Assignment 2\stm32f303-definitions\Core\Inc"/>
 			<item value="C:\Users\163910\OneDrive - UTS\Documents\GitHub\Send files i am mucking aorund with\Assignment 2\Exercise 4 - Integration"/>
 			<item value="C:\Users\163910\OneDrive - UTS\Documents\GitHub\TreasureHuntClab"/>
