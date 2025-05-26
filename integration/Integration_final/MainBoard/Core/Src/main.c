@@ -493,11 +493,11 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  uint16_t dest_val;
-	  read_pins_analog(trim_pot, &dest_val);
+	  uint16_t dest_val; //potentiometer
+	  read_pins_analog(trim_pot, &dest_val); //potentiometer
 
-	  float angle = (float)(dest_val * 100) /0xfff;
-	  SetServoAngle(1, angle);
+	  float angle = (float)(dest_val * 100) /0xfff; //potentiometer
+	  SetServoAngle(1, angle); //potentiometer
 
 	  // Wait for game start
 	  if (game.game_over) {
