@@ -97,7 +97,7 @@ GameState game = {
     .digs_taken = 0,
     .digs_remaining = 4,
     .peeks_used = 0,
-    .game_time_remaining = 240,
+    .game_time_remaining = 120,
     .game_over = 1, // Start with game over, waiting for "game start"
     .total_items_to_find = 0,
     .current_score = 0 // New field for player's score
@@ -331,9 +331,9 @@ void input_callback(char *data, uint32_t len) {
 
     if (strncmp(command_to_parse, "game start", 10) == 0) {
         // Defaults
-        uint8_t map_values[6] = {4, 8, 0, 0, 0, 0};
+	uint8_t map_values[6] = {4, 8, 0, 0, 4, 0};
         int chances_val = 4;
-        int time_val = 240;
+        int time_val = 120;
 
         // Check if there are parameters after "game start"
         // strlen(command_to_parse) will give the length of the command part.
@@ -366,7 +366,7 @@ void parse_game_config(char* params_str, uint8_t* out_map, int* out_chances, int
     char *rest = params_str;
 
     // Default values (already set before calling, but good to be explicit if needed)
-    // uint8_t default_map[6] = {4, 8, 0, 0, 0, 0};
+    // uint8_t default_map[6] = {4, 8, 0, 0, 4, 0};
     // int default_chances = 4;
     // int default_time = 240;
 
