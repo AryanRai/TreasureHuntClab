@@ -118,9 +118,32 @@ class SerialApp:
         logs_pane = ttk.Frame(self.root)
         logs_pane.pack(padx=10, pady=10, fill="both", expand=True)
 
+        # --- Left Log Pane (Magnetometer) ---
+        left_logs_subpane = ttk.Frame(logs_pane)
+        left_logs_subpane.pack(side="left", padx=5, pady=5, fill="both", expand=True)
+
+        # --- Magnetometer Metrics Frame ---
+        mag_metrics_frame = ttk.LabelFrame(left_logs_subpane, text="Magnetometer Metrics")
+        mag_metrics_frame.pack(padx=0, pady=5, fill="x", expand=False) # Metrics on top
+
+        self.mag_magnitude_var = tk.StringVar(value="N/A")
+        self.mag_duty_cycle_var = tk.StringVar(value="N/A")
+        self.mag_prob_m1_var = tk.StringVar(value="N/A") # Small Magnet
+        self.mag_prob_m2_var = tk.StringVar(value="N/A") # Big Magnet
+
+        ttk.Label(mag_metrics_frame, text="Magnitude:").grid(row=0, column=0, padx=5, pady=2, sticky="w")
+        ttk.Label(mag_metrics_frame, textvariable=self.mag_magnitude_var).grid(row=0, column=1, padx=5, pady=2, sticky="w")
+        ttk.Label(mag_metrics_frame, text="Duty Cycle (%):").grid(row=0, column=2, padx=5, pady=2, sticky="w")
+        ttk.Label(mag_metrics_frame, textvariable=self.mag_duty_cycle_var).grid(row=0, column=3, padx=5, pady=2, sticky="w")
+
+        ttk.Label(mag_metrics_frame, text="Prob. Small M (%):").grid(row=1, column=0, padx=5, pady=2, sticky="w")
+        ttk.Label(mag_metrics_frame, textvariable=self.mag_prob_m1_var).grid(row=1, column=1, padx=5, pady=2, sticky="w")
+        ttk.Label(mag_metrics_frame, text="Prob. Big M (%):").grid(row=1, column=2, padx=5, pady=2, sticky="w")
+        ttk.Label(mag_metrics_frame, textvariable=self.mag_prob_m2_var).grid(row=1, column=3, padx=5, pady=2, sticky="w")
+
         # --- Magnetometer Output Log Frame ---
-        mag_output_frame = ttk.LabelFrame(logs_pane, text="Magnetometer Output Log")
-        mag_output_frame.pack(side="left", padx=5, pady=5, fill="both", expand=True)
+        mag_output_frame = ttk.LabelFrame(left_logs_subpane, text="Magnetometer Output Log")
+        mag_output_frame.pack(padx=0, pady=5, fill="both", expand=True) # Log below metrics
 
         self.mag_output_text = tk.Text(mag_output_frame, wrap="word", state="disabled", height=10)
         self.mag_output_text.pack(padx=5, pady=5, fill="both", expand=True)
@@ -305,6 +328,21 @@ class SerialApp:
 
         if port_type == 'game':
             self.parse_and_update_game_ui(data_string)
+        elif port_type == 'magnetometer':
+            self.parse_and_update_magnetometer_ui(data_string)
+
+    def parse_and_update_magnetometer_ui(self, data_string):
+        # String received here is raw from device, e.g.: "DEBUG: Mag: 2368.36, Duty: 100%, Pred: 95% M1, 5% M2"
+        # C sprintf uses %% to output a single %, so we match a single % in regex.
+        mag_metrics_match = re.search(
+            r"DEBUG: Mag: ([\\d\\.]+), Duty: (\\d+)%, Pred: (\\d+)% M1, (\\d+)% M2",
+            data_string
+        )
+        if mag_metrics_match:
+            self.mag_magnitude_var.set(mag_metrics_match.group(1))
+            self.mag_duty_cycle_var.set(mag_metrics_match.group(2))
+            self.mag_prob_m1_var.set(mag_metrics_match.group(3))
+            self.mag_prob_m2_var.set(mag_metrics_match.group(4))
 
     def parse_and_update_game_ui(self, data_string):
         # Try to parse "GAME STATE: Score: X | Digs Left: Y, Digs Taken: A | Treasures Left: Z, Treasures Found: B | Peeks Used: C | Time: D"
