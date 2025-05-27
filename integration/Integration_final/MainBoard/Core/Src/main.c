@@ -52,7 +52,7 @@ UART_HandleTypeDef huart1;
 
 /* USER CODE BEGIN PV */
 // Touch-to-servo mapping: index = touch sensor (0-5), value = servo ID (1-6)
-uint8_t touch_to_servo_map[6] = {1, 2, 3, 4, 5, 6}; // Default: 1:1 mapping
+uint8_t touch_to_servo_map[6] = {5, 4, 1, 6, 3, 2}; // Default: 1:1 mapping
 // Track servo states (0° or 90°)
 uint8_t servo_states[6] = {0, 0, 0, 0, 0, 0}; // 0 = closed (0°), 1 = open (90°)
 /* USER CODE END PV */
@@ -500,7 +500,7 @@ void dig_used(uint8_t servoId) {
     } else {
         sprintf(buffer, "DIG FAIL at Servo %d. No treasure. Digs left: %d. Treasures left: %d\r\n",
                 servoId, game.digs_remaining, game.items_left_to_find);
-    }
+	 }
     serial_output_string(buffer, &USART1_PORT);
 
     transmit_game_state(); // Send updated Digs Remaining / Treasures Left
@@ -616,8 +616,9 @@ int main(void)
   // State variables for Peek/Dig logic within isActiveMode
   static bool inDigCommitPhase = false;
   static bool hasPeekMovementOccurred = false;
+  static uint16_t pot_value_at_arm = 0; // Store pot value when a touch is armed
 
-  #define POT_ACTIVE_THRESHOLD_RAW 50     // Raw ADC value from trimpot (e.g., ~1.2% of 4095)
+  #define POT_ACTIVE_THRESHOLD_RAW 200     // Raw ADC value from trimpot (e.g., ~1.2% of 4095)
   #define SERVO_TARGET_OPEN_ANGLE 90      // Target angle for "fully open"
   #define SERVO_TARGET_CLOSED_ANGLE 0     // Target angle for "fully closed"
   #define SERVO_ANGLE_TOLERANCE 3         // Degrees tolerance for open/close detection
@@ -672,14 +673,15 @@ int main(void)
             // A touch sensor was pressed. Arm it.
             // This will override any previously armed touchpad if not yet activated.
             armed_touchpad_pin = triggers.touchpad_pressed;
-            char log_buf[80]; // Increased buffer size
-            sprintf(log_buf, "Touchpad PB%d armed. Waiting for pot threshold (>%d).", armed_touchpad_pin, POT_ACTIVE_THRESHOLD_RAW);
+            pot_value_at_arm = pot_raw_value; // Store current pot value at the moment of arming
+            char log_buf[120]; // Increased buffer size
+            sprintf(log_buf, "Touchpad PB%d armed. Pot value at arm: %d. Waiting for pot movement & threshold (>%d).", armed_touchpad_pin, pot_value_at_arm, POT_ACTIVE_THRESHOLD_RAW);
             serial_output_string(log_buf, &USART1_PORT);
             triggers.touchpad_pressed = -1; // Consume the ISR flag
         }
 
-        if (armed_touchpad_pin != 0 && pot_raw_value > POT_ACTIVE_THRESHOLD_RAW) {
-            // An armed touchpad exists AND pot is above threshold. Activate!
+        if (armed_touchpad_pin != 0 && pot_raw_value > POT_ACTIVE_THRESHOLD_RAW && pot_raw_value != pot_value_at_arm) {
+            // An armed touchpad exists, pot is above threshold, AND pot has moved since arming. Activate!
             isActiveMode = true;
             // Reset peek/dig sub-state for this new activation
             inDigCommitPhase = false;
@@ -702,9 +704,9 @@ int main(void)
             if (touch_index_for_servo_map < 6) {
                 activeServoId = touch_to_servo_map[touch_index_for_servo_map]; // Get Servo ID 1-6
                 if (activeServoId >= 1 && activeServoId <= 6) {
-                    char log_buffer[128];
-                    sprintf(log_buffer, "Activated: Armed PB%d (Servo %d), Pot (%d) > Thresh (%d). Controlling Servo %d.\r\n",
-                            activeTouchpadPin, activeServoId, pot_raw_value, POT_ACTIVE_THRESHOLD_RAW, activeServoId);
+                    char log_buffer[160]; // Increased buffer for more detailed log
+                    sprintf(log_buffer, "Activated: Armed PB%d (Servo %d), Pot (%d) > Thresh (%d), Pot moved from %d. Controlling Servo %d.\r\n",
+                            activeTouchpadPin, activeServoId, pot_raw_value, POT_ACTIVE_THRESHOLD_RAW, pot_value_at_arm, activeServoId);
                     serial_output_string(log_buffer, &USART1_PORT);
                     touch_enabled = false; // Disable further touch processing by ISR while in active mode
                 } else {
@@ -797,7 +799,7 @@ int main(void)
 	           }
                         if (touchpad_index_to_disable < 6) {
                             disable_touchpad(touchpad_index_to_disable);
-                        }
+	        	        }
 
                         // Reset state for the next interaction
                         isActiveMode = false;
