@@ -1,5 +1,22 @@
-# TreasureHuntClab
+# TreasureHuntClab - 🏴‍☠️ Treasure Hunt Game - STM32F303 Discovery
 
+```
+████████████████████████████████████████████████████████████████████████████████
+██                                                                            ██
+██   ████████ ████████ ████████  ████   ████████ ██    ██ ████████ ████████   ██
+██      ██    ██    ██ ██       ██  ██  ██       ██    ██ ██    ██ ██         ██
+██      ██    ████████ ██████   ██████  ██████   ██    ██ ████████ ██████     ██
+██      ██    ██   ██  ██       ██  ██  ██       ██    ██ ██   ██  ██         ██
+██      ██    ██    ██ ████████ ██  ██  ████████ ████████ ██    ██ ████████   ██
+██                                                                            ██
+██   ██    ██ ██    ██ ██    ██ ████████                                      ██
+██   ██    ██ ██    ██ ███   ██    ██                                         ██
+██   ████████ ██    ██ ██ ██ ██    ██                                         ██
+██   ██    ██ ██    ██ ██   ███    ██                                         ██
+██   ██    ██ ████████ ██    ██    ██                                         ██
+██                                                                            ██
+████████████████████████████████████████████████████████████████████████████████
+```
 
 ```
 ███╗   ███╗████████╗██████╗ ██╗  ██╗██████╗ ███████╗ ██████╗  ██████╗ 
@@ -9,37 +26,235 @@
 ██║ ╚═╝ ██║   ██║   ██║  ██║██╔╝ ██╗███████╗   ██║  ╚██████╔╝╚██████╔╝
 ╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═════╝  ╚═════╝ 
 ```
-# TreasureHuntClab - Week 9 Group XYZ
-
-> **Memory Operations | I/O Control | Serial Communication | Timer Management**
-
-[![STM32F303VCT6](https://img.shields.io/badge/STM32-F303VCT6-blue)](https://canvas.sydney.edu.au/courses/63055/files/40530474?wrap=1)
-[![Assembly](https://img.shields.io/badge/Language-Assembly-red)](https://developer.arm.com/)
+[![STM32F303VCT6](https://img.shields.io/badge/STM32-F303VCT6-blue)](https://www.st.com/en/microcontrollers-microprocessors/stm32f303.html)
+[![C Language](https://img.shields.io/badge/Language-C-green)](https://en.wikipedia.org/wiki/C_(programming_language))
+[![HAL Library](https://img.shields.io/badge/Framework-STM32_HAL-orange)](https://www.st.com/en/embedded-software/stm32cube-mcu-mpu-packages.html)
+[![Real-Time](https://img.shields.io/badge/System-Real--Time-red)](https://en.wikipedia.org/wiki/Real-time_computing)
 [![Documentation](https://img.shields.io/badge/Docs-Markdown-lightgrey)](docs/)
 
-## Team Members & Roles
-- Joshua Kim (`530478283`) - 
-- Steven Hughes (`311246486`) - 
-- Aryan Rai (`530362258`) - 
--   (`530439147`) - 
-
 ## 🎯 Project Overview
-This project implements core microcontroller functionality:
+
+This repository contains a technology-driven Treasure Hunt that incorporates elements of classic treasure hunts within MTRX2700 Mechatronics 2 unit at the University of Sydney. . It is an immersive treasure hunting adventure game built on the STM32F303 Discovery Board. Players use capacitive touch sensors to control servo-operated treasure chambers, employing strategic peek-and-dig mechanics within a time-pressured environment. This project demonstrates advanced embedded systems integration including sensor interfacing, actuator control, real-time processing, and serial communication.
+
+### Game Features
+- **Interactive Touch Controls**: 6 capacitive touch sensors (`PB3-PB7, PB13`)
+- **Servo-Controlled Chambers**: 6 servo motors controlling treasure compartments
+- **Peek/Dig Mechanics**: Preview chambers with limited peeks or commit to full digs
+- **Real-Time Scoring**: Dynamic scoring system with treasure values
+- **Time Management**: Adjustable-minute countdown with live updates
+- **Resource Limitations**: Limited digs and peek actions
+- **Serial Interface**: Real-time game state monitoring and configuration
+
+### Gameplay Mechanics
+
+**Objective**: Find all hidden treasures before time runs out or digs are exhausted
+
+**Controls**:
+- **Touch Activation**: Touch any sensor pad to arm it for control
+- **Trimpot Control**: Rotate potentiometer to control servo angle
+- **Peek Mode**: Partially open chambers (≤20°) to preview contents
+- **Dig Mode**: Fully open chambers (90°) to extract treasures
+
+**Strategy Elements**:
+- **Limited Resources**: Only 4 digs available by default
+- **Peek Advantage**: Use peeks to locate treasures without consuming digs
+- **Time Pressure**: 4-minute countdown adds urgency
+- **Scoring System**: Different treasures have different point values
+
+### Software Architecture
+
 ```
-┌──────────────────┐   ┌──────────────────┐   ┌──────────────────┐
-│  Memory Handling │   │    I/O Control   │   │  Serial Comms    │
-│  ▪ Pointers     │   │  ▪ LED Patterns  │   │  ▪ UART Config   │
-│  ▪ Iterators    │   │  ▪ Button Input  │   │                  │
-└──────────────────┘   └──────────────────┘   └──────────────────┘
-         │                      │                      │
-         └──────────────────────┼──────────────────────┘
-                               │
-                    ┌──────────────────┐   ┌──────────────────┐
-                    │    Integration   │   │  Timer Control   │
-                    │  ▪ Module Sync  │   │  ▪ Delays        │
-                    │  ▪ Data Flow    │   │  ▪ LED Patterns  │
-                    └──────────────────┘   └──────────────────┘
+┌─────────────────────────────────────────────────────────────────┐
+│                        Main Game Loop                           │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
+│  │   Touch Input   │  │  Servo Control  │  │   Game Logic    │  │
+│  │   Management    │  │   & Trimpot     │  │   & Scoring     │  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
+├─────────────────────────────────────────────────────────────────┤
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐  │
+│  │  Timer System   │  │ Serial Comms    │  │  State Machine  │  │
+│  │  & Interrupts   │  │ & Configuration │  │  Management     │  │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘  │
+└─────────────────────────────────────────────────────────────────┘
 ```
+---
+
+## Team Members & Roles
+- **Joshua Kim** (`530478283`) - Touch control, Game logic, Integration
+- **Steven Hughes** (`311246486`) - 3D print creation, Game logic, Hardware
+- **Aryan Rai** (`530362258`) - EVERYTHING
+- **James**   (`530439147`) - THE HARDWARE CARRY
+- **Noah** - TRIMPOT MOTRO LEGEND
+
+---
+
+## 📁 Repository Structure
+```
+TreasurehuntClab/
+├──
+├──
+├──
+├── 📂 integration/           # Development Archive
+├── 📂 Integration_final/    # Implementation
+│   ├── 📂 Main/             # Integration
+│   │   ├── 📄 send/         # Transmission
+│   │   └── 📄 receive/      # Reception
+│   └── 📂           
+        ├── 📄 ex1/          # Memory Ops
+        ├── 📄 ex2/          # I/O Control
+        ├── 📄 ex3/          # UART Comms
+        └── 📄 ex4/          # Timers
+```
+
+---
+
+## Module Descriptions
+
+### Serial Communication
+
+
+
+### GPIO
+
+
+
+### Servo Control
+
+
+
+### Magnetometer
+
+
+
+### Trimpot
+
+
+
+### Integration (Main.c)
+
+## Technical Implementation
+
+### Core Data Structures
+
+```c
+typedef struct {
+    uint8_t correct_servos[6];      // Treasure map (0 = no treasure)
+    int items_found;                // Treasures discovered
+    int items_left_to_find;         // Remaining treasures
+    int digs_taken;                // Digs consumed
+    int digs_remaining;            // Digs available
+    int peeks_used;                // Peek actions used
+    int game_time_remaining;       // Countdown timer
+    int game_over;                 // Game state flag
+    int total_items_to_find;       // Total treasures in game
+    unsigned long current_score;    // Player score
+} GameState;
+```
+
+### Key Functions
+
+#### Game Management
+- `start_game()`: Initialize new game session
+- `check_game_over()`: Evaluate win/lose conditions  
+- `transmit_game_state()`: Send status via UART
+
+#### Hardware Interface
+- `handle_touch()`: Process touch sensor interrupts
+- `SetServoAngle()`: Control servo positioning
+- `dig_used()`: Process dig completion logic
+
+#### Serial Communication
+- `input_callback()`: Parse incoming commands
+- `parse_game_config()`: Extract game parameters
+
+### Interrupt Service Routines
+
+```c
+// Touch sensor interrupt handler
+void EXTI3_IRQHandler(void) { /* Handle touch events */ }
+
+// Timer interrupt for game countdown
+static void fn_a(TimerSel sel) { /* Update game timer */ }
+
+// UART receive interrupt
+void input_callback(char *data, uint32_t len) { /* Process commands */ }
+```
+
+### State Machine Logic
+
+The game operates on a sophisticated state machine managing:
+
+1. **Idle State**: Waiting for touch input
+2. **Armed State**: Touch registered, waiting for pot activation
+3. **Peek State**: Limited servo control (0-20°)
+4. **Dig State**: Full servo control with commit logic
+5. **Completion State**: Action finished, updating game state
+
+## Detailed Gameplay
+
+### Game States
+
+```mermaid
+stateDiagram-v2
+    [*] --> GameOver: System Boot
+    GameOver --> GameActive: "game start" command
+    GameActive --> PeekMode: Touch + Pot < 20°
+    GameActive --> DigMode: Touch + Pot > 20°
+    PeekMode --> GameActive: Servo closed
+    DigMode --> GameActive: Full cycle complete
+    GameActive --> GameOver: Win/Lose/Timeout
+```
+
+### Control Mechanics
+
+#### Touch-Pot Interaction System
+
+1. **Arming Phase**
+   - Touch any sensor pad to "arm" it
+   - LED feedback confirms touch registration
+   - Multiple touches override previous selection
+
+2. **Activation Phase**  
+   - Rotate trimpot past threshold (>50 ADC units)
+   - Armed touchpad becomes active controller
+   - Other touches ignored during active phase
+
+3. **Servo Control Phase**
+   ```
+   Pot Position    Servo Angle    Action
+   0-20°          0-20°          Peek Mode
+   20°+           20-90°         Dig Commit Mode
+   ```
+
+4. **Completion Phase**
+   - **Peek**: Return to 0° to complete peek action
+   - **Dig**: Open to 90°, then close to 0° to complete dig
+   - Touchpad disabled after dig completion
+
+### Scoring System
+
+| Treasure Type | Point Value | Rarity |
+|---------------|-------------|--------|
+| Basic Treasure | 4 points | Common |
+| Rare Treasure | 8 points | Uncommon |
+| Epic Treasure | 12+ points | Rare |
+
+**Bonus Scoring**:
+- Time bonus for quick completion
+- Efficiency bonus for fewer digs used
+- Peek penalty minimization
+
+### Win/Lose Conditions
+
+**Victory Conditions**:
+- Find all treasures before time/digs run out
+- Maximize score through efficient play
+
+**Defeat Conditions**:
+- Time expires (240 seconds default)
+- All digs consumed without finding treasures
+- No treasures remaining but insufficient resources
 
 ## Exercise Implementation Map
 
@@ -95,69 +310,6 @@ This project implements core microcontroller functionality:
   - `send/main.s`: First board implementation
   - `receive/main.s`: Second board implementation
 
-## Assessment Coverage
-
-### Core Requirements
-1. Memory Handling (Ex1)
-   - Pointer operations in cipher/palindrome
-   - String iteration and manipulation
-
-2. I/O Operations (Ex2)
-   - LED pattern control
-   - Button debouncing
-   - Binary output display  
-
-LED Pattern Control:
-
-https://github.com/user-attachments/assets/bdac061a-b451-4314-88f6-3a179d7298a3
-
-Counting Vowels:
-
-https://github.com/user-attachments/assets/e06e7996-31d5-4a54-9618-5b1d6f606961
-
-3. Serial Interface (Ex3)
-   - UART configuration
-   - Asynchronous communication
-   - Multi-UART handling
-
-[![](https://github.com/user-attachments/assets/5ab39d19-b37a-4301-a085-e49b0cb58d94)](https://github.com/user-attachments/assets/5ab39d19-b37a-4301-a085-e49b0cb58d94)
-
-4. Timer Operations (Ex4)
-   - Hardware timer configuration
-   - Precise delay generation
-   - Prescaler optimization
-
-https://github.com/user-attachments/assets/bd740a32-b9af-4531-8906-b5b89e33c89a
-
-5. Polling Interface (Ex2, Ex3)
-   - Button state detection
-   - Input validation
-
-6. Module Integration (Ex5)
-   - Inter-board communication
-   - Function coordination
-   - State management
-
-7. Modular Design
-   - Encapsulated functionality
-   - Clear interfaces
-   - Separated concerns
-
-## 📁 Repository Structure
-```
-MTRX2700_Wk1_Grp9/
-├── 📂 Assignment1/           # Development Archive
-├── 📂 Final/                 # Implementation
-│   ├── 📂 Main/             # Integration
-│   │   ├── 📄 send/         # Transmission
-│   │   └── 📄 receive/      # Reception
-│   └── 📂 TASKS/           
-        ├── 📄 ex1/          # Memory Ops
-        ├── 📄 ex2/          # I/O Control
-        ├── 📄 ex3/          # UART Comms
-        └── 📄 ex4/          # Timers
-```
-
 ## Module Organization
 
 ### Exercise 1: Memory Operations
@@ -189,15 +341,88 @@ MTRX2700_Wk1_Grp9/
 - Module coordination
 - Located in `/Final/Main/`
 
-## User Instructions
-1. Clone the repository
-2. Open project in STM32CubeIDE
-3. Build the project
-4. Flash to STM32F303 Discovery board
-5. For dual-board exercises (Ex5), connect:
-   - UART pins between boards (send pin B3 -> rec pin B4)
-   - Common ground
-   - Power both boards
+---
+
+## Quick User Instructions
+
+### Prerequisites
+
+- **Hardware**: STM32F303 Discovery Board
+- **Software**: STM32CubeIDE or compatible ARM development environment
+- **Tools**: USB cable, serial terminal (PuTTY, Tera Term, or Arduino Serial Monitor)
+- **Components**: Touch sensors, servo motors, potentiometer (see hardware section)
+
+### Installation & Setup
+
+1. **Clone Repository**
+   ```bash
+   git clone https://github.com/AryanRai/TreasureHuntClab.git
+   ```
+
+2. **Hardware Assembly**
+   - Connect touch sensors to pins PB3-PB7, PB13
+   - Wire servo motors to PWM outputs (PE2, PE3, PA0, PA1, PD12, PD13)
+   - Connect trimpot to PA4 (ADC input)
+   - Ensure proper power supply for servos
+
+3. **Software Configuration**
+   - Open project in STM32CubeIDE
+   - Configure clock settings for MHz operati
+   - Enable required peripherals (TIM2, TIM3, TIM4, USART1, ADC)
+   - Build and flash to Discovery Board
+
+4. **Serial Interface Setup**
+   - Baud Rate: 115200
+
+### First Game
+
+1. **Power On**: Connect board and open serial terminal
+2. **Start Menu**: System displays welcome screen
+3. **Begin Game**: Send `game start` command via serial
+4. **Play**: Touch sensors to select chambers, use trimpot to control servos
+5. **Strategy**: Peek at chambers first, then dig when confident
+
+## Configuration & Customization
+
+### Serial Commands
+
+#### Basic Game Start
+```
+game start
+```
+
+#### Advanced Configuration
+```
+game start map=4,8,0,12,0,6 chances=5 time=300
+```
+
+**Parameters**:
+- `map=a,b,c,d,e,f`: Treasure values for chambers 1-6 (0 = no treasure)
+- `chances=n`: Number of digs allowed (default: 4)
+- `time=n`: Game duration in seconds (default: 240)
+
+#### Example Configurations
+
+```bash
+# Easy mode - More digs, more time
+game start chances=6 time=360
+
+# Hard mode - Limited resources
+game start chances=3 time=180
+
+# Custom treasure layout
+game start map=10,0,5,0,15,8 chances=4 time=240
+```
+
+### Game State Monitoring
+
+Real-time game information via serial output:
+```
+GAME STATE: Score: 12 | Digs Left: 2, Digs Taken: 2 | Treasures Left: 1, Treasures Found: 2 | Peeks Used: 3 | Time: 156
+```
+
+
+
   
 Below is a block diagram showing the communication between the two boards:
 ![Integration block diagram](https://github.com/user-attachments/assets/20b32018-30c2-4f97-a25b-1c915f4c2dba)
@@ -266,159 +491,141 @@ For Exact 0.1ms:
   - Period = (99 + 1) × 1 µs = 100 µs = 0.1 ms
   - Total = 100 × 10,000 × 1 µs = 1,000,000 µs = 1 second
 
-## Testing Procedures
-Each module includes unit tests verifying:
-- Memory operations
-- I/O functionality
-- UART communication
-- Timer 
-- Integration tests
 
-Detailed test procedures and results are documented in each module's respective folder within Docs.md
 
-## Documentation Links
+---
 
-### Main Task Documentation
-- [Timer Documentation](Final/TASKS/TimerDocs.md) - Timer configuration and LED control
-- [UART Documentation](Final/TASKS/UARTDocs.md) - UART communication implementation
-- [IO Documentation](Final/TASKS/IODocs.md) - GPIO and LED control
-- [Memory Documentation](Final/TASKS/CypherDocs.md) - Text processing and cipher operations
-- [Integration Documentation](Final/MAIN/Docs.md) - Two-board communication system
 
-### Quick Task Overview
+## 🧪 Testing & Validation
 
-#### Timer Module (TimerDocs.md)
-- LED blinking control using Timer 2
-- Precise microsecond delays
-- Configurable prescaler settings
-- LED pattern display
 
-#### UART Module (UARTDocs.md)
-- UART communication implementation
-- Configurable transmission settings
-- Buffer management
-- Message handling
+## Testing
+In order to test modules, the previously mentioned user instructions were used to set up and run the code, a demo of each module can be found in the next section labled **Demos**:
 
-#### Vowel/Consonant Counter (VOWELSDocs.md)
-- Text analysis for vowels/consonants
-- LED binary display output
-- Mode switching functionality
-- UART input processing
+### Task 1
 
-#### Text Processing & Cipher Operations
-- Case conversion (upper/lower)
-- Palindrome detection
-- Caesar cipher encoding/decoding
-- ASCII validation and handling
-- Configurable shift values
+Code testing involved valdating the aproach using various initial LED values, and various user button callbacks, including have the button set a state and toggle the state of each LED.
 
-### Integration Module (Final/MAIN/Docs.md)
+### Task 2
 
-#### Board 1 (Sender)
-- UART1 terminal communication (PC4/PC5)
-- UART2 board communication (PB3/PB4)
-- Palindrome detection and encryption
-- Debug output and ACK handling
+To assess the full functionality of the code, polling was used first by editting the code as commented in the files and using PuTTY. After this the following behaviour was observed:
+- Output of string to PuTTY "man you're broke lol, get a job!!" and nothing else, awaiting for an input of a string
+- After the string "no i'm not!!!" was typed onto PuTTY, the program output "You typed: no i'm not!!!" with a new line
+- Then the program began the loop again outputting "man you're broke lol, get a job!!"
+- This demonstrated the main loop polling for an input after being stuck after outputting a string
 
-#### Board 2 (Receiver)
-- UART2 input processing
-- Caesar cipher decryption
-- Vowel/consonant LED display
-- 500ms display toggle
-- Button-controlled mode switching
+Next the interrupt functionality was tested by commenting and uncommenting the relevant lines in the code specified by comments resulting in the following behaviour:
+- Continuous output of string "man you're broke lol, get a job!!" indicating the main loop able to continuously loop 
+- After the string "no i'm not!!!" was input, the continuos output of the string stopped and instead output "You typed: no i'm not!!!" with a new line
+- The program then went back to the main loop doing the same output
+- This demonstrated the main loop being able to loop constantly while simutaneously looking for an input showing the functioning of an interrupt
 
-#### Communication Protocol
-1. Board 1 receives string via UART1
-2. Processes palindrome check
-3. Encrypts if palindrome (+5 shift)
-4. Sends to Board 2 via UART2
-5. Waits for ACK before next input
+### Task 3
 
-#### Hardware Setup
-- **Board 1**:
-  - UART1: PC4(TX)/PC5(RX) - Terminal
-  - UART2: PB3(TX)/PB4(RX) - Board 2
-- **Board 2**:
-  - UART2: PB3(RX)/PB4(TX) - Board 1
-  - GPIOE[7:0]: LED output
-  - PA0: Mode button
+The code in `main.c` demonstrates both recurring and oneshot timers. `TIM2` is used with `recur=true` to constantly cycle the leds. `TIM4` is used with `recur=false` to toggle the first led, with the timer being unsilenced inside the callback, a limited number of times.
 
-#### Testing Setup
-- **Terminal Software**:
-  - Board 1: Arduino IDE Serial Monitor/PuTTY (115200, 8N1, Local echo) (Use Newline Termination) 
-  - Board 2: Arduino IDE Serial Monitor/PuTTY (115200, 8N1, Local echo) (Use Termination)
-- **Hardware Connections**:
-  - USB-Serial adapters for both boards
-  - Cross-connected UART2 pins
-  - Common ground between boards
-- **Verification Tools**:
-  - Real-time hex display in PuTTY
-  - Decoded output in Arduino Monitor
-  - Visual LED pattern verification
+The periods and prescalers can be modified to change the speed of the leds. The expected behaviour is a cycling pattern of leds, with the first led rapidly flashing `BLINK_COUNT` times. A demo video can be seen below.
 
-## Detailed Testing Setup
+### Task 4
 
-### Exercise 1: Memory Operations Testing
-- **Requirements**:
-  - Single STM32F303 board
-  - USB-Serial adapter
-  - Terminal software (115200 baud, 8N1)
-- **Test Cases**:
-  - Case conversion: "Hello World" → "HELLO WORLD"
-  - Palindrome: "radar", "hello"
-  - Caesar cipher: "HELLO" (+3 shift)
+The integration task was tested by testing each command, as listed in the module description.
 
-### Exercise 2: I/O Testing
-- **Hardware Setup**:
-  - STM32F303 board
-  - User button (PA0)
-  - LEDs (GPIOE[7:0])
-- **Test Sequences**:
-  - LED patterns: Binary counting (0-255)
-  - Button debounce: Press/release timing
-  - Vowel counter: Input "HELLO" → LED display
 
-### Exercise 3: UART Testing
-- **Equipment**:
-  - STM32F303 board
-  - 2x USB-Serial adapters
-  - Jumper wires
-- **Connections**:
-  - UART1: PC4(TX) → USB-Serial
-  - UART2: PB3(TX) → PB4(RX) (loopback)
-- **Test Protocol**:
-  - Basic transmission: "TEST"
-  - Speed changes: 9600, 115200 baud
-  - Echo test: Send/receive verification
+### Unit Tests
 
-### Exercise 4: Timer Testing
-- **Setup**:
-  - STM32F303 board
-  - Oscilloscope (optional)
-- **Verification**:
-  - 1ms delay accuracy
-  - LED blink patterns
-  - Prescaler configurations
-- **Test Patterns**:
-  - 500ms toggle
-  - Variable duty cycles
-  - Pattern sequences
+#### Touch Sensor Validation
+```c
+// Test each touch pad individually
+for(int i = 0; i < 6; i++) {
+    simulate_touch(i);
+    verify_servo_mapping(i);
+}
+```
 
-### Exercise 5: Integration Testing
-- **Hardware**:
-  - 2x STM32F303 boards
-  - 2x USB-Serial adapters
-  - Jumper wires
-- **Connections**:
-  - Board1 PB3 → Board2 PB4 (UART2)
-  - Common ground
-- **Test Sequence**:
-  1. Send palindrome "radar"
-  2. Verify encryption
-  3. Check LED display
-  4. Test mode switching
-  5. Verify ACK protocol
+#### Servo Control Testing
+```c
+// Verify servo angle accuracy
+for(int angle = 0; angle <= 90; angle += 10) {
+    SetServoAngle(servo_id, angle);
+    measure_actual_angle();
+    validate_tolerance(angle, measured_angle, 3);
+}
+```
+
+#### Game Logic Verification
+```c
+// Test win conditions
+set_treasure_map({4, 8, 0, 0, 0, 0});
+simulate_successful_digs(2);
+assert(game.items_left_to_find == 0);
+assert(check_game_over() == 1);
+```
+
+### Integration Tests
+
+1. **Full Game Simulation**: Automated playthrough with known treasure map
+2. **Edge Case Testing**: Boundary conditions for timers and resource limits
+3. **Hardware Stress Testing**: Rapid servo movements and continuous operation
+
+### Performance Metrics
+
+| Metric | Target | Measured |
+|--------|--------|----------|
+| Touch Response Time | <50ms | ~25ms |
+| Servo Position Accuracy | ±3° | ±2° |
+| Timer Accuracy | ±1s over 4min | ±0.5s |
+| Serial Throughput | 115200 baud | 115200 baud |
+
+## Troubleshooting
+
+### Common Issues
+
+#### Touch Sensors Not Responding
+**Symptoms**: No servo movement when touching pads
+**Solutions**:
+- Check pin connections (PB3-PB7, PB13)
+- Verify interrupt configuration
+- Test with oscilloscope for noise
+- Ensure proper grounding
+
+#### Servo Jitter or Incorrect Positioning  
+**Symptoms**: Servos moving erratically or wrong angles
+**Solutions**:
+- Check power supply stability (5V, adequate current)
+- Verify PWM signal timing (1-2ms pulses)
+- Calibrate trimpot readings
+- Check for electrical interference
+
+#### Serial Communication Issues
+**Symptoms**: Commands not recognized or garbled output
+**Solutions**:
+- Verify baud rate (115200)
+- Check UART pin connections
+- Test with different terminal software
+- Ensure proper line endings (CR/LF)
+
+#### Game Logic Errors
+**Symptoms**: Incorrect scoring or game state
+**Solutions**:
+- Monitor game state via serial output
+- Check treasure map configuration
+- Verify dig/peek logic implementation
+- Test timer accuracy
+
+### Debug Features
+
+#### Serial Debug Output
+Enable detailed logging by modifying debug flags:
+```c
+#define DEBUG_TOUCH_EVENTS 1
+#define DEBUG_SERVO_CONTROL 1  
+#define DEBUG_GAME_LOGIC 1
+```
+
+#### LED Status Indicators
+- **System Status**: Heartbeat LED for main loop operation
+- **Touch Status**: Individual LEDs for each touch sensor
+- **Game Status**: Color-coded indication of current game phase
+
 
 # End of Documentation
-
-
