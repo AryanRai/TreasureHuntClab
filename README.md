@@ -96,11 +96,11 @@ For a detailed explanation of the game mechanics, including the peek/dig logic a
 ---
 
 ## Team Members & Roles
-- **Joshua Kim** (`530478283`) - Touch control, Game logic, Integration
+- **Joshua Kim** (`530478283`) - INTEGRATION
 - **Steven Hughes** (`311246486`) - 3D PRINT MAN
 - **Aryan Rai** (`530362258`) - EVERYTHING
 - **James**   (`530439147`) - THE HARDWARE CARRY
-- **Noah** - TRIMPOT MOTRO LEGEND
+- **Noah** - TRIMPOT MOTOR LEGEND
 
 ---
 
