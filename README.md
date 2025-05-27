@@ -107,19 +107,13 @@ For a detailed explanation of the game mechanics, including the peek/dig logic a
 ## 📁 Repository Structure
 ```
 TreasurehuntClab/
-├──
-├──
-├──
-├── 📂 integration/           # Development Archive
-├── 📂 Integration_final/    # Implementation
-│   ├── 📂 Main/             # Integration
-│   │   ├── 📄 send/         # Transmission
-│   │   └── 📄 receive/      # Reception
-│   └── 📂           
-        ├── 📄 ex1/          # Memory Ops
-        ├── 📄 ex2/          # I/O Control
-        ├── 📄 ex3/          # UART Comms
-        └── 📄 ex4/          # Timers
+├── 📂 Archive/                  # Development Archive
+├── 📂 MagnetometerLedBuzzer/    # Magnetometer Implementation
+├── 📂 integration/              # Development Archive
+├── 📂 Integration_final/        # Implementation
+│   ├── 📂 src/              # Source File Integration
+│   └── 📂 inc               # Header files
+
 ```
 
 ---
@@ -155,18 +149,31 @@ For comprehensive details on hardware connections, core data structures, functio
 ### Core Data Structures
 
 ```c
-typedef struct {
-    uint8_t correct_servos[6];      // Treasure map (0 = no treasure)
-    int items_found;                // Treasures discovered
-    int items_left_to_find;         // Remaining treasures
-    int digs_taken;                // Digs consumed
-    int digs_remaining;            // Digs available
-    int peeks_used;                // Peek actions used
-    int game_time_remaining;       // Countdown timer
-    int game_over;                 // Game state flag
-    int total_items_to_find;       // Total treasures in game
-    unsigned long current_score;    // Player score
+typedef struct{
+	volatile int correct_servos[6];
+	volatile int items_found;
+	volatile int items_left_to_find;
+	volatile int digs_taken;
+	volatile int digs_remaining;
+	volatile int peeks_used;
+	volatile int game_time_remaining;
+	volatile int game_over;
+	volatile int total_items_to_find;
+	volatile int current_score;
 } GameState;
+
+
+typedef struct{
+	volatile int touchpad_pressed;
+	volatile int magnet1_det;
+	volatile int magnet2_det;
+	volatile int servo_controlled;
+	volatile int servo_angle;
+	volatile int trimpot_value;
+	volatile int peek_threshold;
+	volatile int pending_peek;
+} GameTriggers;
+
 ```
 
 ### Key Functions
@@ -327,37 +334,6 @@ stateDiagram-v2
   - `send/main.s`: First board implementation
   - `receive/main.s`: Second board implementation
 
-## Module Organization
-
-### Exercise 1: Memory Operations
-- Text processing and cipher implementations
-- Case conversion (upper/lower)
-- Palindrome detection
-- Caesar cipher (encode/decode)
-- Located in `/Final/TASKS/ex1/`
-
-### Exercise 2: I/O Operations
-- LED control and GPIO handling
-- Button interface management
-- Binary counting display
-- Located in `/Final/TASKS/ex2/`
-
-### Exercise 3: UART Communication
-- Serial interface implementation
-- Buffer management
-- Message handling
-- Located in `/Final/TASKS/ex3/`
-
-### Exercise 4: Timer Operations
-- Basic and advanced timer control
-- LED patterns and delays
-- Located in `/Final/TASKS/ex4/`
-
-### Exercise 5: Integration
-- Send/receive functionality
-- Module coordination
-- Located in `/Final/Main/`
-
 ---
 
 ## Quick User Instructions
@@ -459,112 +435,12 @@ Real-time game information via serial output:
 ```
 GAME STATE: Score: 12 | Digs Left: 2, Digs Taken: 2 | Treasures Left: 1, Treasures Found: 2 | Peeks Used: 3 | Time: 156
 ```
-
-
-
-  
-Below is a block diagram showing the communication between the two boards:
-![Integration block diagram](add stuff here)
-
-### General Timer Delay Formula
-
-The time delay produced by a timer depends on its clock frequency and the number of ticks it counts. The key formula is:
-
-Delay (seconds) = Number of Ticks × Tick Period (seconds)
-
-Where:
-- Tick Period = 1 / Timer Clock Frequency (Hz)
-- Timer Clock Frequency = System Clock Frequency (Hz) / (Prescaler + 1)
-
-#### Variables:
-
-#### Specific Formulas for Your Code
-
-#### 1. accurate_delay_us (Output Compare Mode)
-This function delays for a duration specified in microseconds (passed in R1), using output compare channel 1 (TIM_CCR1).
-
-Formula:
-Delay (µs) = TIM_CCR1 × Tick Period (µs)
-Where:
-- Tick Period (µs) = 1 / Timer Clock Frequency (MHz)
-- Timer Clock Frequency (MHz) = System Clock Frequency (MHz) / (PSC + 1)
-
-Code Values:
-- System Clock = 8 MHz (assumed HSI default)
-- PSC = 7 (set via MOV R4, #7; STR R4, [R0, #TIM_PSC])
-- TIM_CCR1 = R1 (e.g., 500000 in blink_leds)
-
-Calculation:
-1. Timer Clock Frequency = 8,000,000 / 8 = 1,000,000 Hz = 1 MHz
-2. Tick Period = 1 / 1,000,000 = 1 µs
-3. Delay = TIM_CCR1 × 1 µs
-
-Example (blink_leds):
-- R1 = 500000:
-  - Delay = 500,000 × 1 µs = 500,000 µs = 500 ms = 0.5 seconds
-
-#### 2. demo_100us (Update Event Mode)
-This function generates a 0.1ms period and counts 10,000 periods to total 1 second.
-
-Period Formula:
-Period (µs) = (TIM_ARR + 1) × Tick Period (µs)
-Note: +1 because counter resets after reaching ARR (counts from 0 to ARR inclusive)
-
-Total Delay Formula:
-Total Delay (µs) = (TIM_ARR + 1) × Number of Periods × Tick Period (µs)
-
-Code Values:
-- System Clock = 8 MHz
-- PSC = 7 (1 MHz timer clock, 1 µs/tick)
-- TIM_ARR = 100
-- Number of Periods = 10,000
-
-Calculation:
-1. Timer Clock = 1 MHz (as above)
-2. Tick Period = 1 µs
-3. Period = (100 + 1) × 1 µs = 101 µs ≈ 0.1 ms
-4. Total Delay = 101 × 10,000 × 1 µs = 1,010,000 µs = 1.01 seconds
-
-For Exact 0.1ms:
-- Use TIM_ARR = 99:
-  - Period = (99 + 1) × 1 µs = 100 µs = 0.1 ms
-  - Total = 100 × 10,000 × 1 µs = 1,000,000 µs = 1 second
-
 ---
 
 ## Testing & Validation
 
 ## Testing
 In order to test modules, the previously mentioned user instructions were used to set up and run the code, a demo of each module can be found in the next section labled **Demos**:
-
-### Task 1
-
-Code testing involved valdating the aproach using various initial LED values, and various user button callbacks, including have the button set a state and toggle the state of each LED.
-
-### Task 2
-
-To assess the full functionality of the code, polling was used first by editting the code as commented in the files and using PuTTY. After this the following behaviour was observed:
-- Output of string to PuTTY "man you're broke lol, get a job!!" and nothing else, awaiting for an input of a string
-- After the string "no i'm not!!!" was typed onto PuTTY, the program output "You typed: no i'm not!!!" with a new line
-- Then the program began the loop again outputting "man you're broke lol, get a job!!"
-- This demonstrated the main loop polling for an input after being stuck after outputting a string
-
-Next the interrupt functionality was tested by commenting and uncommenting the relevant lines in the code specified by comments resulting in the following behaviour:
-- Continuous output of string "man you're broke lol, get a job!!" indicating the main loop able to continuously loop 
-- After the string "no i'm not!!!" was input, the continuos output of the string stopped and instead output "You typed: no i'm not!!!" with a new line
-- The program then went back to the main loop doing the same output
-- This demonstrated the main loop being able to loop constantly while simutaneously looking for an input showing the functioning of an interrupt
-
-### Task 3
-
-The code in `main.c` demonstrates both recurring and oneshot timers. `TIM2` is used with `recur=true` to constantly cycle the leds. `TIM4` is used with `recur=false` to toggle the first led, with the timer being unsilenced inside the callback, a limited number of times.
-
-The periods and prescalers can be modified to change the speed of the leds. The expected behaviour is a cycling pattern of leds, with the first led rapidly flashing `BLINK_COUNT` times. A demo video can be seen below.
-
-### Task 4
-
-The integration task was tested by testing each command, as listed in the module description.
-
 
 ### Unit Tests
 
