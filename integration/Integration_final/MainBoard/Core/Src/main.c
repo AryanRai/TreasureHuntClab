@@ -331,7 +331,7 @@ void input_callback(char *data, uint32_t len) {
 
     if (strncmp(command_to_parse, "game start", 10) == 0) {
         // Defaults
-	uint8_t map_values[6] = {4, 8, 0, 0, 4, 0};
+	uint8_t map_values[6] = {4, 8, 0, 0, 4, 8};
         int chances_val = 4;
         int time_val = 120;
 
