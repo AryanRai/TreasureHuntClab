@@ -82,7 +82,7 @@ This repository contains a technology-driven Treasure Hunt that incorporates ele
 
 ## Team Members & Roles
 - **Joshua Kim** (`530478283`) - Touch control, Game logic, Integration
-- **Steven Hughes** (`311246486`) - 3D print creation, Game logic, Hardware
+- **Steven Hughes** (`311246486`) - 3D PRINT MAN
 - **Aryan Rai** (`530362258`) - EVERYTHING
 - **James**   (`530439147`) - THE HARDWARE CARRY
 - **Noah** - TRIMPOT MOTRO LEGEND
@@ -425,7 +425,7 @@ GAME STATE: Score: 12 | Digs Left: 2, Digs Taken: 2 | Treasures Left: 1, Treasur
 
   
 Below is a block diagram showing the communication between the two boards:
-![Integration block diagram](https://github.com/user-attachments/assets/20b32018-30c2-4f97-a25b-1c915f4c2dba)
+![Integration block diagram](add stuff here)
 
 ### General Timer Delay Formula
 
@@ -491,13 +491,9 @@ For Exact 0.1ms:
   - Period = (99 + 1) × 1 µs = 100 µs = 0.1 ms
   - Total = 100 × 10,000 × 1 µs = 1,000,000 µs = 1 second
 
-
-
 ---
 
-
-## 🧪 Testing & Validation
-
+## Testing & Validation
 
 ## Testing
 In order to test modules, the previously mentioned user instructions were used to set up and run the code, a demo of each module can be found in the next section labled **Demos**:
