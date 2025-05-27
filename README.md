@@ -184,6 +184,18 @@ Key functions:
 The trimpotentiometer (connected to PA4) serves as the primary control interface for servo operation:
 
 
+### Magnetometer
+
+The `MagnetometerLedBuzzer` sub-project incorporates a QMC5883L magnetometer sensor. This module is responsible for:
+- Detecting the presence and strength of nearby magnetic fields via I2C communication.
+- Reading raw X, Y, and Z magnetic field data.
+- Calculating the overall magnetic field magnitude.
+- Controlling the intensity of an LED and the loudness of a buzzer based on the detected magnetic field strength. The intensity is inversely proportional to the field magnitude within defined thresholds (`MAG_MIN_THRESHOLD` and `MAG_MAX_THRESHOLD`).
+- Performing a probabilistic prediction of magnet type (e.g., "Small Magnet" vs. "Big Magnet") based on predefined magnitude ranges (e.g., Small: 3000-8500, Big: 8500-20000).
+- Transmitting raw sensor data (X, Y, Z) over USART2 using a custom packet protocol.
+- Sending debug information, including calculated magnitude, PWM duty cycle, and magnet type probabilities, over USART1.
+The core logic for this module is found in `MagnetometerLedBuzzer/Core/Src/main.c`.
+
 ### Integration (Main.c)
 Main function that integrates all submodules together. See
 
