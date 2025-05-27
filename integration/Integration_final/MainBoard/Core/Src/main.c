@@ -72,6 +72,7 @@ void display_start_menu(void);
 void start_game(GameState *game_param, const uint8_t map[6], int chances, int time_limit);
 void input_callback(char *data, uint32_t len);
 void parse_game_config(char* params_str, uint8_t* out_map, int* out_chances, int* out_time);
+void display_final_scoreboard(GameState *game_param, const char* end_reason_msg);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -119,9 +120,9 @@ bool touch_enabled = true;
 // =================================== Game Functions ====================================
 // Prints via UART game state
 void transmit_game_state() {
-    char buffer[192]; // Increased buffer size for more info including score
-    sprintf(buffer, "GAME STATE: Score: %lu | Digs Left: %d, Digs Taken: %d | Treasures Left: %d, Treasures Found: %d | Time: %d\r\n",
-            game.current_score, game.digs_remaining, game.digs_taken, game.items_left_to_find, game.items_found, game.game_time_remaining);
+    char buffer[256]; // Increased buffer size for more info including score and peeks
+    sprintf(buffer, "GAME STATE: Score: %lu | Digs Left: %d, Digs Taken: %d | Treasures Left: %d, Treasures Found: %d | Peeks Used: %d | Time: %d\r\n",
+            game.current_score, game.digs_remaining, game.digs_taken, game.items_left_to_find, game.items_found, game.peeks_used, game.game_time_remaining);
     serial_output_string(buffer, &USART1_PORT);
 }
 
@@ -184,6 +185,7 @@ void start_game(GameState *game_param, const uint8_t map[6], int chances, int ti
     game_param->current_score = 0;
     game_param->items_found = 0;
     game_param->digs_taken = 0;
+    game_param->peeks_used = 0;
 
     int count = 0;
     for (int i = 0; i < 6; i++) {
@@ -221,7 +223,6 @@ void start_game(GameState *game_param, const uint8_t map[6], int chances, int ti
 
 //Check for game over conditions
 uint8_t check_game_over(GameState *game_param) { // Using game_param for clarity
-    char final_msg_buffer[256];
     bool game_ended = false;
     const char* end_reason_msg = "";
 
@@ -246,13 +247,8 @@ uint8_t check_game_over(GameState *game_param) { // Using game_param for clarity
 
     if (game_ended) {
         game_param->game_over = 1;
-        sprintf(final_msg_buffer, "\r\n*************************************\r\n%s\r\nFinal Score: %lu\r\nTreasures Found: %d / %d\r\nDigs Used: %d\r\n*************************************\r\n\n",
-                end_reason_msg,
-                game_param->current_score,
-                game_param->items_found,
-                game_param->total_items_to_find,
-                game_param->digs_taken);
-        serial_output_string(final_msg_buffer, &USART1_PORT);
+        // Display the stylized final scoreboard
+        display_final_scoreboard(game_param, end_reason_msg);
 
         // Re-display start menu for a new game
         display_start_menu();
@@ -301,32 +297,67 @@ void output_callback() {
 void input_callback(char *data, uint32_t len) {
     serial_output_string("DEBUG: input_callback fired!\r\n", &USART1_PORT); // DEBUG PRINT
     char temp_dbg[140]; // Temp buffer for received data
-    sprintf(temp_dbg, "DEBUG: Received (len %lu): %.*s\r\n", len, (int)len, data);
-    serial_output_string(temp_dbg, &USART1_PORT); // DEBUG PRINT RAW DATA
+    sprintf(temp_dbg, "DEBUG: Received (len %lu, actual str len %lu): %s\r\n", len, strlen(data), data);
+    serial_output_string(temp_dbg, &USART1_PORT); // DEBUG PRINT RAW DATA (now using %s)
 
 	// Check for game start input
     // Make a mutable copy for strtok
     char data_copy[128]; // Ensure this is large enough for expected commands
-    strncpy(data_copy, data, len);
-    data_copy[len] = '\0'; // Null-terminate
+    if (len == 0) { // Should not happen if ISR sends at least the null terminator after CR
+        serial_output_string("DEBUG: input_callback received len 0\r\n", &USART1_PORT);
+        return;
+    }
+    // Data from ISR is null-terminated at data[len-1] because CR was replaced by \0.
+    // So, the actual string length is len-1.
+    strncpy(data_copy, data, len -1); // Copy actual string content
+    data_copy[len - 1] = '\0';       // Ensure null termination for data_copy
 
-    if (strncmp(data_copy, "game start", 10) == 0) {
+    // Now data_copy holds the command without the original CR.
+    // All string operations below should use data_copy.
+
+    // --- Trim leading whitespace/non-printable characters from data_copy ---
+    char *command_to_parse = data_copy;
+    while (*command_to_parse != '\0' && (*command_to_parse == ' ' || *command_to_parse == '\n' || *command_to_parse == '\r' || (*command_to_parse < 32 && *command_to_parse > 0))) {
+        command_to_parse++;
+    }
+    // Log if trimming occurred
+    if (command_to_parse != data_copy) {
+        char trim_dbg[150];
+        sprintf(trim_dbg, "DEBUG: Command after trimming leading chars: '%s'\r\n", command_to_parse);
+        serial_output_string(trim_dbg, &USART1_PORT);
+    }
+    // --- End Trimming ---
+
+
+    if (strncmp(command_to_parse, "game start", 10) == 0) {
         // Defaults
         uint8_t map_values[6] = {4, 8, 0, 0, 0, 0};
         int chances_val = 4;
         int time_val = 240;
 
         // Check if there are parameters after "game start"
-        if (strlen(data_copy) > 10) { // e.g. "game start " (note space)
-            char *params_str = data_copy + 11; // Point to parameters after "game start "
-            parse_game_config(params_str, map_values, &chances_val, &time_val);
-        }
+        // strlen(command_to_parse) will give the length of the command part.
+        if (strlen(command_to_parse) > 10) { // e.g. "game start " (note space)
+            // Ensure there's a space after "game start" before parameters
+            if (command_to_parse[10] == ' ') {
+                 char *params_str = command_to_parse + 11; // Point to parameters after "game start "
+                 parse_game_config(params_str, map_values, &chances_val, &time_val);
+            } else {
+                // Command is longer than "game start" but no space, treat as basic "game start"
+                // or log an invalid format warning.
+                serial_output_string("DEBUG: 'game start' with extra chars but no space for params.\r\n", &USART1_PORT);
+            }
+        } // If exactly "game start" (strlen 10), defaults are used.
         
         // Call start_game with potentially parsed values
         start_game(&game, map_values, chances_val, time_val);
+    } else {
+        char unknown_cmd_buf[150];
+        sprintf(unknown_cmd_buf, "DEBUG: Unknown command received (after trim): '%s'\r\n", command_to_parse);
+        serial_output_string(unknown_cmd_buf, &USART1_PORT);
     }
     // It's good practice to clear the input buffer after processing, if your serial_josh lib expects this
-    // For example: serial_clear_rx_buffer(&USART1_PORT);
+    // For example: serial_clear_rx_buffer(&USART1_PORT); (This function doesn't exist in provided serial_josh.c)
 }
 
 // Helper function definitions for parsing serial commands
@@ -487,6 +518,29 @@ void display_start_menu(void) {
     serial_output_string("-------------------------------------\r\n\n", &USART1_PORT);
 }
 
+void display_final_scoreboard(GameState *game_param, const char* end_reason_msg) {
+    char score_buffer[256];
+    serial_output_string("\r\n*************************************\r\n", &USART1_PORT);
+    serial_output_string("          G A M E   O V E R          \r\n", &USART1_PORT);
+    serial_output_string("*************************************\r\n", &USART1_PORT);
+
+    sprintf(score_buffer, "Status: %s\r\n", end_reason_msg);
+    serial_output_string(score_buffer, &USART1_PORT);
+
+    sprintf(score_buffer, "Final Score: %lu\r\n", game_param->current_score);
+    serial_output_string(score_buffer, &USART1_PORT);
+
+    sprintf(score_buffer, "Treasures Found: %d / %d\r\n", game_param->items_found, game_param->total_items_to_find);
+    serial_output_string(score_buffer, &USART1_PORT);
+
+    sprintf(score_buffer, "Digs Used: %d\r\n", game_param->digs_taken);
+    serial_output_string(score_buffer, &USART1_PORT);
+
+    sprintf(score_buffer, "Peeks Used: %d\r\n", game_param->peeks_used);
+    serial_output_string(score_buffer, &USART1_PORT);
+    serial_output_string("*************************************\r\n\n", &USART1_PORT);
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -551,7 +605,7 @@ int main(void)
 
   display_start_menu(); // Display start menu when MCU boots up
 
-  // New state variables for trimpot-touch interaction logic
+  // State variables for trimpot-touch interaction logic
   static bool isActiveMode = false;
   static uint8_t activeServoId = 0; // Will be 1-6
   static bool servoFullyOpened = false;
@@ -559,10 +613,18 @@ int main(void)
   static uint8_t activeTouchpadPin = 0; // Stores the pin number of the triggering touch (e.g. 7, 6, ..)
   static uint8_t armed_touchpad_pin = 0; // Pin number of the touch sensor that is "armed" for activation. 0 if none.
 
+  // State variables for Peek/Dig logic within isActiveMode
+  static bool inDigCommitPhase = false;
+  static bool hasPeekMovementOccurred = false;
+
   #define POT_ACTIVE_THRESHOLD_RAW 50     // Raw ADC value from trimpot (e.g., ~1.2% of 4095)
   #define SERVO_TARGET_OPEN_ANGLE 90      // Target angle for "fully open"
   #define SERVO_TARGET_CLOSED_ANGLE 0     // Target angle for "fully closed"
   #define SERVO_ANGLE_TOLERANCE 3         // Degrees tolerance for open/close detection
+  #define PEEK_MAX_ANGLE 20               // Max angle for a peek before committing to a dig
+  // Raw pot value roughly corresponding to PEEK_MAX_ANGLE for a 0-90 full scale.
+  // (20 / 90) * 4095 = 0.222 * 4095 = ~909. This is a threshold to commit to dig.
+  #define POT_TO_COMMIT_DIG_THRESHOLD_RAW 950 // A bit above 909 to give some leeway for PEEK_MAX_ANGLE
 
   /* USER CODE END 2 */
 
@@ -619,8 +681,11 @@ int main(void)
         if (armed_touchpad_pin != 0 && pot_raw_value > POT_ACTIVE_THRESHOLD_RAW) {
             // An armed touchpad exists AND pot is above threshold. Activate!
             isActiveMode = true;
-            servoFullyOpened = false;
-            servoFullyClosed = false; // Reset these for the new cycle
+            // Reset peek/dig sub-state for this new activation
+            inDigCommitPhase = false;
+            hasPeekMovementOccurred = false;
+            servoFullyOpened = false; // Ensure these are reset for the new servo interaction cycle
+            servoFullyClosed = false;
             activeTouchpadPin = armed_touchpad_pin; // This is the pin that triggered the mode
             armed_touchpad_pin = 0; // Disarm, as it's now active and being processed.
 
@@ -661,60 +726,96 @@ int main(void)
         touch_enabled = false; // Keep touch input disabled for ISR
 
         if (activeServoId >= 1 && activeServoId <= 6) {
-            // Map potentiometer value to servo angle (0 to SERVO_TARGET_OPEN_ANGLE)
-            uint16_t current_target_angle = (uint16_t)(((float)pot_raw_value * (float)SERVO_TARGET_OPEN_ANGLE) / 0xFFF);
-            if (current_target_angle > SERVO_TARGET_OPEN_ANGLE) current_target_angle = SERVO_TARGET_OPEN_ANGLE;
-            // if (current_target_angle < SERVO_TARGET_CLOSED_ANGLE) current_target_angle = SERVO_TARGET_CLOSED_ANGLE; // Pot raw is uint
+            uint16_t current_pot_angle_full_range = (uint16_t)(((float)pot_raw_value * (float)SERVO_TARGET_OPEN_ANGLE) / 0xFFF);
+            if (current_pot_angle_full_range > SERVO_TARGET_OPEN_ANGLE) current_pot_angle_full_range = SERVO_TARGET_OPEN_ANGLE;
 
-            SetServoAngle(activeServoId, current_target_angle); // Continuously update servo position
-
-            if (!servoFullyOpened) {
-                // Check if servo is considered fully open
-                if (current_target_angle >= (SERVO_TARGET_OPEN_ANGLE - SERVO_ANGLE_TOLERANCE)) {
-                    servoFullyOpened = true;
-                    dig_used(activeServoId); // Call the scaffolding function for "dig"
-
-                    char log_buffer[128];
-                    sprintf(log_buffer, "Servo %d fully opened (Angle: %d). Pot-control active. Close fully to finish.\r\n",
-                            activeServoId, current_target_angle);
-                    serial_output_string(log_buffer, &USART1_PORT);
+            if (!inDigCommitPhase) {
+                // --- Peek Control Phase ---
+                uint16_t peek_control_angle = current_pot_angle_full_range;
+                if (peek_control_angle > PEEK_MAX_ANGLE) {
+                    peek_control_angle = PEEK_MAX_ANGLE; // Cap at PEEK_MAX_ANGLE during peek phase
                 }
-            } else if (!servoFullyClosed) { // servoFullyOpened is true, now waiting for full closure
-                // Check if servo is considered fully closed
-                if (current_target_angle <= (SERVO_TARGET_CLOSED_ANGLE + SERVO_ANGLE_TOLERANCE)) {
-                    servoFullyClosed = true;
-                    // Cycle for this servo is complete
-                    char log_buffer[128];
-                    sprintf(log_buffer, "Servo %d fully closed (Angle: %d). Cycle complete for touch PB%d.\r\n",
-                            activeServoId, current_target_angle, activeTouchpadPin);
-                    serial_output_string(log_buffer, &USART1_PORT);
+                SetServoAngle(activeServoId, peek_control_angle);
 
-                    // Disable the touchpad that was used for this cycle
-                    uint8_t touchpad_index_to_disable = 255; // 0-5 index for disable_touchpad
-                    static const uint8_t touch_pins_disable_lookup_table[6] = {7, 6, 5, 4, 3, 13};
-                    for (uint8_t i = 0; i < 6; i++) {
-                        if (activeTouchpadPin == touch_pins_disable_lookup_table[i]) {
-                            touchpad_index_to_disable = i;
-                            break;
-                        }
-                    }
-                    if (touchpad_index_to_disable < 6) {
-                        disable_touchpad(touchpad_index_to_disable); // disable_touchpad expects 0-5 index
-                    }
+                if (peek_control_angle > SERVO_ANGLE_TOLERANCE) {
+                    hasPeekMovementOccurred = true;
+                }
 
-                    // Reset state for the next interaction
+                // Check for transition to Dig Commit Phase
+                // If pot value tries to move servo beyond PEEK_MAX_ANGLE (using full range mapping for check)
+                if (current_pot_angle_full_range > PEEK_MAX_ANGLE + SERVO_ANGLE_TOLERANCE ) { // Add tolerance for clear transition
+                    inDigCommitPhase = true;
+                    hasPeekMovementOccurred = false; // Reset, as this is now a dig, not a completed peek
+                    serial_output_string("PEEK converted to DIG commitment. Open fully, then close fully.\r\n", &USART1_PORT);
+                    // The servo will now follow full range in the 'else if (inDigCommitPhase)' block below
+                }
+                // Check for completing a Peek action (closing after peeking)
+                else if (hasPeekMovementOccurred && peek_control_angle <= SERVO_ANGLE_TOLERANCE) {
+                    game.peeks_used++;
+                    char peek_log_buf[80];
+                    sprintf(peek_log_buf, "PEEK used on Servo %d. Total Peeks: %d. Choose next action.\r\n", activeServoId, game.peeks_used);
+                    serial_output_string(peek_log_buf, &USART1_PORT);
+                    transmit_game_state();
+
+                    // Reset for next interaction (peek completed, touchpad NOT disabled)
                     isActiveMode = false;
-                    activeServoId = 0; // Clear active servo
-                    activeTouchpadPin = 0; // Clear active pin
-                    // servoFullyOpened and servoFullyClosed will be reset at the start of the next activation
-                    touch_enabled = true; // Re-enable touch processing by ISR
+                    activeServoId = 0;
+                    // activeTouchpadPin remains the one that was armed, but it's not disabled.
+                    // armed_touchpad_pin is already 0 from activation.
+                    // No, activeTouchpadPin should be cleared, as its direct interaction is done.
+                    activeTouchpadPin = 0;
+                    touch_enabled = true;
+                    // servoFullyOpened/Closed are not relevant for a pure peek completion
+                }
+            } else { // inDigCommitPhase == true
+                // --- Dig Control Phase (committed to full dig) ---
+                // Potentiometer controls angle from 0 to SERVO_TARGET_OPEN_ANGLE
+                SetServoAngle(activeServoId, current_pot_angle_full_range);
+
+                if (!servoFullyOpened) {
+                    if (current_pot_angle_full_range >= (SERVO_TARGET_OPEN_ANGLE - SERVO_ANGLE_TOLERANCE)) {
+                        servoFullyOpened = true;
+                        dig_used(activeServoId); // Call the function for "dig"
+                        // Log already happens in dig_used and SetServoAngle
+                    }
+                } else if (!servoFullyClosed) { // servoFullyOpened is true, waiting for full closure
+                    if (current_pot_angle_full_range <= (SERVO_TARGET_CLOSED_ANGLE + SERVO_ANGLE_TOLERANCE)) {
+                        servoFullyClosed = true;
+                        char log_buffer[128];
+                        sprintf(log_buffer, "Servo %d fully closed after DIG. Cycle complete for touch PB%d.\r\n",
+                                activeServoId, activeTouchpadPin); // activeTouchpadPin holds the original triggering pin
+                        serial_output_string(log_buffer, &USART1_PORT);
+
+                        // Disable the touchpad that was used for this dig cycle
+                        uint8_t touchpad_index_to_disable = 255;
+                        static const uint8_t touch_pins_disable_lookup_table[6] = {7, 6, 5, 4, 3, 13};
+                        for (uint8_t i = 0; i < 6; i++) {
+                            if (activeTouchpadPin == touch_pins_disable_lookup_table[i]) {
+                                touchpad_index_to_disable = i;
+                                break;
+                            }
+                        }
+                        if (touchpad_index_to_disable < 6) {
+                            disable_touchpad(touchpad_index_to_disable);
+                        }
+
+                        // Reset state for the next interaction
+                        isActiveMode = false;
+                        activeServoId = 0;
+                        activeTouchpadPin = 0;
+                        servoFullyOpened = false;
+                        servoFullyClosed = false;
+                        // armed_touchpad_pin is already 0
+                        touch_enabled = true;
+                    }
                 }
             }
-        } else {
-            // This case should ideally not be reached if logic is sound
+        } else { // Should not happen: isActiveMode true but activeServoId invalid
             serial_output_string("Error: In active mode with invalid activeServoId. Deactivating.\r\n", &USART1_PORT);
             isActiveMode = false;
-            touch_enabled = true; // Ensure touches are re-enabled
+            touch_enabled = true;
+            inDigCommitPhase = false; // Reset peek/dig state too
+            hasPeekMovementOccurred = false;
         }
     }
 
