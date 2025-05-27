@@ -96,11 +96,11 @@ For a detailed explanation of the game mechanics, including the peek/dig logic a
 ---
 
 ## Team Members & Roles
-- **Joshua Kim** (`530478283`) - Touch control, Game logic, Integration
+- **Joshua Kim** (`530478283`) - INTEGRATION
 - **Steven Hughes** (`311246486`) - 3D PRINT MAN
 - **Aryan Rai** (`530362258`) - EVERYTHING
 - **James**   (`530439147`) - THE HARDWARE CARRY
-- **Noah** - TRIMPOT MOTRO LEGEND
+- **Noah** - TRIMPOT MOTOR LEGEND
 
 ---
 
@@ -466,14 +466,67 @@ for(int angle = 0; angle <= 90; angle += 10) {
 ```
 
 #### Game Logic Verification
-Game logic verification
-```c
-// Test win conditions
-set_treasure_map({4, 8, 0, 0, 0, 0});
-simulate_successful_digs(2);
-assert(game.items_left_to_find == 0);
-assert(check_game_over() == 1);
+Game logic verification was brokent down into multiple steps.
+1. start_game: 
+-Starts a game with default settings:
+- Map: Treasures at Servo 1 (value 4) and Servo 2 (value 8)
+- Digs: 4 attempts
+- Time: 240 seconds
+
+2. Testing Scenarios
+Basic Gameplay Flow
+**Objective**: Verify normal game operation
+1. Send `game start` command
+2. Touch a touchpad (PB3-PB7, PB13)
+3. Turn trimpot slightly (peek ≤20°) and return to 0°
+4. Verify peek counter increments
+5. Touch same pad again, turn trimpot beyond 20°
+6. Open servo fully (90°), then close fully (0°)
+7. Verify dig counter decrements and touchpad disables
+
+**Expected Output**:
 ```
+GAME STATE: Score: X | Digs Left: Y, Digs Taken: Z | Treasures Left: A, Treasures Found: B | Peeks Used: C | Time: D
+```
+
+Win Condition Testing
+**Setup**: `game start map=1,1,0,0,0,0 chances=5 time=300`
+1. Dig at Servo 1 and Servo 2 locations
+2. Find both treasures
+3. Verify game ends with "You Win! All treasures found!"
+4. Check final scoreboard displays correct statistics
+
+Lose Condition Testing
+#### Out of Digs
+**Setup**: `game start map=0,0,0,0,0,1 chances=2 time=300`
+1. Dig at Servo 1 (no treasure)
+2. Dig at Servo 2 (no treasure)
+3. Verify game ends with "Game Over! No digs remaining."
+
+Time Expiration
+**Setup**: `game start map=1,0,0,0,0,0 chances=10 time=5`
+1. Wait for timer to count down
+2. Verify game ends with "Game Over! Time is up."
+
+Touchpad Reuse Prevention
+1. Start game and dig at a location
+2. Attempt to touch the same pad again
+3. Verify message: "Touchpad X already used - ignoring"
+4. Confirm servo doesn't respond to trimpot
+
+Peek vs Dig Logic
+**Test Peek Completion**:
+1. Touch pad, move trimpot to ~15° (below 30°)
+2. Return trimpot to 0°
+3. Verify "PEEK used" message and touchpad remains active
+
+**Test Peek-to-Dig Conversion**:
+1. Touch pad, move trimpot to ~15°
+2. Continue moving beyond 20°
+3. Verify "PEEK converted to DIG commitment" message
+4. Complete full dig cycle (90° → 0°)
+
+---
 
 ### Integration Tests
 
