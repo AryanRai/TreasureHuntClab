@@ -258,11 +258,11 @@ stateDiagram-v2
 
 ### Scoring System
 
-| Treasure Type | Point Value | Rarity |
-|---------------|-------------|--------|
-| Basic Treasure | 4 points | Common |
-| Rare Treasure | 8 points | Uncommon |
-| Epic Treasure | 12+ points | Rare |
+| Treasure Type | Point Value | 
+|---------------|-------------|
+| Basic Treasure | 4 points |
+| Rare Treasure | 8 points | 
+| Epic Treasure | 12+ points | 
 
 **Bonus Scoring**:
 - Time bonus for quick completion
