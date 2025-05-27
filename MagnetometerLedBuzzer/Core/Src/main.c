@@ -44,6 +44,11 @@
 #define PROTOCOL_START_MARKER 0x7E
 #define PROTOCOL_SENSOR_TYPE_MAG 0x01
 #define PROTOCOL_SENSOR_ID_QMC 0x01
+/* Magnet Prediction Defines */
+#define MAG_SMALL_LOW_F 2000.0f
+#define MAG_SMALL_HIGH_F 6000.0f // Boundary point
+#define MAG_BIG_LOW_F 6000.0f   // Boundary point
+#define MAG_BIG_HIGH_F 20000.0f
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -118,7 +123,7 @@ HAL_StatusTypeDef QMC5883L_ReadXYZ(int16_t *x, int16_t *y, int16_t *z) {
     ret = HAL_I2C_Mem_Read(&hi2c1, QMC5883L_ADDR, QMC5883L_REG_X_LSB, 1, data, 6, HAL_MAX_DELAY);
     if (ret != HAL_OK) return ret;
 
-    // Combine bytes (2’s complement)
+    // Combine bytes (2's complement)
     *x = (int16_t)(data[1] << 8 | data[0]);
     *y = (int16_t)(data[3] << 8 | data[2]);
     *z = (int16_t)(data[5] << 8 | data[4]);
@@ -186,6 +191,8 @@ int main(void)
   const uint32_t maxDuty = 7999; // Matches TIM1 and TIM2 Period
   char buffer[100];
   HAL_StatusTypeDef ret;
+  float prob_small_magnet = 0.0f;
+  float prob_big_magnet = 0.0f;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -263,6 +270,25 @@ int main(void)
             __HAL_TIM_SET_COMPARE(&htim1, TIM_CHANNEL_3, dutyCycle); // LED
             __HAL_TIM_SET_COMPARE(&htim2, TIM_CHANNEL_3, dutyCycle); // Buzzer
 
+            // Magnet type prediction
+            prob_small_magnet = 0.0f; // Reset before calculation
+            prob_big_magnet = 0.0f;   // Reset before calculation
+
+            if (magnitude >= MAG_SMALL_LOW_F && magnitude <= MAG_BIG_HIGH_F) { // Overall prediction range [3000, 20000]
+                if (magnitude <= MAG_SMALL_HIGH_F) { // Range [3000, 8500]
+                    // norm_pos is 0 at MAG_SMALL_LOW_F, 1 at MAG_SMALL_HIGH_F
+                    float norm_pos = (magnitude - MAG_SMALL_LOW_F) / (MAG_SMALL_HIGH_F - MAG_SMALL_LOW_F);
+                    prob_small_magnet = 1.0f - 0.5f * norm_pos;
+                    prob_big_magnet = 0.5f * norm_pos;
+                } else { // Range (8500, 20000]
+                    // norm_pos is 0 at MAG_BIG_LOW_F, 1 at MAG_BIG_HIGH_F
+                    float norm_pos = (magnitude - MAG_BIG_LOW_F) / (MAG_BIG_HIGH_F - MAG_BIG_LOW_F);
+                    prob_small_magnet = 0.5f * (1.0f - norm_pos);
+                    prob_big_magnet = 0.5f * norm_pos + 0.5f;
+                }
+            }
+            // If magnitude is outside [MAG_SMALL_LOW_F, MAG_BIG_HIGH_F], probabilities remain 0.0f
+
             // Transmit magnetometer data over USART2
             USART2_Transmit_Packet(x, y, z);
         } else {
@@ -275,7 +301,7 @@ int main(void)
 
     // Send debug message over USART1 every 1 second
     if (uartTimer >= UART_TX_PERIOD_MS) {
-        sprintf(buffer, "DEBUG: Mag: %.2f, Duty: %lu%%\r\n", magnitude, (dutyCycle * 100) / maxDuty);
+        sprintf(buffer, "DEBUG: Mag: %.2f, Duty: %lu%%, Pred: %.0f%% M1, %.0f%% M2\r\n", magnitude, (dutyCycle * 100) / maxDuty, prob_small_magnet * 100.0f, prob_big_magnet * 100.0f);
         send_string(buffer);
         uartTimer = 0; // Reset timer
     }

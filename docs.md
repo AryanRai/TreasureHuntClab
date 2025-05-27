@@ -316,6 +316,74 @@ The game provides real-time feedback via the serial console (USART1).
 `
     *   Error messages like "Error: Mapped to invalid Servo ID..." or "Error: In active mode with invalid activeServoId..."
 
+## 9.1. Magnetometer Sub-System (QMC5883L)
+
+This section details the functionality of the magnetometer module, primarily implemented in `MagnetometerLedBuzzer/Core/Src/main.c`. It uses a QMC5883L magnetometer sensor connected via I2C1.
+
+### 9.1.1. Overview
+
+The magnetometer sub-system is designed to detect magnetic fields, control an LED and a buzzer based on field strength, predict the type of magnet, and transmit data over serial connections.
+
+### 9.1.2. Key Functionalities
+
+*   **Initialization (`QMC5883L_Init`)**: Configures the QMC5883L sensor for continuous measurement mode, with settings for output data rate (ODR), range (RNG), and oversampling rate (OSR).
+*   **Data Reading (`QMC5883L_ReadXYZ`)**: Reads the raw X, Y, and Z magnetic field data from the sensor. It waits for the data ready (DRDY) status bit before reading.
+*   **Magnitude Calculation**: Computes the overall magnetic field strength using the formula: `magnitude = sqrt(x*x + y*y + z*z)`.
+*   **LED and Buzzer Control**: 
+    *   The duty cycle for PWM signals controlling an LED (TIM1_CH3) and a buzzer (TIM2_CH3) is adjusted based on the `magnitude`.
+    *   An inverse relationship is implemented: stronger magnetic fields (lower magnitude values, assuming the sensor is close to a strong magnet that it is calibrated for) result in a lower duty cycle (dimmer LED, quieter buzzer), while weaker fields result in a higher duty cycle.
+    *   Thresholds `MAG_MIN_THRESHOLD` (e.g., 3000) and `MAG_MAX_THRESHOLD` (e.g., 10000) define the range for this mapping. Magnitudes below `MAG_MIN_THRESHOLD` result in maximum duty cycle, and above `MAG_MAX_THRESHOLD` result in minimum (0) duty cycle.
+*   **Magnet Type Prediction**: 
+    *   Predicts the probability of the detected magnet being one of two types (e.g., "Small" or "Big") based on its magnitude.
+    *   The prediction uses defined ranges:
+        *   Small Magnet Range: `MAG_SMALL_LOW_F` (e.g., 2000.0f) to `MAG_SMALL_HIGH_F` (e.g., 6000.0f)
+        *   Big Magnet Range: `MAG_BIG_LOW_F` (e.g., 6000.0f) to `MAG_BIG_HIGH_F` (e.g., 20000.0f)
+    *   Probabilities are calculated to provide a smooth transition between types, with a 50/50 prediction at the boundary (e.g., 6000.0f).
+*   **Serial Data Transmission**: 
+    *   **USART2**: Transmits a custom binary packet containing raw X, Y, Z data. 
+    *   **USART1**: Transmits human-readable debug messages periodically.
+
+### 9.1.3. Key Defines (from `MagnetometerLedBuzzer/Core/Src/main.c`)
+
+*   `QMC5883L_ADDR`: `0x0D << 1` (I2C address)
+*   `QMC5883L_REG_X_LSB`: `0x00` (Start register for XYZ data)
+*   `QMC5883L_REG_CTRL1`: `0x09` (Control Register 1 for mode settings)
+*   `MAG_MIN_THRESHOLD`: e.g., `3000` (Magnitude for max LED/Buzzer intensity)
+*   `MAG_MAX_THRESHOLD`: e.g., `10000` (Magnitude for min LED/Buzzer intensity)
+*   `MAG_SMALL_LOW_F`: e.g., `2000.0f`
+*   `MAG_SMALL_HIGH_F`: e.g., `6000.0f` (Boundary for small magnet max / big magnet transition)
+*   `MAG_BIG_LOW_F`: e.g., `6000.0f` (Boundary for big magnet min / small magnet transition)
+*   `MAG_BIG_HIGH_F`: e.g., `20000.0f`
+*   `UART_TX_PERIOD_MS`: e.g., `1000` (Period for USART1 debug messages)
+
+### 9.1.4. USART2 Custom Packet Protocol
+
+The magnetometer data (X, Y, Z) is transmitted over USART2 using a simple custom packet structure:
+
+*   **Size**: 11 bytes
+*   **Structure**:
+    *   `packet[0]`: `PROTOCOL_START_MARKER` (0x7E)
+    *   `packet[1]`: Length (e.g., 0x0A = 10 bytes for sensor type + sensor ID + payload + checksum)
+    *   `packet[2]`: `PROTOCOL_SENSOR_TYPE_MAG` (0x01)
+    *   `packet[3]`: `PROTOCOL_SENSOR_ID_QMC` (0x01)
+    *   `packet[4-5]`: X-axis data (int16_t, little-endian: LSB, MSB)
+    *   `packet[6-7]`: Y-axis data (int16_t, little-endian: LSB, MSB)
+    *   `packet[8-9]`: Z-axis data (int16_t, little-endian: LSB, MSB)
+    *   `packet[10]`: Checksum (sum of bytes from `packet[1]` to `packet[9]`, truncated to 8 bits)
+
+### 9.1.5. USART1 Debug Output
+
+Periodically (e.g., every `UART_TX_PERIOD_MS`), a debug message is sent via USART1:
+
+`DEBUG: Mag: <magnitude>, Duty: <duty_cycle_percent>%, Pred: <prob_M1>% M1, <prob_M2>% M2\r\n`
+
+*   `<magnitude>`: Floating-point value of the calculated magnetic field strength.
+*   `<duty_cycle_percent>`: Integer percentage of the PWM duty cycle for LED/Buzzer.
+*   `<prob_M1>`: Integer percentage probability of it being Magnet 1 (Small).
+*   `<prob_M2>`: Integer percentage probability of it being Magnet 2 (Big).
+
+Example: `DEBUG: Mag: 5500.25, Duty: 60%, Pred: 75% M1, 25% M2\r\n`
+
 ## 10. Troubleshooting & Debugging Guide
 
 *   **No Serial Output / Garbled Output:**
