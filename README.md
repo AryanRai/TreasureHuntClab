@@ -35,6 +35,7 @@
 ## 🎯 Project Overview
 
 This repository contains a technology-driven Treasure Hunt that incorporates elements of classic treasure hunts within MTRX2700 Mechatronics 2 unit at the University of Sydney. It is an immersive treasure hunting adventure game built on the STM32F303 Discovery Board. Players use capacitive touch sensors to select "treasure boxes" (controlled by servos) and a potentiometer to "dig" (open the servos). The goal is to find hidden treasures within a set number of digs and a limited time. This project demonstrates advanced embedded systems integration including sensor interfacing, actuator control, real-time processing, and serial communication for game control and status updates.
+For a more detailed technical breakdown, please see the [Technical Documentation (docs.md)](docs.md).
 
 ### Game Features
 - **Interactive Touch Controls**: 6 capacitive touch sensors (`PB3, PB4, PB5, PB6, PB7, PB13`) allow players to select one of six treasure boxes.
@@ -72,6 +73,8 @@ This repository contains a technology-driven Treasure Hunt that incorporates ele
 - **Time Pressure**: Default 240 seconds (4 minutes).
 - **Scoring**: Treasures have different values. Finding treasures adds to `current_score`.
 - **One-Time Use Touchpads (Post-Dig)**: Once a box has been successfully "dug", its corresponding touchpad cannot be used to initiate another dig or peek in the same game.
+
+For a detailed explanation of the game mechanics, including the peek/dig logic and state transitions, please refer to the [Gameplay Mechanics and State Machine section in docs.md](docs.md#7-code-flow-and-state-machine-main-loop-in-mainc).
 
 ### Software Architecture
 
@@ -146,6 +149,8 @@ TreasurehuntClab/
 ### Integration (Main.c)
 
 ## Technical Implementation
+
+For comprehensive details on hardware connections, core data structures, function descriptions, serial commands, and more, please refer to the [Technical Documentation (docs.md)](docs.md).
 
 ### Core Data Structures
 

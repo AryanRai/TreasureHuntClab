@@ -1,120 +1,336 @@
- \
-# Treasure Hunt Game - STM32F303xC
+# Technical Documentation: Treasure Hunt Game - STM32F303xC
 
-## Project Overview
+## 1. Project Overview
 
-This project implements a "Treasure Hunt" game on an STM32F303xC microcontroller. Players interact with the game using touch sensors and a potentiometer to control servo-operated "treasure boxes." The objective is to find hidden treasures within a limited number of digs and a set time. Game state, scores, and instructions are communicated via a serial interface.
+This document provides detailed technical information about the STM32F303xC Treasure Hunt game. The game involves players using touch sensors and a potentiometer to control servo-operated "treasure boxes," aiming to find hidden treasures within set constraints of digs and time. It primarily uses `main.c` for game logic, with helper C libraries for serial communication, timer management, and GPIO/EXTI handling.
 
-## Hardware Requirements
+## 2. File Structure
 
-*   STM32F303xC-based development board (e.g., Nucleo or custom board).
-*   Up to 6 Touch Sensors connected to GPIO pins configured as EXTI interrupt sources (PB3-PB7, PB13 used in `main.c`).
-*   Up to 6 Servo Motors, controlled by PWM signals from TIM2, TIM3, and TIM4 (PA0, PA1, PE2, PE3, PD12, PD13 used in `main.c`).
-*   1 Potentiometer connected to an ADC-capable pin (PA4 used in `main.c`) for controlling servo movement and game interactions.
-*   Serial communication interface (e.g., ST-Link VCP, USB-to-UART adapter) connected to USART1 (PC4 TX, PC5 RX used in `main.c`).
+The main project code is located within the `integration/Integration_final/MainBoard/` directory.
 
-## Software Structure
+*   **`Core/Src/main.c`**: Central file containing the main game loop, state machine, hardware initialization, and core game logic functions.
+*   **`Core/Inc/main.h`**: Header file for `main.c`, including necessary includes and function prototypes if not defined elsewhere.
+*   **`Core/Inc/structs.h`**: Defines the core data structures `GameState` and `GameTriggers` used throughout the application to manage game state and player inputs.
+*   **`Core/Src/serial_josh.c` & `Core/Inc/serial_josh.h`**: Custom library for USART1 serial communication. Handles initialization, transmission of strings/characters, and interrupt-driven reception of commands.
+*   **`Core/Src/timer_josh.c` & `Core/Inc/timer_josh.h`**: Custom library for managing hardware timers (e.g., TIM7 for the main game countdown). Provides functions for timer initialization, setting periods, prescalers, and callbacks.
+*   **`Core/Src/GPIO.c` & `Core/Inc/GPIO.h`**: Custom library for GPIO pin configuration (input, output, analog, EXTI) and EXTI interrupt management.
+*   **`startup/`**: STM32 startup files (e.g., `startup_stm32f303xc.s`).
+*   **`Drivers/STM32F3xx_HAL_Driver/`**: STM32 HAL (Hardware Abstraction Layer) drivers provided by STMicroelectronics.
+*   **`Drivers/CMSIS/`**: ARM Cortex Microcontroller Software Interface Standard files.
 
-The project is primarily contained within `integration/Integration_final/MainBoard/`.
+## 3. Hardware Connection Details
 
-### Core Files:
+(Based on configurations in `main.c` `MX_GPIO_Init()` and peripheral initialization blocks)
 
-*   **`Core/Src/main.c`**:
-    *   Contains the main game loop, state machine, and logic.
-    *   Initializes hardware (GPIO, Timers for PWM, USART, ADC for potentiometer).
-    *   Handles touch sensor interrupts (`handle_touch`).
-    *   Manages servo control (`SetServoAngle`, `get_servo`).
-    *   Implements game rules: starting, ending, dig counting, treasure finding, scorekeeping, peeking.
-    *   Parses serial commands for starting and configuring the game.
-    *   Outputs game state and menus to the serial console.
-*   **`Core/Inc/main.h`**: Header for `main.c`.
-*   **`Core/Inc/structs.h`**:
-    *   Defines core data structures: `GameState` and `GameTriggers`.
-        *   `GameState`: Tracks all persistent game variables (score, digs, time, treasure locations, etc.).
-        *   `GameTriggers`: Holds transient event flags (touch pressed, etc.).
-*   **`Core/Src/serial_josh.c` / `Core/Inc/serial_josh.h`**: (Assumed) Custom library for USART serial communication, including interrupt-driven reception.
-*   **`Core/Src/timer_josh.c` / `Core/Inc/timer_josh.h`**: (Assumed) Custom library for timer management, used for the main game countdown.
-*   **`Core/Src/GPIO.c` / `Core/Inc/GPIO.h`**: (Assumed) Custom library for GPIO and EXTI interrupt configuration.
-*   **`startup/` & `Drivers/`**: Standard STM32CubeIDE generated files for MCU startup, HAL drivers, and CMSIS.
+*   **Touch Sensors (Input, Pull-down configuration in `MX_GPIO_Init`, EXTI on Rising Edge via `enable_interrupt` in `GPIO.c` called from `main.c`):**
+    *   Sensor linked to `touch_to_servo_map[0]` (Default: Servo 1): `PB7` (EXTI line 7, handled by `EXTI9_5_IRQHandler`)
+    *   Sensor linked to `touch_to_servo_map[1]` (Default: Servo 2): `PB6` (EXTI line 6, handled by `EXTI9_5_IRQHandler`)
+    *   Sensor linked to `touch_to_servo_map[2]` (Default: Servo 3): `PB5` (EXTI line 5, handled by `EXTI9_5_IRQHandler`)
+    *   Sensor linked to `touch_to_servo_map[3]` (Default: Servo 4): `PB4` (EXTI line 4, handled by `EXTI4_IRQHandler`)
+    *   Sensor linked to `touch_to_servo_map[4]` (Default: Servo 5): `PB3` (EXTI line 3, handled by `EXTI3_IRQHandler`)
+    *   Sensor linked to `touch_to_servo_map[5]` (Default: Servo 6): `PB13` (EXTI line 13, handled by `EXTI15_10_IRQHandler`)
+        *Mapping note: `main.c` uses `static const uint8_t touch_pins[6] = {7, 6, 5, 4, 3, 13};` for internal indexing in `handle_touch` and `disable_touchpad`.*
+*   **Servo Motors (PWM Output)**:
+    *   Servo 1: `PE2` (TIM3_CH1)
+    *   Servo 2: `PE3` (TIM3_CH2)
+    *   Servo 3: `PA0` (TIM2_CH1)
+    *   Servo 4: `PA1` (TIM2_CH2)
+    *   Servo 5: `PD12` (TIM4_CH1)
+    *   Servo 6: `PD13` (TIM4_CH2)
+*   **Trimpot (Analog Input)**:
+    *   `PA4` (Configured via `GPIO *trim_pot = init_port(A, ANALOG, 4, 4);`. The `GPIO.c` library likely configures this for ADC2_INP4 for `read_pins_analog`.)
+*   **Serial UART (USART1 via `serial_josh.c`)**:
+    *   TX: `PC4` (GPIO_AF7_USART1)
+    *   RX: `PC5` (GPIO_AF7_USART1)
 
-### Key Game Logic in `main.c`:
+## 4. Core Data Structures (`structs.h`)
 
-*   **Game States:**
-    *   **Menu/Idle State (`game.game_over == 1`):** Waits for "game start" command. Displays start menu or final scoreboard.
-    *   **Active Game State (`game.game_over == 0`):** Main game loop runs.
-        *   **Touchpad Arming:** Pressing a touchpad "arms" it.
-        *   **Activation Mode (`isActiveMode`):** If an armed touchpad exists and the potentiometer is moved above a small threshold, this mode activates for the corresponding servo.
-            *   **Peek Phase (`!inDigCommitPhase`):** Player can move the trimpot to control the servo up to `PEEK_MAX_ANGLE` (e.g., 20 degrees).
-                *   If closed back to 0 after peeking: Counts as a "peek used". Player can select another touchpad. Touchpad is *not* disabled.
-                *   If trimpot attempts to open beyond `PEEK_MAX_ANGLE`: Transitions to Dig Commit Phase.
-            *   **Dig Commit Phase (`inDigCommitPhase`):** Player has committed to a full dig. Trimpot controls servo 0-90 degrees.
-                *   When servo fully opens (90 degrees): `dig_used()` is called, consuming a dig chance and checking for treasure.
-                *   Player must then fully close the servo (0 degrees) to complete the cycle.
-                *   The touchpad used for this dig is then disabled for the rest of the game.
-*   **Serial Commands:**
-    *   `game start [map=v1,v2..] [chances=X] [time=Y]`: Starts a new game. Parameters are optional.
-        *   `map`: 6 comma-separated integers for treasure values in servos 1-6 (0 for no treasure). Default: `4,8,0,0,0,0`.
-        *   `chances`: Number of digs. Default: `4`.
-        *   `time`: Game duration in seconds. Default: `240`.
-*   **Scoring:** Treasure values found are added to `current_score`.
-*   **Win/Lose Conditions:**
-    *   Win: All treasures found (`items_left_to_find == 0`).
-    *   Lose: No digs remaining or time runs out.
+*   **`GameState`**: Holds all persistent variables related to the current game instance.
+    ```c
+    typedef struct {
+        volatile int correct_servos[6];  // Defines which servo (0-5) holds which treasure type/value (0 = no treasure)
+        volatile int items_found;        // Number of treasures found so far
+        volatile int items_left_to_find; // Number of treasures remaining
+        volatile int digs_taken;         // Number of digs performed
+        volatile int digs_remaining;     // Number of digs available
+        volatile int peeks_used;         // Number of peeks performed
+        volatile int game_time_remaining;// Seconds left in the game
+        volatile int game_over;          // Flag: 0 = game active, 1 = game over
+        volatile int total_items_to_find;// Initial number of treasures at game start
+        volatile int current_score;      // Player's current score
+    } GameState;
+    ```
+*   **`GameTriggers`**: Holds transient flags for events. In `main.c`, `triggers.touchpad_pressed` is the primary member used from this struct to signal a touch event from an ISR to the main loop.
+    ```c
+    typedef struct{
+        volatile int touchpad_pressed; // Stores the pin number (e.g., 7 for PB7) of the last pressed touchpad, -1 if none pending.
+        // Other fields (magnet1_det, servo_controlled, etc.) are defined but not central to the current game flow in main.c
+    } GameTriggers;
+    ```
 
-## How to Run / Play
+## 5. Key Game Constants (Defined in `main.c` `/* USER CODE BEGIN PD */` and within main loop logic)
 
-1.  **Build and Flash:**
-    *   Open the project in STM32CubeIDE (or your preferred environment).
-    *   Ensure the correct target (STM32F303xC) is selected.
-    *   Build the project.
-    *   Flash the compiled binary to the microcontroller.
-2.  **Serial Connection:**
-    *   Connect to the STM32's USART1 via a serial terminal program (e.g., PuTTY, Tera Term, STM32CubeIDE Serial Monitor).
-    *   Baud Rate: `115200`
-    *   Data Bits: 8
-    *   Parity: None
-    *   Stop Bits: 1
-    *   Flow Control: None
-    *   Ensure your terminal sends a Carriage Return (`\\r`, ASCII 13) when you press Enter, as this is the `TERMINATE` character used by `serial_josh.c`.
-3.  **Gameplay:**
-    *   On startup, an ASCII art start menu will appear:
-        ```
-        =====================================
-         T R E A S U R E   H U N T ! ! !
-        =====================================
-        Send 'game start' via serial to begin.
-        -------------------------------------
-        ```
-    *   **Starting a Game:** Type `game start` and press Enter.
-        *   Optionally, add parameters: `game start map=1,2,3,0,0,0 chances=3 time=180`
-    *   The game will begin, and the serial console will periodically display:
-        `GAME STATE: Score: X | Digs Left: Y, Digs Taken: Z | Treasures Left: A, Treasures Found: B | Peeks Used: C | Time: TTT`
-    *   **Interacting:**
-        1.  **Select a Box:** Press one of the 6 touch sensors. The console will show "Touchpad PBX armed. Waiting for pot threshold...".
-        2.  **Activate Potentiometer:** Slightly turn the potentiometer. The console will show "Activated: Armed PBX (Servo Y)...".
-        3.  **Peek or Dig:**
-            *   **Peeking:** Control the potentiometer to open the servo lid slightly (up to `PEEK_MAX_ANGLE`, ~20 degrees). You can open and close it within this range. To complete a "peek action," close the lid fully (back to 0 degrees). This uses one "peek" and allows you to choose another box. The console will log "PEEK used...".
-            *   **Committing to a Dig:** From the peek phase, if you continue to turn the potentiometer to open the lid *beyond* `PEEK_MAX_ANGLE`, it becomes a committed dig. The console will log "PEEK converted to DIG commitment...". You must now open the lid fully (90 degrees). This will trigger `dig_used()`, consume a "dig chance", and check for treasure. Then, you must close the lid fully (0 degrees) to complete the dig cycle. The touchpad used for this dig will then be disabled.
-    *   **Game End:** The game ends if you run out of digs, time, or find all treasures. A final scoreboard is displayed, followed by the start menu to play again.
+*   `PWM_PERIOD_TICKS`: `2000` (Timer period for PWM, e.g., for 20ms at a 100kHz timer clock derived from 48MHz system clock / 480 prescaler).
+*   `PWM_MIN_PULSE`: `50` (Pulse width for servo 0 degrees, e.g., 0.5ms for a 100kHz timer clock).
+*   `PWM_MAX_PULSE`: `250` (Pulse width for servo 180 degrees, e.g., 2.5ms for a 100kHz timer clock).
+*   `POT_ACTIVE_THRESHOLD_RAW`: `50` (Raw ADC value from trimpot (0-4095 range) to activate an armed servo).
+*   `SERVO_TARGET_OPEN_ANGLE`: `90` (Target angle in degrees for a fully open box during a dig).
+*   `SERVO_TARGET_CLOSED_ANGLE`: `0` (Target angle in degrees for a fully closed box).
+*   `SERVO_ANGLE_TOLERANCE`: `3` (Degrees tolerance for detecting if servo has reached open/close targets).
+*   `PEEK_MAX_ANGLE`: `20` (Maximum angle in degrees for a peek before committing to a dig).
+*   `POT_TO_COMMIT_DIG_THRESHOLD_RAW`: `950` (Alternative raw ADC value threshold. If the potentiometer value, when mapped to the full servo range, would exceed `PEEK_MAX_ANGLE`, it can indicate a dig commitment. This offers a more direct ADC check rather than converting to angle first for this specific transition logic. Calculated as `(PEEK_MAX_ANGLE / SERVO_TARGET_OPEN_ANGLE) * 0xFFF` would be `(20/90)*4095 approx 910`. `950` provides some leeway.)
 
-## Code Structure - Key User Sections in `main.c`
+## 6. Core Function Descriptions (from `main.c`)
 
-*   **`/* USER CODE BEGIN Includes */`**: For custom `#include` directives.
-*   **`/* USER CODE BEGIN PD */`**: For `#define` constants related to game parameters (e.g., PWM values, peek angles).
-*   **`/* USER CODE BEGIN PV */`**: For global game variables (e.g., `GameState game`, `GameTriggers triggers`).
-*   **`/* USER CODE BEGIN PFP */`**: For private function prototypes specific to `main.c`.
-*   **`/* USER CODE BEGIN 0 */`**: For user-defined functions (e.g., `display_start_menu`, `display_final_scoreboard`, `dig_used`, `input_callback`, `parse_game_config`, `handle_touch`, `get_servo`, `SetServoAngle`).
-*   **`main()` function `/* USER CODE BEGIN 2 */`**: Hardware initialization calls and definitions for `main`'s local static state variables.
-*   **`main()` function `while(1)` loop `/* USER CODE BEGIN WHILE */`**: The core game logic and state machine.
+Standard HAL/CubeMX generated functions like `SystemClock_Config`, `MX_GPIO_Init`, `MX_TIMx_Init`, `MX_USART1_UART_Init` provide initial peripheral setup, though custom libraries (`serial_josh.c`, `timer_josh.c`, `GPIO.c`) and direct register manipulation in `main.c` often tailor or supersede these for specific game needs.
 
-## Future Enhancements (from `gamedetails.txt` or potential)
+*   **`void SetServoAngle(uint8_t servoId, uint16_t angle)`**: 
+    *   Inputs: `servoId` (1-6), `angle` (0-180 degrees).
+    *   Calculates the required PWM pulse width based on `PWM_MIN_PULSE`, `PWM_MAX_PULSE`, and the desired `angle`.
+    *   Sets the `Compare` register of the appropriate Timer (TIM2, TIM3, or TIM4) and Channel (1 or 2) corresponding to the `servoId` to generate the PWM signal.
+    *   Sends a serial message logging the action.
+*   **`void handle_touch(uint8_t pin_index)`**: 
+    *   Inputs: `pin_index` (the GPIO pin number that triggered the EXTI, e.g., 7 for PB7).
+    *   This function is intended to be called from an EXTI ISR.
+    *   Maps the `pin_index` to a `touchpad_index` (0-5).
+    *   Checks if `touchpad_used[touchpad_index]` is `true`. If so, logs that the touchpad was already used and returns.
+    *   If the touchpad is available and `touch_enabled` is true, it sets `triggers.touchpad_pressed = pin_index` to signal the main loop about the new touch event.
+*   **`void dig_used(uint8_t servoId)`**: 
+    *   Inputs: `servoId` (1-6) of the servo being dug.
+    *   Called when a servo is considered fully opened during a dig.
+    *   Returns immediately if `game.game_over` is true or `game.digs_remaining == 0`.
+    *   Increments `game.digs_taken`, decrements `game.digs_remaining`.
+    *   Checks `game.correct_servos[servoId - 1]` for a treasure. 
+    *   If treasure found (value > 0): sets `success = true`, stores `treasure_value`, increments `game.items_found`, decrements `game.items_left_to_find`, adds `treasure_value` to `game.current_score`, and sets `game.correct_servos[servoId - 1] = 0`.
+    *   Sends a serial message indicating DIG SUCCESS (with treasure value) or DIG FAIL.
+    *   Calls `transmit_game_state()` and `check_game_over()`.
+*   **`void display_start_menu(void)`**: Prints an ASCII art welcome menu and "Send 'game start'..." instruction to the serial console.
+*   **`void display_final_scoreboard(GameState *game_param, const char* end_reason_msg)`**: Prints a formatted game over message, the reason for game end, and final statistics (Score, Treasures Found/Total, Digs Used, Peeks Used).
+*   **`void start_game(GameState *game_param, const uint8_t map[6], int chances, int time_limit)`**: 
+    *   Resets all fields of the global `game` struct (`game_param` points to this) to initial values based on `map`, `chances`, and `time_limit` arguments.
+    *   Calculates `game.total_items_to_find` and `game.items_left_to_find` from the input `map`.
+    *   Sets all servos to 0 degrees using `SetServoAngle()`.
+    *   Calls `reset_touchpads()` to re-enable all touch sensors.
+    *   Initializes and starts a hardware timer (TIM7 via `timer_josh.c`) to call `fn_a` every second.
+    *   Sends "Game Started" message and calls `transmit_game_state()`.
+*   **`void input_callback(char *data, uint32_t len)`**: 
+    *   Called by `serial_josh.c` when a complete line (terminated by `\r`) is received via USART1.
+    *   Makes a mutable copy of the input `data`.
+    *   Trims leading whitespace and control characters from this copy (`command_to_parse`).
+    *   If `command_to_parse` starts with "game start":
+        *   Extracts parameters (e.g., "map=...", "chances=...", "time=...") from the rest of the string using `parse_game_config()`.
+        *   Calls `start_game()` with the parsed values or defaults if parameters are absent.
+    *   Logs unknown commands.
+*   **`void parse_game_config(char* params_str, uint8_t* out_map, int* out_chances, int* out_time)`**: 
+    *   Helper function using `strtok_r` to parse space-separated key-value pairs (e.g., "map=1,2,3", "chances=5") from the `params_str`.
+    *   Updates the output variables `out_map`, `out_chances`, `out_time` with found values. Defaults (pre-set in `input_callback` before calling this) are used if a parameter is not found.
+*   **`static void fn_a(TimerSel sel)`**: 
+    *   Timer interrupt callback function (typically configured for 1Hz via `timer_josh.c`).
+    *   Decrements `game.game_time_remaining` if it's greater than 0.
+    *   Sends a serial message: `TIME REMAINING:%d\r\n`.
+    *   Calls `transmit_game_state()` to send the full game state update.
+*   **`uint8_t check_game_over(GameState *game_param)`**: 
+    *   Checks for game end conditions:
+        *   Win: `game.items_left_to_find == 0`.
+        *   Lose (No Digs): `game.digs_remaining == 0`.
+        *   Lose (Time Up): `game.game_time_remaining <= 0` (specifically checks `<=1` and sets to 0 if 1 for display consistency).
+    *   If any condition is met: stops the game timer, sets `game.game_over = 1`, calls `display_final_scoreboard()`, then `display_start_menu()`. Returns `1`.
+    *   Otherwise, returns `0`.
+*   **`void reset_touchpads(void)`**: 
+    *   Iterates through `touchpad_used` array, setting all to `false`.
+    *   Re-enables EXTI interrupts for all 6 touch sensor pins by manipulating `EXTI->IMR` and clearing pending flags `EXTI->PR`.
+    *   Sends a confirmation message via serial.
+*   **`void disable_touchpad(uint8_t touchpad_index)`**: 
+    *   Inputs: `touchpad_index` (0-5).
+    *   Sets `touchpad_used[touchpad_index] = true`.
+    *   Maps `touchpad_index` to the actual GPIO pin number (e.g., index 0 maps to pin 7 for PB7).
+    *   Disables the EXTI interrupt for this specific pin by manipulating `EXTI->IMR` and clearing its pending flag `EXTI->PR`.
+    *   Sends a confirmation message via serial.
 
-*   **Advanced Peek Logic:** Implement trimpot speed detection for peek vs. dig.
-*   **Power Meter/Gauge:** Add a skill-based mini-game for digging using the trimpot.
-*   **LED Module:** Add LEDs for visual feedback (e.g., treasure proximity, game events).
-*   **Magnet Detector Module:** Implement actual treasure detection if physical magnets are used.
-*   **Physical Start Button:** Add an alternative to the serial command for starting the game.
-*   More sophisticated error handling for serial command parsing.
-*   Persistent high scores (if storage like EEPROM is available/used).
+## 7. Code Flow and State Machine (Main Loop in `main.c`)
 
-This `docs.md` should provide a good starting point.
+The core game logic is managed by a state machine within the `while(1)` loop of `main()`.
+Key static variables in `main()` control the state: `isActiveMode`, `activeServoId`, `servoFullyOpened`, `servoFullyClosed`, `activeTouchpadPin`, `armed_touchpad_pin`, `inDigCommitPhase`, `hasPeekMovementOccurred`. The global `touch_enabled` flag controls if `handle_touch` processes new touches.
+
+1.  **Initial State / Game Over State (`game.game_over == 1`)**:
+    *   The loop first checks if `game.game_over` is true.
+    *   If so, it resets interaction flags: `isActiveMode = false`, `activeServoId = 0`, `servoFullyOpened = false`, `servoFullyClosed = false`, `activeTouchpadPin = 0`, `armed_touchpad_pin = 0`.
+    *   `touch_enabled` is set to `true` (to allow `handle_touch` to register touches for a new game, though game logic prevents actions until started).
+    *   `triggers.touchpad_pressed` is cleared.
+    *   The loop effectively pauses here by `continue`-ing, waiting for a serial command to start a new game (which will call `start_game()` and set `game.game_over = 0`).
+
+2.  **Active Game - Pre-Interaction Checks (`game.game_over == 0`)**:
+    *   `check_game_over(&game)` is called. If it returns `1` (game has ended), the loop `continue`s, effectively transitioning back to the Game Over state.
+
+3.  **Idle / Arming State (`!isActiveMode`)**:
+    *   `touch_enabled` is set to `true`, allowing `handle_touch` (called by EXTI ISRs) to set `triggers.touchpad_pressed` if an unused touchpad is pressed.
+    *   **Touch Reception**: If `triggers.touchpad_pressed != -1`:
+        *   `armed_touchpad_pin` is set to the pin number from `triggers.touchpad_pressed`.
+        *   Serial message: "Touchpad PB%d armed..."
+        *   `triggers.touchpad_pressed` is cleared.
+    *   **Activation**: If `armed_touchpad_pin != 0` (a pad is armed) AND `pot_raw_value > POT_ACTIVE_THRESHOLD_RAW` (potentiometer moved past threshold):
+        *   Transition to Active Mode: `isActiveMode = true`.
+        *   Reset sub-state flags: `inDigCommitPhase = false`, `hasPeekMovementOccurred = false`, `servoFullyOpened = false`, `servoFullyClosed = false`.
+        *   `activeTouchpadPin` (the pin for current interaction) is set from `armed_touchpad_pin`.
+        *   `armed_touchpad_pin` is cleared (disarmed).
+        *   `activeTouchpadPin` is mapped to `activeServoId` (1-6).
+        *   Serial message: "Activated: Armed PB%d (Servo %d)..."
+        *   `touch_enabled = false` (ignore other touches while controlling a servo).
+
+4.  **Active Servo Control Mode (`isActiveMode`)**:
+    *   `touch_enabled` remains `false`.
+    *   `pot_raw_value` is read via `read_pins_analog()`.
+    *   `current_pot_angle_full_range` (0-90 degrees) is calculated from `pot_raw_value`.
+    *   **Peek Control Phase (`!inDigCommitPhase`)**: 
+        *   `peek_control_angle` is `current_pot_angle_full_range` but capped at `PEEK_MAX_ANGLE`.
+        *   `SetServoAngle(activeServoId, peek_control_angle)` is called.
+        *   If `peek_control_angle > SERVO_ANGLE_TOLERANCE`, `hasPeekMovementOccurred` is set `true`.
+        *   **Transition to Dig**: If `current_pot_angle_full_range > PEEK_MAX_ANGLE + SERVO_ANGLE_TOLERANCE`:
+            *   `inDigCommitPhase = true`.
+            *   `hasPeekMovementOccurred = false` (reset for dig phase).
+            *   Serial message: "PEEK converted to DIG commitment..."
+        *   **Peek Action Completion**: If `hasPeekMovementOccurred == true` AND `peek_control_angle <= SERVO_ANGLE_TOLERANCE` (servo closed after peeking):
+            *   `game.peeks_used++`.
+            *   Serial message: "PEEK used on Servo %d..."
+            *   `transmit_game_state()`.
+            *   Reset to Idle State: `isActiveMode = false`, `activeServoId = 0`, `activeTouchpadPin = 0`.
+            *   `touch_enabled = true`.
+    *   **Dig Control Phase (`inDigCommitPhase`)**: 
+        *   `SetServoAngle(activeServoId, current_pot_angle_full_range)` is called (0-90 degree range).
+        *   **If `!servoFullyOpened`** (servo not yet fully opened for dig):
+            *   If `current_pot_angle_full_range >= (SERVO_TARGET_OPEN_ANGLE - SERVO_ANGLE_TOLERANCE)`:
+                *   `servoFullyOpened = true`.
+                *   `dig_used(activeServoId)` is called (updates game state, checks for treasure, etc.).
+        *   **Else if `!servoFullyClosed`** (`servoFullyOpened` is true, waiting for full closure):
+            *   If `current_pot_angle_full_range <= (SERVO_TARGET_CLOSED_ANGLE + SERVO_ANGLE_TOLERANCE)`:
+                *   `servoFullyClosed = true`.
+                *   Serial message: "Servo %d fully closed after DIG..."
+                *   The touchpad index corresponding to `activeTouchpadPin` is determined, and `disable_touchpad()` is called for that index.
+                *   Reset to Idle State: `isActiveMode = false`, `activeServoId = 0`, `activeTouchpadPin = 0`, `servoFullyOpened = false`, `servoFullyClosed = false`.
+                *   `touch_enabled = true`.
+
+Visualized State Flow (Simplified for clarity):
+```mermaid
+graph TD
+    A[Game Over / Start Menu] -- "game start" cmd --> B{Idle / Wait Touch};
+    B -- Touchpad Press (Pin X) --> C{Pad X Armed};
+    C -- Pot > Threshold --> D{Active Mode (Servo for Pad X)};
+    D -- Pot Angle <= PEEK_MAX --> E[Peek Phase: Servo 0-PEEK_MAX_ANGLE];
+    E -- Pot Angle > PEEK_MAX+Tol --> F{Dig Commit Phase};
+    F -- Pot Angle controls Servo 0-OPEN_ANGLE --> G[Dig Phase: Servo 0-OPEN_ANGLE];
+    E -- Servo Moved & Closed from Peek --> H[Peek Complete: peeks_used++, isActiveMode=false];
+    H --> B;
+    G -- Servo @ OPEN_ANGLE --> I[Dig Registered: dig_used() called];
+    I -- Servo @ CLOSED_ANGLE --> J[Dig Cycle Done: Touchpad X Disabled, isActiveMode=false];
+    J --> B;
+    B -- Win/Lose/Timeup in check_game_over() --> A;
+    subgraph Active Mode Operation
+        D
+        E
+        F
+        G
+        I
+    end
+```
+
+## 8. Serial Commands
+
+Commands are sent via USART1 (typically at 115200 baud) and must be terminated with a single Carriage Return (`\r`). Input is case-sensitive.
+
+*   **`game start`**: 
+    *   Starts a new game with default settings:
+        *   Default Map: `game.correct_servos = {4, 8, 0, 0, 0, 0}` (Treasure value 4 in box 1, 8 in box 2, others empty).
+        *   Default Digs: 4.
+        *   Default Time: 240 seconds.
+
+*   **`game start [param1=value1] [param2=value2] ...`**: 
+    *   Starts a new game with specified parameters. Parameters are space-separated and can be in any order.
+    *   **`map=v0,v1,v2,v3,v4,v5`**: Sets the treasure map. `v0` to `v5` are comma-separated integer values for servos 1 through 6, respectively (index 0 of array for servo 1). `0` means no treasure. 
+        *   Example: `map=10,0,20,0,15,5`
+    *   **`chances=X`**: Sets the number of digs allowed to integer `X`.
+        *   Example: `chances=3`
+    *   **`time=Y`**: Sets the game duration to integer `Y` seconds.
+        *   Example: `time=180`
+
+    **Full Command Examples:**
+    *   `game start map=5,10,0,15,0,20 chances=5 time=300`
+    *   `game start chances=2 time=120` (uses default map)
+    *   `game start map=0,0,0,0,0,100` (uses default chances and time)
+
+## 9. Game State Monitoring (Serial Output)
+
+The game provides real-time feedback via the serial console (USART1).
+
+*   **Periodic Game State Update (from `transmit_game_state()`):** 
+    This message is sent by the timer callback `fn_a` every second and after key game actions (like `dig_used` or peek completion).
+    ```
+    GAME STATE: Score: <score> | Digs Left: <digs_rem>, Digs Taken: <digs_taken> | Treasures Left: <items_left>, Treasures Found: <items_found> | Peeks Used: <peeks_used> | Time: <time_rem>
+    ```
+    *   `<score>`: Current player score.
+    *   `<digs_rem>`: Digs remaining.
+    *   `<digs_taken>`: Digs already used.
+    *   `<items_left>`: Treasures yet to be found.
+    *   `<items_found>`: Treasures already found.
+    *   `<peeks_used>`: Number of peeks used.
+    *   `<time_rem>`: Game time remaining in seconds.
+
+*   **Direct Time Remaining Update (from `fn_a`):**
+    This is sent every second by the timer callback, just before `transmit_game_state()`.
+    ```
+    TIME REMAINING:<time_rem>
+    ```
+
+*   **Other Key Informational Messages:**
+    *   On boot / after game end: ASCII Start Menu (`display_start_menu()`) or Final Scoreboard (`display_final_scoreboard()`).
+    *   `Game Started
+`
+    *   `Touchpad PB%d armed. Waiting for pot threshold (>%d).
+` (e.g., `Touchpad PB7 armed. Waiting for pot threshold (>50).`)
+    *   `Activated: Armed PB%d (Servo %d), Pot (%d) > Thresh (%d). Controlling Servo %d.
+`
+    *   `Setting Servo %d to %d°
+`
+    *   `PEEK converted to DIG commitment. Open fully, then close fully.
+`
+    *   `PEEK used on Servo %d. Total Peeks: %d. Choose next action.
+`
+    *   `DIG SUCCESS at Servo %d! Found Treasure (Value: %d). Digs left: %d. Treasures left: %d
+`
+    *   `DIG FAIL at Servo %d. No treasure. Digs left: %d. Treasures left: %d
+`
+    *   `Servo %d fully closed after DIG. Cycle complete for touch PB%d.
+`
+    *   `Touchpad %d (PB%d) disabled - already used
+` (when trying to arm an already used pad)
+    *   `Touchpad %d (PB%d) disabled - already used
+` (after a successful dig, referring to the pin used in `disable_touchpad` via its index)
+    *   `All touchpads re-enabled
+` (from `reset_touchpads()`)
+    *   `DEBUG: input_callback fired!
+`
+    *   `DEBUG: Received (len %lu, actual str len %lu): %s
+` (shows raw received data)
+    *   `DEBUG: Command after trimming leading chars: '%s'
+` (shows command after sanitization)
+    *   `DEBUG: Unknown command received (after trim): '%s'
+`
+    *   Error messages like "Error: Mapped to invalid Servo ID..." or "Error: In active mode with invalid activeServoId..."
+
+## 10. Troubleshooting & Debugging Guide
+
+*   **No Serial Output / Garbled Output:**
+    *   **Action:** Verify serial terminal settings (115200 baud, 8N1). Check COM port and USB connection. Confirm STM32 UART pins (PC4 TX, PC5 RX for USART1) are correctly connected if using an external adapter.
+*   **Commands Not Recognized / Game Not Starting:**
+    *   **Action:** Ensure commands are terminated with a single Carriage Return (`\r`). Check for exact command spelling (e.g., `game start`). Observe `DEBUG:` messages from `input_callback` in `main.c` to see what the STM32 is receiving and parsing.
+*   **Touch Sensors Unresponsive:**
+    *   **Action:** Check physical connections to PB3, PB4, PB5, PB6, PB7, PB13. Confirm pull-down resistors are effective if needed. Verify EXTI configuration in `GPIO.c` and `main.c` (rising edge). Check `touch_enabled` flag in `main.c` logic – it should be true when waiting for a touch.
+*   **Servos Not Moving / Incorrect Movement / Jitter:**
+    *   **Action:** **POWER!** Servos need stable 5V and sufficient current; an external power supply is strongly recommended, with its ground common to the STM32. Verify PWM settings (`PWM_MIN_PULSE`, `PWM_MAX_PULSE` in `main.c`) against your servo datasheet. Check PA4 trimpot connection and ADC readings. Trace the `current_pot_angle_full_range` calculation.
+*   **Peek/Dig Logic Issues:**
+    *   **Action:** Monitor serial output for state transitions ("PEEK converted to DIG...", "PEEK used...", "DIG SUCCESS/FAIL"). Closely examine the `isActiveMode`, `inDigCommitPhase`, `hasPeekMovementOccurred`, `servoFullyOpened`, `servoFullyClosed` flags in the debugger or via temporary serial prints.
+*   **Game State Incorrect (Digs, Score, Time):**
+    *   **Action:** Review logic in `dig_used()`, `start_game()`, `check_game_over()`, and the timer callback `fn_a`. Pay attention to how and when these game state variables are modified. Use the `GAME STATE:` serial output as your ground truth.
+*   **Touchpads Not Disabling After Dig:**
+    *   **Action:** Confirm `disable_touchpad()` is called with the correct `touchpad_index` (0-5) after a dig cycle. Verify its logic for masking the correct EXTI line.
+
+By enabling and observing the various `serial_output_string` debug messages already present in `main.c`, many issues can be diagnosed effectively.
