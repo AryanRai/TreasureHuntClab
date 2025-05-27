@@ -34,32 +34,44 @@
 
 ## 🎯 Project Overview
 
-This repository contains a technology-driven Treasure Hunt that incorporates elements of classic treasure hunts within MTRX2700 Mechatronics 2 unit at the University of Sydney. . It is an immersive treasure hunting adventure game built on the STM32F303 Discovery Board. Players use capacitive touch sensors to control servo-operated treasure chambers, employing strategic peek-and-dig mechanics within a time-pressured environment. This project demonstrates advanced embedded systems integration including sensor interfacing, actuator control, real-time processing, and serial communication.
+This repository contains a technology-driven Treasure Hunt that incorporates elements of classic treasure hunts within MTRX2700 Mechatronics 2 unit at the University of Sydney. It is an immersive treasure hunting adventure game built on the STM32F303 Discovery Board. Players use capacitive touch sensors to select "treasure boxes" (controlled by servos) and a potentiometer to "dig" (open the servos). The goal is to find hidden treasures within a set number of digs and a limited time. This project demonstrates advanced embedded systems integration including sensor interfacing, actuator control, real-time processing, and serial communication for game control and status updates.
 
 ### Game Features
-- **Interactive Touch Controls**: 6 capacitive touch sensors (`PB3-PB7, PB13`)
-- **Servo-Controlled Chambers**: 6 servo motors controlling treasure compartments
-- **Peek/Dig Mechanics**: Preview chambers with limited peeks or commit to full digs
-- **Real-Time Scoring**: Dynamic scoring system with treasure values
-- **Time Management**: Adjustable-minute countdown with live updates
-- **Resource Limitations**: Limited digs and peek actions
-- **Serial Interface**: Real-time game state monitoring and configuration
+- **Interactive Touch Controls**: 6 capacitive touch sensors (`PB3, PB4, PB5, PB6, PB7, PB13`) allow players to select one of six treasure boxes.
+- **Servo-Controlled Chambers**: 6 servo motors, each corresponding to a touch sensor, control the lids of the treasure boxes.
+- **Peek/Dig Mechanics**:
+    - **Peek**: Players can rotate the potentiometer to partially open a selected box (up to `PEEK_MAX_ANGLE`, e.g., 20 degrees). If the box is closed from this state, it counts as a "peek used," and the player can choose another action or box.
+    - **Dig**: If the player opens the box beyond `PEEK_MAX_ANGLE`, it commits to a full dig. The box must be fully opened (e.g., 90 degrees) and then fully closed. This action consumes one "dig remaining" and disables the used touchpad for the rest of the game.
+- **Real-Time Scoring**: Treasures found during a dig contribute to the `current_score` based on their predefined value.
+- **Time Management**: A configurable countdown timer (default: 240 seconds) adds urgency. The game ends if time runs out.
+- **Resource Limitations**: Players have a limited number of digs (default: 4) and peeks.
+- **Serial Interface**:
+    - Real-time game state monitoring (score, digs, treasures, peeks, time).
+    - Configurable game start via serial commands (e.g., custom treasure map, digs, time).
+- **Game States**: Clear start menu, active gameplay, and game over (win/lose) states with a final scoreboard.
 
 ### Gameplay Mechanics
 
-**Objective**: Find all hidden treasures before time runs out or digs are exhausted
+**Objective**: Find all hidden treasures (or maximize score) before time runs out or digs are exhausted.
 
 **Controls**:
-- **Touch Activation**: Touch any sensor pad to arm it for control
-- **Trimpot Control**: Rotate potentiometer to control servo angle
-- **Peek Mode**: Partially open chambers (≤20°) to preview contents
-- **Dig Mode**: Fully open chambers (90°) to extract treasures
+- **Touch to Arm**: Touch one of the 6 sensor pads. This "arms" the corresponding treasure box. The system indicates which pad is armed.
+- **Potentiometer to Activate & Control**:
+    - Once a pad is armed, rotating the potentiometer above a `POT_ACTIVE_THRESHOLD_RAW` activates control over the armed box.
+    - Further rotation controls the servo angle for that box.
+- **Peek Mode**: Rotate the potentiometer to open the active box's lid up to `PEEK_MAX_ANGLE` (e.g., 20 degrees). If the lid is then closed by rotating the potentiometer back, one `peeks_used` is consumed. The touchpad remains available.
+- **Dig Mode**:
+    - Rotate the potentiometer to open the active box's lid beyond `PEEK_MAX_ANGLE`. This commits to a "dig."
+    - The lid must be opened to `SERVO_TARGET_OPEN_ANGLE` (e.g., 90 degrees). This action consumes one `digs_remaining` and updates treasure status if found.
+    - Then, the lid must be closed back to `SERVO_TARGET_CLOSED_ANGLE` (e.g., 0 degrees).
+    - Once the dig cycle (full open and full close) is complete, the touchpad used for this dig is disabled for the current game.
 
 **Strategy Elements**:
-- **Limited Resources**: Only 4 digs available by default
-- **Peek Advantage**: Use peeks to locate treasures without consuming digs
-- **Time Pressure**: 4-minute countdown adds urgency
-- **Scoring System**: Different treasures have different point values
+- **Limited Digs**: Default 4 digs. Use them wisely.
+- **Peek Advantage**: Use peeks to identify treasure locations without consuming a valuable dig.
+- **Time Pressure**: Default 240 seconds (4 minutes).
+- **Scoring**: Treasures have different values. Finding treasures adds to `current_score`.
+- **One-Time Use Touchpads (Post-Dig)**: Once a box has been successfully "dug", its corresponding touchpad cannot be used to initiate another dig or peek in the same game.
 
 ### Software Architecture
 
@@ -357,22 +369,44 @@ stateDiagram-v2
 1. **Clone Repository**
    ```bash
    git clone https://github.com/AryanRai/TreasureHuntClab.git
+   cd TreasureHuntClab
    ```
 
-2. **Hardware Assembly**
-   - Connect touch sensors to pins PB3-PB7, PB13
-   - Wire servo motors to PWM outputs (PE2, PE3, PA0, PA1, PD12, PD13)
-   - Connect trimpot to PA4 (ADC input)
-   - Ensure proper power supply for servos
+2. **Hardware Assembly** (Refer to `main.c` `MX_GPIO_Init` and peripheral initializations for pin details)
+    -   **Touch Sensors (Input, Pull-down, EXTI on Rising Edge)**:
+        -   PB3 (EXTI3)
+        -   PB4 (EXTI4)
+        -   PB5 (EXTI9_5)
+        -   PB6 (EXTI9_5)
+        -   PB7 (EXTI9_5)
+        -   PB13 (EXTI15_10)
+    -   **Servo Motors (PWM Output)**:
+        -   Servo 1: PE2 (TIM3_CH1)
+        -   Servo 2: PE3 (TIM3_CH2)
+        -   Servo 3: PA0 (TIM2_CH1)
+        -   Servo 4: PA1 (TIM2_CH2)
+        -   Servo 5: PD12 (TIM4_CH1)
+        -   Servo 6: PD13 (TIM4_CH2)
+    -   **Trimpot (Analog Input)**:
+        -   PA4 (Connected to ADC, specific ADC channel depends on `read_pins_analog` in `GPIO.c`, likely ADC2_INP4 if using PA4 with the custom lib). Note: `main.c` uses `GPIO *trim_pot = init_port(A, ANALOG, 4, 4);` and `read_pins_analog(trim_pot, &pot_raw_value);`
+    -   **Serial UART (USART1)**:
+        -   TX: PC4 (AF7)
+        -   RX: PC5 (AF7)
+    -   Ensure proper power supply, especially for servo motors (typically 5V and may require a separate supply from the STM32 board if drawing significant current).
 
 3. **Software Configuration**
-   - Open project in STM32CubeIDE
-   - Configure clock settings for MHz operati
-   - Enable required peripherals (TIM2, TIM3, TIM4, USART1, ADC)
-   - Build and flash to Discovery Board
+    -   Open the project `integration/Integration_final/MainBoard/` in STM32CubeIDE (or your preferred IDE).
+    -   Ensure the STM32CubeMX configuration (if used to generate the base project) matches the peripherals and pins used in `main.c` (TIM2, TIM3, TIM4 for PWM; USART1 for serial; GPIOs for touch, ADC for trimpot; EXTI for touch interrupts). The `main.c` directly initializes these using HAL and custom libraries.
+    -   The system clock is configured in `SystemClock_Config()`.
+    -   Build the project and flash it to the STM32F303 Discovery Board.
 
 4. **Serial Interface Setup**
-   - Baud Rate: 115200
+    -   Connect to the STM32's USB ST-LINK Virtual COM Port using a serial terminal program (e.g., PuTTY, Tera Term, Arduino IDE Serial Monitor).
+    -   Baud Rate: 115200
+    -   Data Bits: 8
+    -   Parity: None
+    -   Stop Bits: 1
+    -   Line Ending for sending commands: `\r` (Carriage Return)
 
 ### First Game
 
@@ -585,12 +619,15 @@ assert(check_game_over() == 1);
 - Ensure proper grounding
 
 #### Servo Jitter or Incorrect Positioning  
-**Symptoms**: Servos moving erratically or wrong angles
+**Symptoms**: Servos moving erratically or not reaching correct angles (0, peek angle, 90).
 **Solutions**:
-- Check power supply stability (5V, adequate current)
-- Verify PWM signal timing (1-2ms pulses)
-- Calibrate trimpot readings
-- Check for electrical interference
+- Check power supply stability for servos (external 5V recommended, ensure common ground with STM32).
+- Verify PWM signal timing (`PWM_MIN_PULSE`, `PWM_MAX_PULSE` in `main.c` define 0° and 180° pulse widths).
+- Calibrate trimpot readings: The raw ADC value (`0` to `0xFFF` i.e. 4095) is mapped to servo angles. Ensure this mapping is correct for your potentiometer and desired servo range (0-90° in this game).
+    - `POT_ACTIVE_THRESHOLD_RAW` (e.g., 50)
+    - `PEEK_MAX_ANGLE` (e.g., 20)
+    - `SERVO_TARGET_OPEN_ANGLE` (e.g., 90)
+- Check for electrical interference or loose connections.
 
 #### Serial Communication Issues
 **Symptoms**: Commands not recognized or garbled output
@@ -601,27 +638,38 @@ assert(check_game_over() == 1);
 - Ensure proper line endings (CR/LF)
 
 #### Game Logic Errors
-**Symptoms**: Incorrect scoring or game state
+**Symptoms**: Incorrect scoring, digs/peeks not counting, game not ending correctly, touchpads not disabling after digs.
 **Solutions**:
-- Monitor game state via serial output
-- Check treasure map configuration
-- Verify dig/peek logic implementation
-- Test timer accuracy
+- Monitor game state via serial output (`transmit_game_state()` and other debug messages in `main.c`).
+- Check treasure map configuration (`correct_servos` array in `game` struct, and when starting with `map=` parameter).
+- Verify peek/dig logic in the main loop, especially state transitions (`isActiveMode`, `inDigCommitPhase`, `servoFullyOpened`, `servoFullyClosed`) and conditions for calling `dig_used()` and `game.peeks_used++`.
+- Test timer accuracy for `game_time_remaining`.
+- Confirm `disable_touchpad()` is correctly called and functions as expected after a dig cycle.
+- Ensure `armed_touchpad_pin` and `activeTouchpadPin` are managed correctly.
 
 ### Debug Features
 
 #### Serial Debug Output
-Enable detailed logging by modifying debug flags:
-```c
-#define DEBUG_TOUCH_EVENTS 1
-#define DEBUG_SERVO_CONTROL 1  
-#define DEBUG_GAME_LOGIC 1
-```
+The `main.c` code contains numerous `serial_output_string()` calls that provide real-time feedback on:
+- Game state changes (`transmit_game_state()`)
+- Touch sensor arming and activation.
+- Potentiometer values and corresponding servo angle commands.
+- Transitions between peek and dig phases.
+- Completion of peek and dig cycles.
+- Treasure found/not found messages.
+- Touchpad disabling events.
+- Game start, win/lose conditions, and final scoreboard.
+- Raw and trimmed serial input in `input_callback`.
+
+To enhance debugging, you can add more specific `sprintf` and `serial_output_string` calls at critical points in the logic.
 
 #### LED Status Indicators
-- **System Status**: Heartbeat LED for main loop operation
-- **Touch Status**: Individual LEDs for each touch sensor
-- **Game Status**: Color-coded indication of current game phase
+(The current `main.c` does not explicitly define LED status indicators beyond what might be on the STM32F303 Discovery board by default. This section could be a future enhancement.)
+- **Conceptual LED Usage**:
+    - Heartbeat LED: Toggle an LED in the main loop or a timer to show the system is running.
+    - Touch Armed LED: Light an LED when a specific touchpad is armed.
+    - Active Mode LED: Light an LED when `isActiveMode` is true.
+    - Game Over LED: Light an LED when `game.game_over` is true.
 
 
 # End of Documentation
