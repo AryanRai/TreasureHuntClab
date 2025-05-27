@@ -651,7 +651,7 @@ int main(void)
 	  }
 
     // Restore the check for game over conditions properly
-    int check = check_game_over(&game);
+	  int check = check_game_over(&game);
 	  if (check == 1) {
         // Reset active mode state if game ends due to conditions
         isActiveMode = false;
@@ -692,12 +692,12 @@ int main(void)
             // Map the pressed pin number to a servo ID (1-6)
             uint8_t touch_index_for_servo_map = 255; // 0-5 index for touch_to_servo_map
             static const uint8_t touch_pins_lookup_table[6] = {7, 6, 5, 4, 3, 13}; // PB7, PB6, PB5, PB4, PB3, PB13
-            for (uint8_t i = 0; i < 6; i++) {
+	          for (uint8_t i = 0; i < 6; i++) {
                 if (activeTouchpadPin == touch_pins_lookup_table[i]) {
                     touch_index_for_servo_map = i;
-                    break;
-                }
-            }
+	                  break;
+	              }
+	          }
 
             if (touch_index_for_servo_map < 6) {
                 activeServoId = touch_to_servo_map[touch_index_for_servo_map]; // Get Servo ID 1-6
@@ -792,9 +792,9 @@ int main(void)
                         for (uint8_t i = 0; i < 6; i++) {
                             if (activeTouchpadPin == touch_pins_disable_lookup_table[i]) {
                                 touchpad_index_to_disable = i;
-                                break;
-                            }
-                        }
+	        		  break;
+	        	  }
+	           }
                         if (touchpad_index_to_disable < 6) {
                             disable_touchpad(touchpad_index_to_disable);
                         }
@@ -813,7 +813,7 @@ int main(void)
         } else { // Should not happen: isActiveMode true but activeServoId invalid
             serial_output_string("Error: In active mode with invalid activeServoId. Deactivating.\r\n", &USART1_PORT);
             isActiveMode = false;
-            touch_enabled = true;
+	  touch_enabled = true;
             inDigCommitPhase = false; // Reset peek/dig state too
             hasPeekMovementOccurred = false;
         }

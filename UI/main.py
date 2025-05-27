@@ -190,8 +190,8 @@ class SerialApp:
         command = self.command_entry_var.get()
         if command:
             try:
-                # STM32 side might expect a newline character to process the command
-                full_command = command + "\\r\\n" # Or just "\\n" depending on STM32 setup
+                # STM32 side expects a carriage return to process the command
+                full_command = command + "\r" # Changed from "\r\n"
                 self.serial_port.write(full_command.encode('utf-8'))
                 self.log_to_output_text(f"Sent: {command}")
                 self.command_entry_var.set("") # Clear entry after sending
