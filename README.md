@@ -431,30 +431,30 @@ GAME STATE: Score: 12 | Digs Left: 2, Digs Taken: 2 | Treasures Left: 1, Treasur
 ## Testing & Validation
 
 ## Testing
-In order to test modules, the previously mentioned user instructions were used to set up and run the code, a demo of each module can be found in the next section labled **Demos**:
+In order to test modules, the previously mentioned user instructions were used to set up and run the code.
 
 ### Unit Tests
 
 #### Touch Sensor Validation
+To validate touch sensor activity the callback function also called a funciton called display_number. This function displays on the discovery board through the inbuilt LEDs the index of the touchpad in bindary. If the touchpad had an incorrect ouput or not output, it was debugged until there were no issues.
 ```c
-// Test each touch pad individually
-for(int i = 0; i < 6; i++) {
-    simulate_touch(i);
-    verify_servo_mapping(i);
+void display_number(uint8_t n) {
+    GPIOE->ODR &= ~(0xF << 8);        // Clear PE8–11
+    GPIOE->ODR |= ((n & 0xF) << 8);   // Set new value
 }
 ```
 
 #### Servo Control Testing
+Servo control testing involved the use of the SetServoAngle function and testing different angle values. If the servos pushed the trapdoor to that angle, it was verified as working. If not, further calibration was done.
 ```c
 // Verify servo angle accuracy
 for(int angle = 0; angle <= 90; angle += 10) {
     SetServoAngle(servo_id, angle);
-    measure_actual_angle();
-    validate_tolerance(angle, measured_angle, 3);
 }
 ```
 
 #### Game Logic Verification
+Game logic verification
 ```c
 // Test win conditions
 set_treasure_map({4, 8, 0, 0, 0, 0});
